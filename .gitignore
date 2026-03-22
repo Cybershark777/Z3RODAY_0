@@ -1,0 +1,28 @@
+# Go
+*.exe
+*.test
+*.out
+cps_dashboard.db
+cps-dashboard
+/backend/cps_dashboard.db
+/backend/*.db
+
+# Environment
+.env
+*.env.local
+*.env.production
+
+# Node / React
+node_modules/
+dist/
+.vite/
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,121 @@
+{
+  "levels": [
+    {
+      "level": 0,
+      "name": "Physical Process",
+      "description": "The actual physical processes, sensors, actuators, and field instruments that monitor and control industrial operations. This level represents the physical plant — pumps, valves, motors, boilers, turbines, and the sensors that measure their state.",
+      "typical_assets": [
+        "Pressure Transmitters",
+        "Temperature Sensors",
+        "Flow Meters",
+        "Control Valves",
+        "Actuators",
+        "Electric Motors",
+        "Pumps",
+        "Boilers",
+        "Steam Turbines",
+        "Heat Exchangers",
+        "Cooling Towers"
+      ],
+      "color": "#bc8cff",
+      "threats_present": ["ics_anomaly"]
+    },
+    {
+      "level": 1,
+      "name": "Intelligent Field Devices",
+      "description": "Programmable Logic Controllers (PLCs), Remote Terminal Units (RTUs), Intelligent Electronic Devices (IEDs), and other programmable field controllers that execute local control logic and interface directly with Level 0 physical process equipment.",
+      "typical_assets": [
+        "Siemens S7-400 PLCs",
+        "Allen-Bradley ControlLogix PLCs",
+        "Schneider Modicon M340 PLCs",
+        "ABB AC500 PLCs",
+        "GE Series 90 RTUs",
+        "SEL-411L IEDs",
+        "Safety Instrumented Systems (SIS)",
+        "Protection Relays",
+        "Motor Control Centers",
+        "Variable Frequency Drives"
+      ],
+      "color": "#e3b341",
+      "threats_present": ["ics_anomaly", "mitm", "arp_spoofing"]
+    },
+    {
+      "level": 2,
+      "name": "Control Systems",
+      "description": "SCADA systems, Distributed Control Systems (DCS), Human-Machine Interfaces (HMIs), and supervisory control applications that monitor and control Level 1 field devices. This is the primary control network where operators interact with the physical process.",
+      "typical_assets": [
+        "SCADA Servers",
+        "DCS Controllers",
+        "HMI Workstations",
+        "Engineering Workstations",
+        "OPC Servers",
+        "Historian Clients",
+        "Alarm Management Systems",
+        "Batch Control Servers",
+        "Advanced Process Controllers",
+        "Network Management Stations"
+      ],
+      "color": "#da3633",
+      "threats_present": ["ics_anomaly", "mitm", "arp_spoofing", "ddos", "xss"]
+    },
+    {
+      "level": 3,
+      "name": "Operations / Manufacturing Operations",
+      "description": "Manufacturing operations management systems including process historians, manufacturing execution systems (MES), laboratory information management systems (LIMS), and operational reporting systems. Bridges between plant-floor control and enterprise IT.",
+      "typical_assets": [
+        "OSIsoft PI Historian",
+        "Aspen InfoPlus.21 Historian",
+        "Manufacturing Execution System (MES)",
+        "Laboratory Information Management (LIMS)",
+        "Patch Management Servers",
+        "Antivirus Management Servers",
+        "Remote Access Jump Servers",
+        "Operator Workstations",
+        "Production Scheduling Systems",
+        "Quality Management Systems"
+      ],
+      "color": "#3fb950",
+      "threats_present": ["ransomware", "mitm", "bruteforce", "xss", "sql_injection"]
+    },
+    {
+      "level": 4,
+      "name": "Enterprise / Business Network",
+      "description": "Enterprise IT systems including business intelligence, ERP, corporate email, file shares, and internet connectivity. This zone bridges industrial operations with corporate business functions and represents the primary entry point for IT-origin threats that pivot into OT environments.",
+      "typical_assets": [
+        "SAP ERP Systems",
+        "Active Directory Domain Controllers",
+        "Corporate Email Servers",
+        "Enterprise File Shares",
+        "VPN Gateways",
+        "Citrix Access Servers",
+        "Asset Management (Maximo/IBM)",
+        "Business Intelligence Servers",
+        "Corporate DNS/DHCP",
+        "Internet-Facing Web Servers",
+        "IT Help Desk Systems"
+      ],
+      "color": "#388bfd",
+      "threats_present": ["ddos", "bruteforce", "sql_injection", "xss", "ransomware"]
+    }
+  ],
+  "zones": [
+    {
+      "name": "Safety Instrumented System Zone",
+      "description": "Logically and physically separated SIS network providing last-line-of-defense safety functions. Should be isolated from all other networks.",
+      "purdue_levels": [0, 1],
+      "color": "#ff7b72"
+    },
+    {
+      "name": "Process Control Network",
+      "description": "The primary OT control network connecting field devices (L1) with supervisory control systems (L2). Typically uses industrial protocols: Modbus, DNP3, PROFINET, EtherNet/IP.",
+      "purdue_levels": [1, 2],
+      "color": "#ffa657"
+    },
+    {
+      "name": "IT/OT DMZ",
+      "description": "The demilitarized zone providing a controlled interface between the Operations network (L3) and the Enterprise network (L4). Critical segmentation boundary for IT/OT convergence security.",
+      "purdue_levels": [3, 4],
+      "color": "#d2a8ff"
+    }
+  ]
+}

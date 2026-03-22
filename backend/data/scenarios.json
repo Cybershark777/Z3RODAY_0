@@ -1,0 +1,274 @@
+{
+  "scenarios": [
+    {
+      "id": "ransomware_pivot",
+      "name": "Data Center Ransomware via IT/OT Pivot",
+      "description": "A credential brute force attack against external-facing engineering workstations at the IT/OT boundary (Purdue Level 4) enables lateral movement down through the Purdue hierarchy. The attacker reaches the Historian at Level 3, deploys ransomware that encrypts operational data, blinds the SOC, and allows undetected ICS anomalies at Level 2 to persist without operator awareness.",
+      "severity": "critical",
+      "purdue_entry_level": 4,
+      "threat_ids": ["bruteforce", "ransomware", "ics_anomaly"],
+      "stages": [
+        {
+          "order": 1,
+          "threat_id": "bruteforce",
+          "technique_id": "T0891",
+          "technique_name": "Hardcoded Credentials",
+          "purdue_level": 4,
+          "action": "Adversary targets EWS (Engineering Workstation Server) using automated credential stuffing against SSH/RDP endpoints exposed at the IT/OT boundary. Hardcoded or weak credentials on vendor maintenance accounts are exploited.",
+          "impact": "Initial foothold established on Engineering Workstation Server (EWS) at Purdue Level 4. Adversary has local admin access.",
+          "detection_indicator": "Multiple failed SSH/RDP login attempts from external IP ranges, followed by successful authentication from unusual geolocation."
+        },
+        {
+          "order": 2,
+          "threat_id": "bruteforce",
+          "technique_id": "T0820",
+          "technique_name": "Exploitation of Remote Services",
+          "purdue_level": 4,
+          "action": "Using compromised EWS credentials, adversary enumerates the OT network and identifies the OSIsoft PI Historian at Level 3. Remote service exploitation via SMB and RDP allows pivot to the Historian server.",
+          "impact": "Lateral movement from Purdue Level 4 (Enterprise) to Level 3 (Operations/Control Center). Historian credentials harvested.",
+          "detection_indicator": "Unusual lateral connections from EWS to Historian server on non-standard ports. OT firewall logs show new east-west traffic patterns."
+        },
+        {
+          "order": 3,
+          "threat_id": "ransomware",
+          "technique_id": "T0882",
+          "technique_name": "Theft of Operational Information",
+          "purdue_level": 3,
+          "action": "Before encryption, adversary exfiltrates operational data from the Historian including process setpoints, equipment configurations, and historical telemetry. Data is staged for exfiltration via HTTPS to C2 infrastructure.",
+          "impact": "Critical operational intelligence stolen including boiler setpoints, turbine parameters, and valve configurations. Data Historian (OSIsoft PI) records compromised.",
+          "detection_indicator": "Large outbound data transfers from Historian server to unknown external IP. SIEM alert on anomalous data volume from OT segment."
+        },
+        {
+          "order": 4,
+          "threat_id": "ransomware",
+          "technique_id": "T0826",
+          "technique_name": "Loss of Availability",
+          "purdue_level": 3,
+          "action": "Ransomware payload deployed across Historian server and connected network shares. File encryption using AES-256 begins, targeting PI data archives, operator HMI backups, and configuration databases. Ransom note dropped.",
+          "impact": "Historian server fully encrypted. SOC dashboards lose real-time process visibility. Operator HMI screens show stale or no data. Level 3 SCADA completely blinded.",
+          "detection_indicator": "Mass file rename events (.pi → .locked), CPU spike on Historian, SIEM correlation rules fire on mass encryption behavior."
+        },
+        {
+          "order": 5,
+          "threat_id": "ics_anomaly",
+          "technique_id": "T0836",
+          "technique_name": "Modify Parameter",
+          "purdue_level": 2,
+          "action": "With SOC blinded by ransomware at Level 3, a pre-planted payload on a compromised Level 2 SCADA server begins modifying process control parameters — boiler pressure setpoints and feed water valve positions — outside normal operating ranges.",
+          "impact": "Physical process parameters operating outside design specifications. Without Level 3 monitoring data, operators cannot detect the deviation. Risk of physical equipment damage.",
+          "detection_indicator": "Field-level sensors at Level 1 register out-of-range readings. Local alarm panels activate. No corresponding alerts reach the SOC due to Historian encryption."
+        },
+        {
+          "order": 6,
+          "threat_id": "ics_anomaly",
+          "technique_id": "T0831",
+          "technique_name": "Manipulation of Control",
+          "purdue_level": 1,
+          "action": "Modified parameters propagate to Level 1 PLCs. Control logic executing on Siemens S7-300 PLCs receives incorrect setpoint commands from the compromised Level 2 SCADA, causing actuator commands outside normal operating envelopes.",
+          "impact": "PLCs execute malicious commands. Physical actuators (valves, pump VFDs) respond incorrectly. Safety Instrumented System (SIS) at Level 1 may intervene — causing emergency shutdown — or be bypassed if SIS credentials were also compromised.",
+          "detection_indicator": "SIS emergency shutdown activation. Field technicians observe physical process anomalies. Out-of-band communication required to assess plant state."
+        }
+      ]
+    },
+    {
+      "id": "scada_mitm",
+      "name": "SCADA MitM via ARP Cache Poisoning",
+      "description": "ARP cache poisoning on a flat IT/OT network at Layer 2 allows an adversary to insert themselves between SCADA servers and field devices. Modbus/DNP3 protocol traffic is intercepted and manipulated, injecting false sensor readings into the process historian and operator HMIs while masking real physical conditions at Level 0.",
+      "severity": "critical",
+      "purdue_entry_level": 2,
+      "threat_ids": ["arp_spoofing", "mitm", "ics_anomaly"],
+      "stages": [
+        {
+          "order": 1,
+          "threat_id": "arp_spoofing",
+          "technique_id": "T0842",
+          "technique_name": "Network Sniffing",
+          "purdue_level": 2,
+          "action": "Adversary gains access to a workstation on the flat OT network segment connecting Purdue Level 2 SCADA servers and Level 1 field devices. Network sniffing reveals Modbus/TCP and DNP3 traffic patterns, IP addresses of PLCs, RTUs, and the SCADA server.",
+          "impact": "Full network topology enumeration of the OT flat network. Adversary maps all device IP/MAC pairs and protocol usage. No detection possible without network monitoring baseline.",
+          "detection_indicator": "Promiscuous mode network interfaces detected. Unusual ARP traffic volume from internal workstation. Network tap activity if monitored."
+        },
+        {
+          "order": 2,
+          "threat_id": "arp_spoofing",
+          "technique_id": "T0849",
+          "technique_name": "Masquerading",
+          "purdue_level": 2,
+          "action": "Adversary sends gratuitous ARP replies poisoning the ARP cache of both the Level 2 SCADA server and Level 1 PLCs/RTUs. Adversary's MAC address is associated with legitimate device IP addresses, positioning them for relay of all OT protocol traffic.",
+          "impact": "ARP tables poisoned on SCADA server and at least 3 PLCs. Adversary is now a transparent relay in the control network. All Modbus/DNP3 read/write commands pass through attacker system.",
+          "detection_indicator": "Duplicate ARP entries in switch MAC tables. ARP cache inconsistencies on SCADA workstation. IDS signature for gratuitous ARP storms."
+        },
+        {
+          "order": 3,
+          "threat_id": "mitm",
+          "technique_id": "T0830",
+          "technique_name": "Network Sniffing",
+          "purdue_level": 1,
+          "action": "With network positioning established, adversary captures all Modbus TCP traffic between SCADA and PLCs. DNP3 unsolicited response messages from RTUs are intercepted. Full visibility into process state including sensor readings, setpoints, and equipment status.",
+          "impact": "Complete operational intelligence gathered. Adversary understands real physical process state including actual boiler temperatures, pressure readings, and flow rates. Platform for replay and injection attacks established.",
+          "detection_indicator": "Increased network latency on SCADA-to-PLC communications (relay overhead). Network monitoring shows traffic duplication or micro-delays."
+        },
+        {
+          "order": 4,
+          "threat_id": "mitm",
+          "technique_id": "T0856",
+          "technique_name": "Spoof Reporting Message",
+          "purdue_level": 1,
+          "action": "Adversary modifies Modbus holding register read responses in transit, replacing actual sensor values with crafted false readings before they reach the SCADA server. Boiler temperature reads as normal (200°C) while actual temperature climbs dangerously (280°C).",
+          "impact": "Operator HMIs and Historian receive falsified process data. SOC analytics based on historian data see no anomaly. Physical process is actually in an unsafe state unknown to operators.",
+          "detection_indicator": "Discrepancy between field instrument readings and SCADA displays. Physical inspection reveals process anomaly. Cross-validation with independent measurement systems."
+        },
+        {
+          "order": 5,
+          "threat_id": "ics_anomaly",
+          "technique_id": "T0855",
+          "technique_name": "Unauthorized Command Message",
+          "purdue_level": 0,
+          "action": "Adversary injects unauthorized Modbus write commands into the relay stream, commanding the boiler feed water control valve to partially close while simultaneously injecting false sensor readings showing normal flow. Physical process diverges from what operators believe is happening.",
+          "impact": "Physical actuators receive malicious commands. Feed water valve position changed without operator knowledge or authorization. Actual process approaching safety limits while HMI shows normal operation.",
+          "detection_indicator": "Safety Instrumented System high-pressure trip activation. Physical alarm panels on field equipment. Discrepancy between valve position feedback and commanded position."
+        }
+      ]
+    },
+    {
+      "id": "ddos_distraction",
+      "name": "DDoS Distraction with OT Infiltration",
+      "description": "A high-volume DDoS attack against the enterprise IT perimeter overwhelms the SOC, consuming analyst attention and degrading security tooling. Under this cover, an XSS attack against the HMI web console at Level 3 establishes an internal foothold, which is then used for MitM positioning on OT control command traffic at Levels 2 and 1.",
+      "severity": "high",
+      "purdue_entry_level": 4,
+      "threat_ids": ["ddos", "xss", "mitm"],
+      "stages": [
+        {
+          "order": 1,
+          "threat_id": "ddos",
+          "technique_id": "T0814",
+          "technique_name": "Denial of Service",
+          "purdue_level": 4,
+          "action": "Botnet of ~50,000 compromised hosts launches a volumetric UDP flood targeting the enterprise edge routers at Purdue Level 4. Traffic peaks at 180 Gbps, overwhelming upstream bandwidth. DDoS mitigation service is engaged but SOC is consumed with incident response.",
+          "impact": "Enterprise internet connectivity degraded by 70%. SOC analysts fully occupied with DDoS response. Security monitoring tools experiencing telemetry gaps. IT/OT boundary firewall under stress.",
+          "detection_indicator": "NetFlow shows massive volumetric traffic from diverse source IPs. Edge router CPU maxed. ISP upstream alerts. SOC SIEM overwhelmed with firewall deny events."
+        },
+        {
+          "order": 2,
+          "threat_id": "ddos",
+          "technique_id": "T0816",
+          "technique_name": "Device Restart/Shutdown",
+          "purdue_level": 4,
+          "action": "DDoS traffic targets specific enterprise DNS servers and the IT/OT DMZ firewall, causing memory exhaustion and service restarts. During restart windows, firewall policy enforcement gaps create brief network exposure.",
+          "impact": "Firewall policy enforcement gaps during device restarts. Brief periods of reduced inspection between enterprise and OT DMZ. Provides cover for subsequent XSS exploitation to go undetected.",
+          "detection_indicator": "SNMP traps for device restarts. Firewall syslog gaps. High-availability failover events. Management interface timeouts."
+        },
+        {
+          "order": 3,
+          "threat_id": "xss",
+          "technique_id": "T0819",
+          "technique_name": "Exploit Public-Facing Application",
+          "purdue_level": 3,
+          "action": "During SOC distraction from DDoS, adversary exploits a stored XSS vulnerability in the HMI web console (GE iFIX or Wonderware InTouch web client) accessible from the IT DMZ. Malicious JavaScript payload is injected into a process alarm acknowledgment field.",
+          "impact": "Persistent XSS payload stored in HMI web console database. When operators view the alarm page, their browser session is hijacked. Session tokens and HMI credentials are exfiltrated to adversary C2 infrastructure.",
+          "detection_indicator": "Web application firewall alerts on JavaScript injection patterns. HMI application logs show unusual database writes. Anomalous outbound HTTPS from HMI server."
+        },
+        {
+          "order": 4,
+          "threat_id": "xss",
+          "technique_id": "T0871",
+          "technique_name": "Execution through API",
+          "purdue_level": 3,
+          "action": "Harvested HMI session tokens allow adversary to authenticate to the SCADA OPC-DA/OPC-UA server API. Using legitimate API calls, adversary enumerates all process tags, reads current values, and identifies writable parameters in the process control hierarchy.",
+          "impact": "Adversary has authenticated OPC API access equivalent to an operator. Full read/write access to process tag database. Can modify setpoints and control outputs through the legitimate HMI API path.",
+          "detection_indicator": "OPC server audit logs show unusual API client connections outside business hours. Tag enumeration queries characteristic of reconnaissance. Unusual OPC client IP addresses."
+        },
+        {
+          "order": 5,
+          "threat_id": "mitm",
+          "technique_id": "T0869",
+          "technique_name": "Standard Application Layer Protocol",
+          "purdue_level": 2,
+          "action": "Using OPC API access, adversary scripts automated control command injection using standard OPC-DA write calls. Commands are designed to look like normal operator setpoint adjustments, using legitimate protocol syntax. Adversary modifies turbine load setpoints incrementally to avoid triggering rate-of-change alarms.",
+          "impact": "Malicious control commands indistinguishable from legitimate operator actions by protocol inspection. Turbine load setpoints being slowly walked outside optimal operating band. No single command triggers alarm thresholds.",
+          "detection_indicator": "Behavioral analytics on OPC write frequency and pattern. Operator log cross-reference shows commands issued during non-shift hours. Process physics anomaly detection."
+        },
+        {
+          "order": 6,
+          "threat_id": "mitm",
+          "technique_id": "T0855",
+          "technique_name": "Unauthorized Command Message",
+          "purdue_level": 1,
+          "action": "Escalating from setpoint manipulation, adversary issues direct unauthorized Modbus coil write commands to turbine control PLCs at Level 1, bypassing normal HMI interlock logic. Commands exploit timing window when operator attention is focused on DDoS incident.",
+          "impact": "Direct unauthorized PLC commands executed. Turbine control logic receives commands outside the normal operator → SCADA → PLC authorization chain. Physical control of turbine actuation potentially compromised.",
+          "detection_indicator": "PLC command audit log shows writes from unexpected source IP. Turbine control interlocks bypassed. Vibration and load sensors show unexpected transients."
+        }
+      ]
+    },
+    {
+      "id": "supply_chain_hmi",
+      "name": "Supply Chain HMI Compromise",
+      "description": "SQL injection against an internet-facing asset management database at Purdue Level 4 yields harvested credentials for OT operators. Using these credentials via External Remote Services (VPN/Citrix), the adversary reaches Level 3 SCADA systems and ultimately modifies PLC programs at Levels 1 and 0, establishing persistent control of physical processes.",
+      "severity": "critical",
+      "purdue_entry_level": 4,
+      "threat_ids": ["sql_injection", "mitm", "ics_anomaly"],
+      "stages": [
+        {
+          "order": 1,
+          "threat_id": "sql_injection",
+          "technique_id": "T0819",
+          "technique_name": "Exploit Public-Facing Application",
+          "purdue_level": 4,
+          "action": "Adversary identifies an internet-accessible asset management portal (IBM Maximo or similar CMDB) used for OT equipment tracking. Classic SQL injection via the asset search field: `' OR 1=1 UNION SELECT username, password, email FROM users --` extracts the full user credential database.",
+          "impact": "Full user credential database exfiltrated including OT operator accounts, engineering workstation credentials, and VPN/Citrix access accounts. Password hashes cracked offline using GPU-accelerated hashcat. OT operator credentials recovered.",
+          "detection_indicator": "Web application firewall SQL injection signatures. Unusual database query patterns in application logs. Multiple database error responses. Anomalous data return sizes from search queries."
+        },
+        {
+          "order": 2,
+          "threat_id": "sql_injection",
+          "technique_id": "T0882",
+          "technique_name": "Theft of Operational Information",
+          "purdue_level": 4,
+          "action": "With database access established, adversary performs additional queries against the asset management database extracting: equipment models and firmware versions, network topology diagrams, maintenance schedules, and vendor remote access windows. This operational intelligence is critical for planning subsequent stages.",
+          "impact": "Complete operational intelligence picture obtained: exact PLC models (Siemens S7-400), firmware versions (V6.0.3), programming software requirements (STEP 7 v5.6), and scheduled maintenance windows when remote access is most expected and least suspicious.",
+          "detection_indicator": "Database audit logs showing bulk SELECT queries against asset tables. Unusual record volumes returned. After-hours access to asset management portal."
+        },
+        {
+          "order": 3,
+          "threat_id": "mitm",
+          "technique_id": "T0822",
+          "technique_name": "External Remote Services",
+          "purdue_level": 3,
+          "action": "Using harvested OT operator credentials, adversary authenticates to the Citrix gateway providing remote access to the OT DMZ. Successful login during a scheduled maintenance window (identified from CMDB data) avoids anomaly detection. Adversary reaches the Level 3 SCADA server environment.",
+          "impact": "Legitimate remote access session established to SCADA environment using real operator credentials. Adversary appears as authorized operator in all access logs. Full SCADA HMI access including real-time process views and control capabilities.",
+          "detection_indicator": "Citrix session from unusual source IP/geolocation for this user account. Login time inconsistency with employee work pattern. MFA push to operator's mobile device during off-hours."
+        },
+        {
+          "order": 4,
+          "threat_id": "mitm",
+          "technique_id": "T0845",
+          "technique_name": "Program Upload",
+          "purdue_level": 2,
+          "action": "From the SCADA environment, adversary launches STEP 7 programming software and connects to target Siemens S7-400 PLCs. Program upload retrieves the complete PLC program (Organization Blocks, Function Blocks, Data Blocks) for offline analysis. Adversary identifies control logic for feed water flow control.",
+          "impact": "Complete PLC program extracted for reverse engineering. Adversary understands exact control logic, interlocks, and safety conditions. Identifies specific Function Block (FB41 CONT_C) responsible for proportional valve control — target for modification.",
+          "detection_indicator": "PLC connection audit log shows STEP 7 client connection from SCADA terminal outside maintenance schedule. Program upload event logged on PLC. Engineering workstation software usage outside normal patterns."
+        },
+        {
+          "order": 5,
+          "threat_id": "ics_anomaly",
+          "technique_id": "T0873",
+          "technique_name": "Project File Infection",
+          "purdue_level": 1,
+          "action": "Adversary modifies the downloaded STEP 7 project file to inject a malicious Function Block (FC999) that activates after a 72-hour delay. The injected code monitors feed water flow and, when triggered, adds a +15% offset to valve control output while suppressing the corresponding flow feedback signal to the HMI.",
+          "impact": "Trojanized PLC project file created. Malicious FC999 embedded within legitimate program structure. Project file appears normal to casual inspection. Backdoor will activate automatically after download without further adversary interaction.",
+          "detection_indicator": "PLC project file hash change from baseline. Code review of FB/FC inventory shows undocumented FC999. Program checksum mismatch from last known-good version."
+        },
+        {
+          "order": 6,
+          "threat_id": "ics_anomaly",
+          "technique_id": "T0836",
+          "technique_name": "Modify Parameter",
+          "purdue_level": 0,
+          "action": "Modified STEP 7 project downloaded to all three redundant S7-400 PLCs in the feed water control loop. 72-hour delay elapses. FC999 activates, modifying valve control parameters. Physical valve opens further than commanded while reporting normal position to SCADA. Boiler operates with excess water feed.",
+          "impact": "Physical process operating incorrectly at Level 0. Boiler feed water flow 15% above setpoint while HMI shows normal. Water chemistry and steam generation affected. Over extended period, efficiency degradation and potential water carryover into steam turbine — catastrophic mechanical damage risk.",
+          "detection_indicator": "Boiler chemistry monitoring detects water conductivity changes. Steam purity degradation alarms. Turbine performance analytics show efficiency decline. Physical inspection of valve position vs. reported position mismatch."
+        }
+      ]
+    }
+  ]
+}

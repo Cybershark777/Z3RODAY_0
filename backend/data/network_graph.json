@@ -1,0 +1,1146 @@
+{
+  "metadata": {
+    "description": "D3.js force-directed graph: CPS threat actors, MITRE ICS techniques, CVEs, Purdue levels, and targeted sectors",
+    "last_updated": "2026-03-21",
+    "node_count": 62,
+    "link_count": 124,
+    "node_types": ["actor", "technique", "cve", "purdue_level", "sector"]
+  },
+  "nodes": [
+    {
+      "id": "sandworm",
+      "label": "Sandworm",
+      "type": "actor",
+      "risk": "critical",
+      "origin": "RU",
+      "also_known_as": ["IRIDIUM", "Voodoo Bear", "Seashell Blizzard"],
+      "description": "Russian GRU Unit 74455, responsible for Ukraine power grid attacks and Industroyer"
+    },
+    {
+      "id": "temp_veles",
+      "label": "TEMP.Veles",
+      "type": "actor",
+      "risk": "critical",
+      "origin": "RU",
+      "also_known_as": ["XENOTIME", "TRITON Actor"],
+      "description": "Developed and deployed TRITON/TRISIS malware targeting Schneider Electric Triconex SIS"
+    },
+    {
+      "id": "volt_typhoon",
+      "label": "Volt Typhoon",
+      "type": "actor",
+      "risk": "critical",
+      "origin": "CN",
+      "also_known_as": ["BRONZE SILHOUETTE", "Vanguard Panda"],
+      "description": "Chinese MSS-linked group pre-positioning in US critical infrastructure for conflict scenarios"
+    },
+    {
+      "id": "apt33",
+      "label": "APT33",
+      "type": "actor",
+      "risk": "critical",
+      "origin": "IR",
+      "also_known_as": ["Elfin", "Refined Kitten", "Peach Sandstorm"],
+      "description": "Iranian group targeting oil and gas, aviation, and energy sector ICS environments"
+    },
+    {
+      "id": "apt41",
+      "label": "APT41",
+      "type": "actor",
+      "risk": "high",
+      "origin": "CN",
+      "also_known_as": ["Winnti", "Barium", "Double Dragon"],
+      "description": "Chinese dual-purpose actor combining state espionage with financially-motivated attacks on industrial sectors"
+    },
+    {
+      "id": "lazarus",
+      "label": "Lazarus Group",
+      "type": "actor",
+      "risk": "high",
+      "origin": "KP",
+      "also_known_as": ["HIDDEN COBRA", "Guardians of Peace"],
+      "description": "North Korean RGB-affiliated group with demonstrated ICS reconnaissance capability and nuclear sector targeting"
+    },
+    {
+      "id": "berserk_bear",
+      "label": "Berserk Bear",
+      "type": "actor",
+      "risk": "high",
+      "origin": "RU",
+      "also_known_as": ["Dragonfly", "Energetic Bear", "Crouching Yeti"],
+      "description": "Russian FSB group conducting persistent long-term reconnaissance of Western energy infrastructure"
+    },
+    {
+      "id": "apt34",
+      "label": "APT34",
+      "type": "actor",
+      "risk": "high",
+      "origin": "IR",
+      "also_known_as": ["OilRig", "Helix Kitten", "Crambus"],
+      "description": "Iranian MOIS group targeting Middle East oil and gas, government, and financial sectors"
+    },
+    {
+      "id": "T0816",
+      "label": "T0816: Device Restart/Shutdown",
+      "type": "technique",
+      "tactic": "Inhibit Response Function",
+      "purdue_impact": [0, 1],
+      "description": "Adversaries may forcibly restart or shutdown devices to disrupt OT operations"
+    },
+    {
+      "id": "T0878",
+      "label": "T0878: Alarm Suppression",
+      "type": "technique",
+      "tactic": "Inhibit Response Function",
+      "purdue_impact": [1, 2],
+      "description": "Suppressing or disabling alarms to prevent operator awareness of attack in progress"
+    },
+    {
+      "id": "T0831",
+      "label": "T0831: Manipulation of Control",
+      "type": "technique",
+      "tactic": "Impair Process Control",
+      "purdue_impact": [0, 1, 2],
+      "description": "Adversaries may manipulate the control systems to cause physical damage or unsafe conditions"
+    },
+    {
+      "id": "T0855",
+      "label": "T0855: Unauthorized Command Message",
+      "type": "technique",
+      "tactic": "Impair Process Control",
+      "purdue_impact": [0, 1],
+      "description": "Sending unauthorized commands to field devices to alter physical process state"
+    },
+    {
+      "id": "T0800",
+      "label": "T0800: Activate Firmware Update Mode",
+      "type": "technique",
+      "tactic": "Inhibit Response Function",
+      "purdue_impact": [1, 2],
+      "description": "Exploiting firmware update mechanisms to load malicious firmware onto OT devices"
+    },
+    {
+      "id": "T0865",
+      "label": "T0865: Spearphishing Attachment",
+      "type": "technique",
+      "tactic": "Initial Access",
+      "purdue_impact": [3, 4],
+      "description": "Targeted phishing with malicious attachments as primary initial access vector into ICS networks"
+    },
+    {
+      "id": "T0817",
+      "label": "T0817: Drive-by Compromise",
+      "type": "technique",
+      "tactic": "Initial Access",
+      "purdue_impact": [3, 4],
+      "description": "Watering hole attacks targeting websites visited by ICS engineers and operators"
+    },
+    {
+      "id": "T0862",
+      "label": "T0862: Supply Chain Compromise",
+      "type": "technique",
+      "tactic": "Initial Access",
+      "purdue_impact": [0, 1, 2, 3, 4],
+      "description": "Compromising ICS vendor software or hardware prior to delivery to the target"
+    },
+    {
+      "id": "T0846",
+      "label": "T0846: Remote System Discovery",
+      "type": "technique",
+      "tactic": "Discovery",
+      "purdue_impact": [1, 2, 3],
+      "description": "Enumerating network-connected ICS/OT devices to map the operational environment"
+    },
+    {
+      "id": "T0840",
+      "label": "T0840: Network Connection Enumeration",
+      "type": "technique",
+      "tactic": "Discovery",
+      "purdue_impact": [2, 3],
+      "description": "Identifying communications links between IT and OT network segments"
+    },
+    {
+      "id": "T0801",
+      "label": "T0801: Monitor Process State",
+      "type": "technique",
+      "tactic": "Collection",
+      "purdue_impact": [0, 1, 2],
+      "description": "Monitoring sensor values and process telemetry to understand physical operations before attacking"
+    },
+    {
+      "id": "T0853",
+      "label": "T0853: Scripting",
+      "type": "technique",
+      "tactic": "Execution",
+      "purdue_impact": [2, 3],
+      "description": "Using scripting languages to automate actions within ICS environments"
+    },
+    {
+      "id": "T0866",
+      "label": "T0866: Exploitation of Remote Services",
+      "type": "technique",
+      "tactic": "Lateral Movement",
+      "purdue_impact": [2, 3],
+      "description": "Exploiting vulnerabilities in remote access services to move laterally into OT networks"
+    },
+    {
+      "id": "T0807",
+      "label": "T0807: Command-Line Interface",
+      "type": "technique",
+      "tactic": "Execution",
+      "purdue_impact": [2, 3],
+      "description": "Using command-line tools native to ICS systems to execute malicious actions"
+    },
+    {
+      "id": "T0856",
+      "label": "T0856: Spoof Reporting Message",
+      "type": "technique",
+      "tactic": "Impair Process Control",
+      "purdue_impact": [0, 1, 2],
+      "description": "Forging sensor data or status messages to deceive operators and hide ongoing attacks"
+    },
+    {
+      "id": "T0843",
+      "label": "T0843: Program Download",
+      "type": "technique",
+      "tactic": "Impair Process Control",
+      "purdue_impact": [0, 1],
+      "description": "Uploading malicious programs to PLCs or RTUs to alter control logic"
+    },
+    {
+      "id": "T0835",
+      "label": "T0835: Manipulate I/O Image",
+      "type": "technique",
+      "tactic": "Impair Process Control",
+      "purdue_impact": [0, 1],
+      "description": "Directly modifying the I/O image in PLC memory to alter physical outputs without changing control logic"
+    },
+    {
+      "id": "T0879",
+      "label": "T0879: Damage to Property",
+      "type": "technique",
+      "tactic": "Impact",
+      "purdue_impact": [0],
+      "description": "Intentionally causing physical damage to equipment or facility through cyber means"
+    },
+    {
+      "id": "T0882",
+      "label": "T0882: Theft of Operational Information",
+      "type": "technique",
+      "tactic": "Collection",
+      "purdue_impact": [2, 3, 4],
+      "description": "Exfiltrating operational data including engineering files, process diagrams, and ICS configurations"
+    },
+    {
+      "id": "CVE-2010-2568",
+      "label": "CVE-2010-2568 (Stuxnet LNK)",
+      "type": "cve",
+      "cvss": 9.3,
+      "associated_malware": "Stuxnet",
+      "affected_systems": "Windows Shell",
+      "description": "Windows Shell .lnk zero-day exploited by Stuxnet for USB propagation into air-gapped Siemens STEP 7 environments"
+    },
+    {
+      "id": "CVE-2010-2772",
+      "label": "CVE-2010-2772 (Stuxnet Siemens)",
+      "type": "cve",
+      "cvss": 7.2,
+      "associated_malware": "Stuxnet",
+      "affected_systems": "Siemens SIMATIC WinCC / STEP 7",
+      "description": "Hardcoded password vulnerability in Siemens WinCC/Step7 exploited by Stuxnet to access PLC programming environment"
+    },
+    {
+      "id": "CVE-2014-4114",
+      "label": "CVE-2014-4114 (Sandworm OLE)",
+      "type": "cve",
+      "cvss": 9.3,
+      "associated_malware": "BlackEnergy",
+      "affected_systems": "Microsoft Windows OLE",
+      "description": "Windows OLE remote code execution zero-day used in Sandworm BlackEnergy spearphishing campaigns against Ukrainian energy"
+    },
+    {
+      "id": "CVE-2015-5374",
+      "label": "CVE-2015-5374 (Siemens S7)",
+      "type": "cve",
+      "cvss": 7.8,
+      "associated_malware": "Havex/Dragonfly",
+      "affected_systems": "Siemens SIMATIC S7-300/S7-400",
+      "description": "Denial of service vulnerability in Siemens S7 PLCs exploited during Dragonfly/Havex campaigns against energy sector"
+    },
+    {
+      "id": "CVE-2017-9248",
+      "label": "CVE-2017-9248 (Telerik)",
+      "type": "cve",
+      "cvss": 9.8,
+      "associated_malware": "TRITON staging",
+      "affected_systems": "Telerik UI ASP.NET",
+      "description": "Cryptographic weakness used during TRITON actor initial access phase to reach OT DMZ web servers"
+    },
+    {
+      "id": "CVE-2018-10952",
+      "label": "CVE-2018-10952 (Schneider Triconex)",
+      "type": "cve",
+      "cvss": 7.5,
+      "associated_malware": "TRITON/TRISIS",
+      "affected_systems": "Schneider Electric Triconex Safety System",
+      "description": "Vulnerability in Triconex safety controller exploited by TRITON malware to inject malicious programs into SIS controllers"
+    },
+    {
+      "id": "CVE-2019-13945",
+      "label": "CVE-2019-13945 (Siemens S7+)",
+      "type": "cve",
+      "cvss": 9.8,
+      "associated_malware": "Industroyer2 staging",
+      "affected_systems": "Siemens SIMATIC S7-1500",
+      "description": "Remote code execution in Siemens S7-1500 PLCs relevant to Industroyer2 targeting of Ukrainian grid SCADA systems"
+    },
+    {
+      "id": "CVE-2022-22965",
+      "label": "CVE-2022-22965 (Spring4Shell)",
+      "type": "cve",
+      "cvss": 9.8,
+      "associated_malware": "Various ICS exploitation",
+      "affected_systems": "Spring Framework (SCADA HMI backends)",
+      "description": "Critical Spring Framework RCE exploited to compromise SCADA web interfaces and historian servers"
+    },
+    {
+      "id": "CVE-2023-29298",
+      "label": "CVE-2023-29298 (Unitronics)",
+      "type": "cve",
+      "cvss": 9.1,
+      "associated_malware": "Cyber Av3ngers PLC attacks",
+      "affected_systems": "Unitronics Vision PLC",
+      "description": "Authentication bypass in Unitronics Vision PLCs exploited by Iranian Cyber Av3ngers against US water utilities in 2023"
+    },
+    {
+      "id": "level_0",
+      "label": "Level 0: Field Devices",
+      "type": "purdue_level",
+      "description": "Sensors, actuators, pumps, valves, motors — direct interface with physical processes",
+      "components": ["PLCs (field)", "RTUs", "sensors", "actuators", "drives", "meters"]
+    },
+    {
+      "id": "level_1",
+      "label": "Level 1: Control Systems",
+      "type": "purdue_level",
+      "description": "PLCs, DCS controllers, safety systems — local process control logic",
+      "components": ["PLCs", "DCS", "SIS/SIL", "PACs", "RTUs"]
+    },
+    {
+      "id": "level_2",
+      "label": "Level 2: Supervisory",
+      "type": "purdue_level",
+      "description": "HMIs, SCADA, engineering workstations — operator interfaces and process visualization",
+      "components": ["HMI", "SCADA servers", "Engineering workstations", "Historian servers"]
+    },
+    {
+      "id": "level_3",
+      "label": "Level 3: MES/Operations",
+      "type": "purdue_level",
+      "description": "Manufacturing Execution Systems, operations management, OT DMZ",
+      "components": ["MES", "OT DMZ", "data historians", "patch servers", "OT jump servers"]
+    },
+    {
+      "id": "level_4",
+      "label": "Level 4: Business/Enterprise",
+      "type": "purdue_level",
+      "description": "Corporate IT, ERP, business network — IT/OT boundary zone",
+      "components": ["ERP", "corporate IT", "remote access", "email", "business applications"]
+    },
+    {
+      "id": "sector_energy",
+      "label": "Energy / Electric Grid",
+      "type": "sector",
+      "cisa_category": "Energy",
+      "description": "Electric generation, transmission, and distribution infrastructure including grid SCADA and protection systems"
+    },
+    {
+      "id": "sector_oil_gas",
+      "label": "Oil & Gas",
+      "type": "sector",
+      "cisa_category": "Energy",
+      "description": "Upstream exploration/production, midstream pipelines, downstream refining and petrochemical processing"
+    },
+    {
+      "id": "sector_water",
+      "label": "Water & Wastewater",
+      "type": "sector",
+      "cisa_category": "Water and Wastewater Systems",
+      "description": "Drinking water treatment and distribution, wastewater collection and treatment systems"
+    },
+    {
+      "id": "sector_manufacturing",
+      "label": "Manufacturing",
+      "type": "sector",
+      "cisa_category": "Critical Manufacturing",
+      "description": "Discrete and process manufacturing including automotive, steel, chemicals, and defense production"
+    },
+    {
+      "id": "sector_nuclear",
+      "label": "Nuclear Facilities",
+      "type": "sector",
+      "cisa_category": "Nuclear Reactors, Materials, and Waste",
+      "description": "Nuclear power generation, fuel cycle facilities, and research reactors"
+    },
+    {
+      "id": "sector_transport",
+      "label": "Transportation",
+      "type": "sector",
+      "cisa_category": "Transportation Systems",
+      "description": "Rail, aviation, maritime port, and pipeline transportation control systems"
+    },
+    {
+      "id": "sector_chemicals",
+      "label": "Chemical Facilities",
+      "type": "sector",
+      "cisa_category": "Chemical Sector",
+      "description": "Chemical manufacturing, storage, and processing with hazardous materials risk"
+    }
+  ],
+  "links": [
+    {
+      "source": "sandworm",
+      "target": "T0816",
+      "weight": 5,
+      "description": "Sandworm used device restart/shutdown in both 2015 and 2016 Ukraine power grid attacks"
+    },
+    {
+      "source": "sandworm",
+      "target": "T0878",
+      "weight": 5,
+      "description": "Industroyer used alarm suppression to delay operator response during grid attacks"
+    },
+    {
+      "source": "sandworm",
+      "target": "T0831",
+      "weight": 5,
+      "description": "Core technique: Industroyer directly manipulated circuit breaker control logic"
+    },
+    {
+      "source": "sandworm",
+      "target": "T0865",
+      "weight": 4,
+      "description": "Sandworm used spearphishing with malicious Office documents for initial access into energy networks"
+    },
+    {
+      "source": "sandworm",
+      "target": "T0800",
+      "weight": 3,
+      "description": "Industroyer2 and KillDisk used firmware manipulation to brick serial-to-Ethernet converters"
+    },
+    {
+      "source": "sandworm",
+      "target": "T0843",
+      "weight": 4,
+      "description": "Industroyer downloaded malicious programs to grid protection relay controllers"
+    },
+    {
+      "source": "sandworm",
+      "target": "T0856",
+      "weight": 3,
+      "description": "Spoofed SCADA reporting messages to mask attack progress from operators"
+    },
+    {
+      "source": "sandworm",
+      "target": "sector_energy",
+      "weight": 5,
+      "description": "Primary target: Ukrainian power distribution and transmission operators"
+    },
+    {
+      "source": "sandworm",
+      "target": "sector_transport",
+      "weight": 2,
+      "description": "NotPetya impacted Ukrainian transport and logistics OT systems"
+    },
+    {
+      "source": "temp_veles",
+      "target": "T0831",
+      "weight": 5,
+      "description": "TRITON directly manipulated Triconex safety controllers to inhibit emergency shutdowns"
+    },
+    {
+      "source": "temp_veles",
+      "target": "T0855",
+      "weight": 5,
+      "description": "Sent unauthorized commands to Triconex SIS controllers to overwrite safety logic"
+    },
+    {
+      "source": "temp_veles",
+      "target": "T0878",
+      "weight": 4,
+      "description": "Safety system alarms suppressed to prevent triggering protective shutdowns"
+    },
+    {
+      "source": "temp_veles",
+      "target": "T0865",
+      "weight": 3,
+      "description": "Initial access via spearphishing into corporate network then pivoted to OT"
+    },
+    {
+      "source": "temp_veles",
+      "target": "T0843",
+      "weight": 5,
+      "description": "TRITON malware core function: download malicious program to Triconex SIS controller"
+    },
+    {
+      "source": "temp_veles",
+      "target": "T0879",
+      "weight": 4,
+      "description": "Goal was to disable safety systems enabling catastrophic physical damage at petrochemical facility"
+    },
+    {
+      "source": "temp_veles",
+      "target": "sector_oil_gas",
+      "weight": 5,
+      "description": "Primary target: Saudi petrochemical facility (Petro Rabigh)"
+    },
+    {
+      "source": "temp_veles",
+      "target": "sector_chemicals",
+      "weight": 4,
+      "description": "TRITON specifically targeted chemical process safety systems"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "T0817",
+      "weight": 4,
+      "description": "Used living-off-the-land techniques avoiding signature-based detection in ICS environments"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "T0846",
+      "weight": 5,
+      "description": "Extensive discovery and enumeration of US critical infrastructure OT/ICS networks"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "T0840",
+      "weight": 5,
+      "description": "Mapped IT/OT network connections to identify paths to operational systems"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "T0862",
+      "weight": 3,
+      "description": "Leveraged compromised small office/home office routers and VPN appliances for persistent access"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "T0882",
+      "weight": 4,
+      "description": "Exfiltrated operational diagrams and network architecture documents from utility operators"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "T0866",
+      "weight": 4,
+      "description": "Exploited remote access services and VPN appliances to enter OT network segments"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "sector_energy",
+      "weight": 5,
+      "description": "Pre-positioned in US electric grid for potential conflict-triggered disruption"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "sector_water",
+      "weight": 4,
+      "description": "Confirmed intrusions into US water and wastewater system control networks"
+    },
+    {
+      "source": "volt_typhoon",
+      "target": "sector_transport",
+      "weight": 3,
+      "description": "Active in transportation logistics and port management systems"
+    },
+    {
+      "source": "apt33",
+      "target": "T0865",
+      "weight": 5,
+      "description": "Primary initial access: targeted spearphishing against oil and gas sector employees"
+    },
+    {
+      "source": "apt33",
+      "target": "T0853",
+      "weight": 4,
+      "description": "Used PowerShell scripting extensively for post-compromise actions in OT environments"
+    },
+    {
+      "source": "apt33",
+      "target": "T0866",
+      "weight": 4,
+      "description": "Exploited VPN vulnerabilities and remote desktop services to access OT networks"
+    },
+    {
+      "source": "apt33",
+      "target": "T0801",
+      "weight": 3,
+      "description": "Monitored industrial process data and historian servers to understand operations before potential attack"
+    },
+    {
+      "source": "apt33",
+      "target": "T0882",
+      "weight": 4,
+      "description": "Exfiltrated engineering files and operational data from energy companies"
+    },
+    {
+      "source": "apt33",
+      "target": "sector_oil_gas",
+      "weight": 5,
+      "description": "Primary target: Saudi, US, and South Korean oil and gas companies"
+    },
+    {
+      "source": "apt33",
+      "target": "sector_energy",
+      "weight": 4,
+      "description": "Targeted energy sector including electric utilities across Middle East and USA"
+    },
+    {
+      "source": "apt41",
+      "target": "T0862",
+      "weight": 5,
+      "description": "Supply chain compromises of software updates targeting industrial sector customers"
+    },
+    {
+      "source": "apt41",
+      "target": "T0865",
+      "weight": 4,
+      "description": "Sophisticated spearphishing campaigns targeting manufacturing sector engineers"
+    },
+    {
+      "source": "apt41",
+      "target": "T0846",
+      "weight": 3,
+      "description": "Network discovery within manufacturing OT environments to identify valuable systems"
+    },
+    {
+      "source": "apt41",
+      "target": "T0882",
+      "weight": 5,
+      "description": "Significant industrial IP theft from semiconductor, defense, and pharmaceutical manufacturers"
+    },
+    {
+      "source": "apt41",
+      "target": "T0807",
+      "weight": 3,
+      "description": "Used command-line tools native to ICS engineering workstations"
+    },
+    {
+      "source": "apt41",
+      "target": "sector_manufacturing",
+      "weight": 5,
+      "description": "Primary target: automotive, semiconductor, defense, and pharmaceutical manufacturers"
+    },
+    {
+      "source": "apt41",
+      "target": "sector_energy",
+      "weight": 3,
+      "description": "Targeted energy sector for both espionage and potential pre-positioning"
+    },
+    {
+      "source": "lazarus",
+      "target": "T0865",
+      "weight": 4,
+      "description": "Spearphishing targeting nuclear facility staff and energy sector personnel"
+    },
+    {
+      "source": "lazarus",
+      "target": "T0846",
+      "weight": 3,
+      "description": "ICS network enumeration observed in nuclear and energy sector intrusions"
+    },
+    {
+      "source": "lazarus",
+      "target": "T0882",
+      "weight": 4,
+      "description": "Exfiltrated nuclear reactor blueprints and operational manuals from KHNP"
+    },
+    {
+      "source": "lazarus",
+      "target": "T0856",
+      "weight": 2,
+      "description": "Evidence of sensor data spoofing capability in advanced ICS intrusion toolkit"
+    },
+    {
+      "source": "lazarus",
+      "target": "sector_nuclear",
+      "weight": 5,
+      "description": "Primary ICS target: South Korean nuclear power operator Korea Hydro and Nuclear Power"
+    },
+    {
+      "source": "lazarus",
+      "target": "sector_energy",
+      "weight": 3,
+      "description": "Targeting energy infrastructure for both revenue and strategic intelligence"
+    },
+    {
+      "source": "berserk_bear",
+      "target": "T0817",
+      "weight": 5,
+      "description": "Signature technique: watering hole attacks on energy sector trade websites and vendor portals"
+    },
+    {
+      "source": "berserk_bear",
+      "target": "T0862",
+      "weight": 5,
+      "description": "Trojaned ICS software and vendor tools distributed to energy sector targets"
+    },
+    {
+      "source": "berserk_bear",
+      "target": "T0846",
+      "weight": 4,
+      "description": "Extensive OT network mapping at US and European electric utility operators"
+    },
+    {
+      "source": "berserk_bear",
+      "target": "T0840",
+      "weight": 4,
+      "description": "Mapped connectivity between IT and OT network segments at target utilities"
+    },
+    {
+      "source": "berserk_bear",
+      "target": "T0801",
+      "weight": 4,
+      "description": "Monitored process state data from historians and SCADA servers without disruption"
+    },
+    {
+      "source": "berserk_bear",
+      "target": "T0882",
+      "weight": 4,
+      "description": "Collected engineering files, ladder logic, and network diagrams from energy operators"
+    },
+    {
+      "source": "berserk_bear",
+      "target": "sector_energy",
+      "weight": 5,
+      "description": "Sole focus: electric utilities and energy infrastructure in US, UK, and Europe"
+    },
+    {
+      "source": "apt34",
+      "target": "T0865",
+      "weight": 5,
+      "description": "Highly targeted spearphishing against Middle East energy sector organizations"
+    },
+    {
+      "source": "apt34",
+      "target": "T0853",
+      "weight": 4,
+      "description": "Custom PowerShell and Python-based tools for post-compromise execution in OT-adjacent systems"
+    },
+    {
+      "source": "apt34",
+      "target": "T0866",
+      "weight": 3,
+      "description": "Exploited remote access services to enter OT network segments"
+    },
+    {
+      "source": "apt34",
+      "target": "T0807",
+      "weight": 3,
+      "description": "Used WMI and PowerShell command-line interfaces for lateral movement"
+    },
+    {
+      "source": "apt34",
+      "target": "sector_oil_gas",
+      "weight": 5,
+      "description": "Primary focus: Gulf state oil and gas operators (Saudi Aramco ecosystem, PDO)"
+    },
+    {
+      "source": "apt34",
+      "target": "sector_chemicals",
+      "weight": 3,
+      "description": "Targeted petrochemical and chemical processing facilities in Middle East"
+    },
+    {
+      "source": "CVE-2010-2568",
+      "target": "T0862",
+      "weight": 5,
+      "description": "Stuxnet LNK exploit enabled propagation via removable media to air-gapped ICS networks"
+    },
+    {
+      "source": "CVE-2010-2568",
+      "target": "T0843",
+      "weight": 4,
+      "description": "LNK exploit was delivery mechanism for Stuxnet PLC program download payload"
+    },
+    {
+      "source": "CVE-2010-2772",
+      "target": "T0831",
+      "weight": 5,
+      "description": "Siemens WinCC password vulnerability enabled Stuxnet to access and modify S7-315/S7-417 PLC logic"
+    },
+    {
+      "source": "CVE-2010-2772",
+      "target": "T0843",
+      "weight": 5,
+      "description": "Core Stuxnet technique: used WinCC access to download rootkit-modified ladder logic to PLCs"
+    },
+    {
+      "source": "CVE-2014-4114",
+      "target": "T0865",
+      "weight": 5,
+      "description": "OLE zero-day weaponized in Sandworm spearphishing emails targeting Ukrainian energy companies"
+    },
+    {
+      "source": "CVE-2014-4114",
+      "target": "T0817",
+      "weight": 3,
+      "description": "Also deployed via drive-by downloads on energy sector websites"
+    },
+    {
+      "source": "CVE-2015-5374",
+      "target": "T0816",
+      "weight": 4,
+      "description": "Siemens S7 DoS vulnerability used to force device restarts/shutdowns in Dragonfly campaigns"
+    },
+    {
+      "source": "CVE-2015-5374",
+      "target": "T0800",
+      "weight": 3,
+      "description": "Vulnerability enabled firmware mode manipulation on S7-300/400 PLCs"
+    },
+    {
+      "source": "CVE-2017-9248",
+      "target": "T0866",
+      "weight": 4,
+      "description": "TRITON actor used Telerik vulnerability to gain initial foothold on OT DMZ web servers"
+    },
+    {
+      "source": "CVE-2018-10952",
+      "target": "T0855",
+      "weight": 5,
+      "description": "Core TRITON CVE: vulnerability allowed unauthorized command injection into Triconex SIS"
+    },
+    {
+      "source": "CVE-2018-10952",
+      "target": "T0843",
+      "weight": 5,
+      "description": "Enabled TRITON to download malicious program into Triconex safety controller memory"
+    },
+    {
+      "source": "CVE-2019-13945",
+      "target": "T0843",
+      "weight": 4,
+      "description": "S7-1500 RCE used for unauthorized PLC program download in Industroyer2-era targeting"
+    },
+    {
+      "source": "CVE-2019-13945",
+      "target": "T0831",
+      "weight": 4,
+      "description": "Enabled manipulation of Siemens S7-1500 control logic in grid protection relay systems"
+    },
+    {
+      "source": "CVE-2022-22965",
+      "target": "T0866",
+      "weight": 3,
+      "description": "Spring4Shell exploited against SCADA web front-ends and historian server backends"
+    },
+    {
+      "source": "CVE-2023-29298",
+      "target": "T0855",
+      "weight": 5,
+      "description": "Unitronics auth bypass enabled Cyber Av3ngers to send unauthorized commands to water treatment PLCs"
+    },
+    {
+      "source": "CVE-2023-29298",
+      "target": "T0831",
+      "weight": 4,
+      "description": "Used to directly manipulate water treatment control setpoints at US utilities"
+    },
+    {
+      "source": "T0816",
+      "target": "level_0",
+      "weight": 5,
+      "description": "Device restart/shutdown directly impacts field devices at Level 0"
+    },
+    {
+      "source": "T0816",
+      "target": "level_1",
+      "weight": 5,
+      "description": "PLC and DCS controller restarts are primary Level 1 impact"
+    },
+    {
+      "source": "T0878",
+      "target": "level_1",
+      "weight": 4,
+      "description": "Alarm suppression at PLC/DCS level prevents operator notification"
+    },
+    {
+      "source": "T0878",
+      "target": "level_2",
+      "weight": 5,
+      "description": "HMI and SCADA alarm suppression is primary impact point for operator deception"
+    },
+    {
+      "source": "T0831",
+      "target": "level_0",
+      "weight": 5,
+      "description": "Physical process manipulation occurs at field device level"
+    },
+    {
+      "source": "T0831",
+      "target": "level_1",
+      "weight": 5,
+      "description": "Control logic modification at PLC/DCS level causes physical process changes"
+    },
+    {
+      "source": "T0831",
+      "target": "level_2",
+      "weight": 3,
+      "description": "SCADA setpoint modification can cause downstream physical process changes"
+    },
+    {
+      "source": "T0855",
+      "target": "level_0",
+      "weight": 5,
+      "description": "Unauthorized commands sent directly to field actuators and safety systems"
+    },
+    {
+      "source": "T0855",
+      "target": "level_1",
+      "weight": 4,
+      "description": "Commands injected into PLC communication buses"
+    },
+    {
+      "source": "T0800",
+      "target": "level_1",
+      "weight": 5,
+      "description": "Firmware update mode exploited on PLCs and field controllers"
+    },
+    {
+      "source": "T0843",
+      "target": "level_0",
+      "weight": 4,
+      "description": "Malicious programs downloaded to remote terminal units at field level"
+    },
+    {
+      "source": "T0843",
+      "target": "level_1",
+      "weight": 5,
+      "description": "Primary impact: PLC and DCS controller logic replacement"
+    },
+    {
+      "source": "T0835",
+      "target": "level_0",
+      "weight": 5,
+      "description": "I/O image manipulation directly affects physical outputs at Level 0"
+    },
+    {
+      "source": "T0835",
+      "target": "level_1",
+      "weight": 4,
+      "description": "PLC memory I/O tables modified to alter physical process behavior"
+    },
+    {
+      "source": "T0865",
+      "target": "level_4",
+      "weight": 5,
+      "description": "Spearphishing targets corporate email users at business network level"
+    },
+    {
+      "source": "T0865",
+      "target": "level_3",
+      "weight": 3,
+      "description": "Some phishing directly targets OT operators using MES-connected workstations"
+    },
+    {
+      "source": "T0817",
+      "target": "level_4",
+      "weight": 4,
+      "description": "Drive-by compromise affects engineer workstations connected to business network"
+    },
+    {
+      "source": "T0817",
+      "target": "level_3",
+      "weight": 3,
+      "description": "OT DMZ jump servers and engineering workstations targeted"
+    },
+    {
+      "source": "T0862",
+      "target": "level_4",
+      "weight": 3,
+      "description": "Supply chain compromise initially affects IT software distribution"
+    },
+    {
+      "source": "T0862",
+      "target": "level_2",
+      "weight": 4,
+      "description": "Trojanized SCADA software or HMI updates directly compromise Level 2"
+    },
+    {
+      "source": "T0862",
+      "target": "level_1",
+      "weight": 3,
+      "description": "PLC firmware and engineering tool supply chain attacks"
+    },
+    {
+      "source": "T0846",
+      "target": "level_2",
+      "weight": 4,
+      "description": "SCADA and HMI network scanning from Level 2 perspective"
+    },
+    {
+      "source": "T0846",
+      "target": "level_3",
+      "weight": 5,
+      "description": "Network discovery primarily conducted from Level 3 OT DMZ foothold"
+    },
+    {
+      "source": "T0840",
+      "target": "level_3",
+      "weight": 5,
+      "description": "IT/OT boundary mapping conducted from Level 3 network"
+    },
+    {
+      "source": "T0840",
+      "target": "level_2",
+      "weight": 3,
+      "description": "Enumeration of connections from SCADA to field network segments"
+    },
+    {
+      "source": "T0801",
+      "target": "level_1",
+      "weight": 3,
+      "description": "Process state data read directly from PLC registers"
+    },
+    {
+      "source": "T0801",
+      "target": "level_2",
+      "weight": 5,
+      "description": "Primary source: SCADA historians and HMI process data"
+    },
+    {
+      "source": "T0853",
+      "target": "level_2",
+      "weight": 4,
+      "description": "Scripts executed on SCADA/HMI engineering workstations"
+    },
+    {
+      "source": "T0853",
+      "target": "level_3",
+      "weight": 4,
+      "description": "Scripting used on MES and OT DMZ servers for lateral movement"
+    },
+    {
+      "source": "T0866",
+      "target": "level_3",
+      "weight": 5,
+      "description": "Remote service exploitation primary entry point into OT from DMZ"
+    },
+    {
+      "source": "T0866",
+      "target": "level_2",
+      "weight": 4,
+      "description": "SCADA remote access services exploited for direct Level 2 access"
+    },
+    {
+      "source": "T0807",
+      "target": "level_2",
+      "weight": 4,
+      "description": "CLI tools on SCADA servers and engineering workstations"
+    },
+    {
+      "source": "T0807",
+      "target": "level_3",
+      "weight": 3,
+      "description": "Command-line tools on OT DMZ and MES systems"
+    },
+    {
+      "source": "T0856",
+      "target": "level_0",
+      "weight": 4,
+      "description": "Sensor data spoofed at field device communication level"
+    },
+    {
+      "source": "T0856",
+      "target": "level_2",
+      "weight": 5,
+      "description": "False process values displayed on HMI to deceive operators"
+    },
+    {
+      "source": "T0882",
+      "target": "level_2",
+      "weight": 4,
+      "description": "Engineering diagrams and configurations exfiltrated from SCADA systems"
+    },
+    {
+      "source": "T0882",
+      "target": "level_3",
+      "weight": 5,
+      "description": "Historian databases and operational documentation exfiltrated from Level 3"
+    },
+    {
+      "source": "T0879",
+      "target": "level_0",
+      "weight": 5,
+      "description": "Physical damage occurs at field device and process equipment level"
+    },
+    {
+      "source": "T0879",
+      "target": "level_1",
+      "weight": 4,
+      "description": "Control system manipulation can cause physical damage to connected equipment"
+    },
+    {
+      "source": "CVE-2010-2568",
+      "target": "level_3",
+      "weight": 3,
+      "description": "Initial infection vector via USB at Level 3 engineering workstations"
+    },
+    {
+      "source": "CVE-2010-2772",
+      "target": "level_2",
+      "weight": 5,
+      "description": "WinCC SCADA compromise via hardcoded password"
+    },
+    {
+      "source": "CVE-2014-4114",
+      "target": "level_4",
+      "weight": 4,
+      "description": "OLE exploit delivered via email targeting corporate network users"
+    },
+    {
+      "source": "CVE-2015-5374",
+      "target": "level_1",
+      "weight": 5,
+      "description": "Direct impact on Siemens S7 PLCs at control system level"
+    },
+    {
+      "source": "CVE-2017-9248",
+      "target": "level_3",
+      "weight": 4,
+      "description": "OT DMZ web server compromise via Telerik vulnerability"
+    },
+    {
+      "source": "CVE-2018-10952",
+      "target": "level_1",
+      "weight": 5,
+      "description": "Direct exploitation of Triconex SIS controller at Level 1"
+    },
+    {
+      "source": "CVE-2019-13945",
+      "target": "level_1",
+      "weight": 5,
+      "description": "S7-1500 PLC compromise at control system level"
+    },
+    {
+      "source": "CVE-2022-22965",
+      "target": "level_2",
+      "weight": 3,
+      "description": "SCADA web interface backend servers at Level 2"
+    },
+    {
+      "source": "CVE-2023-29298",
+      "target": "level_1",
+      "weight": 5,
+      "description": "Direct Unitronics PLC compromise at Level 1 control system"
+    },
+    {
+      "source": "CVE-2023-29298",
+      "target": "level_0",
+      "weight": 3,
+      "description": "PLCs control field actuators directly — compromise cascades to Level 0"
+    }
+  ]
+}

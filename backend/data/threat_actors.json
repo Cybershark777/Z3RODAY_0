@@ -1,0 +1,768 @@
+{
+  "threat_actors": [
+    {
+      "id": "sandworm",
+      "name": "Sandworm",
+      "aliases": ["Voodoo Bear", "TeleBots", "BlackEnergy Group", "Quedagh", "IRIDIUM", "Seashell Blizzard", "APT44", "UAC-0113"],
+      "nation": "Russia",
+      "nation_code": "RU",
+      "active": true,
+      "first_seen": "2009",
+      "risk_level": "critical",
+      "targeted_sectors": ["energy", "manufacturing", "transportation", "defense", "telecom"],
+      "targeted_regions": ["Ukraine", "Europe", "United States", "Georgia", "Poland"],
+      "description": "Sandworm is an advanced persistent threat group attributed to the Russian GRU (Unit 74455) and is widely regarded as one of the most destructive threat actors ever documented against ICS/OT environments. The group is responsible for the first confirmed cyberattacks to cause physical power outages, targeting Ukrainian electric utilities in December 2015 and December 2016. Sandworm also developed and deployed Industroyer (CRASHOVERRIDE), the first ever malware framework specifically engineered to attack power grid ICS protocols, and was responsible for the catastrophic NotPetya wiper campaign in 2017.",
+      "known_campaigns": [
+        {
+          "name": "Ukraine Power Grid Attack 2015",
+          "year": "2015",
+          "description": "Coordinated attack on three Ukrainian regional electricity distribution companies using BlackEnergy malware, KillDisk, and spear-phishing. Attackers opened breakers remotely, disconnected UPS systems, and launched a telephony denial-of-service to prevent customers from reporting outages.",
+          "impact": "Approximately 225,000 customers lost power for 1-6 hours across three oblasts in western Ukraine; first confirmed cyberattack to cause a power outage"
+        },
+        {
+          "name": "Ukraine Power Grid Attack 2016 (Industroyer/CRASHOVERRIDE)",
+          "year": "2016",
+          "description": "Deployed Industroyer malware against Ukrenergo's transmission substation in Kyiv. Industroyer used native ICS communication protocols (IEC 104, IEC 101, IEC 61850 MMS, OPC DA) to directly interact with and open power grid circuit breakers without operator commands.",
+          "impact": "One-fifth of Kyiv's total power capacity offline for approximately one hour; substation equipment damaged by Industroyer's wiper component"
+        },
+        {
+          "name": "NotPetya",
+          "year": "2017",
+          "description": "Disguised as ransomware but designed as a destructive wiper, NotPetya spread via the MEDoc software supply chain and EternalBlue/Mimikatz lateral movement. It caused catastrophic collateral damage far beyond Ukraine, hitting shipping, pharmaceutical, and industrial companies worldwide.",
+          "impact": "Over $10 billion in global damages; Maersk, Merck, FedEx, and Mondelez among hardest hit; considered the most destructive cyberattack in history at the time"
+        },
+        {
+          "name": "Industroyer2 / Sandworm Ukraine 2022",
+          "year": "2022",
+          "description": "During the Russia-Ukraine war, Sandworm deployed Industroyer2, a successor to the 2016 malware, targeting a Ukrainian high-voltage electrical substation. Simultaneously deployed CaddyWiper and ORCSHRED destructive wipers to impair incident response.",
+          "impact": "Attack thwarted by CERT-UA and Eset before causing outage; demonstrated continued capability evolution and targeting of Ukrainian critical infrastructure"
+        },
+        {
+          "name": "Olympic Destroyer",
+          "year": "2018",
+          "description": "Disruptive wiper attack targeting the 2018 Winter Olympics IT infrastructure in Pyeongchang, South Korea, designed to embarrass the host nation. Used sophisticated false flag indicators mimicking North Korean, Chinese, and other threat actor TTPs.",
+          "impact": "Olympics opening ceremony broadcast disrupted; Wi-Fi disabled, official Olympics app offline; false flags caused significant attribution confusion"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0802", "T0803", "T0806", "T0807", "T0809", "T0814",
+        "T0816", "T0817", "T0820", "T0821", "T0822", "T0827", "T0828", "T0831",
+        "T0836", "T0840", "T0845", "T0846", "T0855", "T0856", "T0857", "T0858",
+        "T0859", "T0861", "T0878", "T0880", "T0881", "T0882", "T0883", "T0884",
+        "T0885", "T0886", "T0888", "T0889"
+      ],
+      "ttp_summary": "Sandworm employs a multi-stage intrusion methodology beginning with spear-phishing and watering hole attacks for initial access, followed by deployment of modular backdoors (BlackEnergy, GreyEnergy, Exaramel) for persistence and lateral movement. In ICS environments, the group conducts extensive reconnaissance of OT network topology before deploying purpose-built malware that speaks native industrial protocols (IEC 104, IEC 101, GOOSE, OPC DA) to manipulate field devices. Sandworm pairs ICS disruption with destructive wiper malware (KillDisk, CaddyWiper, Industroyer wiper) to impair recovery, and employs living-off-the-land techniques alongside custom tooling. The group demonstrates sophisticated understanding of electrical grid operations, protection relay logic, and substation automation systems.",
+      "iocs": [
+        "BlackEnergy/GreyEnergy/Exaramel backdoor families (various hashes)",
+        "Industroyer/CRASHOVERRIDE ICS malware framework binaries",
+        "Industroyer2 single-binary payload targeting IEC 104",
+        "KillDisk and CaddyWiper destructive wiper hashes",
+        "Tor exit nodes and bulletproof hosting C2 infrastructure",
+        "Compromised VPN credentials and legitimate remote access tools (TeamViewer abuse)",
+        "LOTL: PsExec, Mimikatz, WinExec, net.exe for lateral movement",
+        "Spear-phishing lures with malicious Office macro attachments targeting energy sector"
+      ],
+      "source_note": "CISA Alert AA22-110A; ESET Industroyer/Industroyer2 research; Dragos ELECTRUM profile; US DoJ indictment (Oct 2020) charging GRU Unit 74455 officers; iSight/Mandiant BlackEnergy reporting"
+    },
+    {
+      "id": "voltzite",
+      "name": "VOLTZITE",
+      "aliases": ["Volt Typhoon (partial overlap)", "UNC5325"],
+      "nation": "China",
+      "nation_code": "CN",
+      "active": true,
+      "first_seen": "2023",
+      "risk_level": "critical",
+      "targeted_sectors": ["energy", "manufacturing", "telecom"],
+      "targeted_regions": ["United States", "Africa", "Pacific Islands"],
+      "description": "VOLTZITE is a Dragos-designated threat group first identified in 2023 with an intrusion campaign targeting US electric utilities and emergency management systems. The group focuses on geospatial intelligence collection, operational technology network reconnaissance, and pre-positioning within electric grid environments, suggesting preparation for future disruptive or destructive operations. VOLTZITE shares significant technical overlap with the Volt Typhoon activity cluster reported by Microsoft and CISA, and is believed to be a China state-nexus actor.",
+      "known_campaigns": [
+        {
+          "name": "US Electric Utility Reconnaissance 2023-2024",
+          "year": "2023",
+          "description": "VOLTZITE compromised multiple US electric utility environments, achieving long-dwell access and conducting extensive OT network reconnaissance. The group exfiltrated GIS data, network diagrams, and OT asset inventories, indicating intelligence collection on physical infrastructure layout.",
+          "impact": "Confirmed compromise of several US electric utilities; no disruptive impact observed; significant intelligence collection on critical infrastructure topology"
+        },
+        {
+          "name": "Emergency Management System Targeting",
+          "year": "2023",
+          "description": "Targeting of US emergency management and public safety systems alongside electric utilities, suggesting interest in understanding response capabilities and communication infrastructure during a potential crisis scenario.",
+          "impact": "Extent of access not fully disclosed publicly; represented escalation in scope beyond pure energy sector targeting"
+        },
+        {
+          "name": "African Electric Utility Intrusion",
+          "year": "2023",
+          "description": "VOLTZITE activity identified at African electric utility organizations, consistent with broader Chinese strategic infrastructure intelligence collection in regions of geopolitical interest.",
+          "impact": "Intelligence collection focused; no confirmed disruptive impact reported"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0840", "T0845", "T0846", "T0855",
+        "T0858", "T0861", "T0869", "T0878", "T0883", "T0884", "T0888",
+        "T0889", "T0891"
+      ],
+      "ttp_summary": "VOLTZITE is characterized by stealthy, long-dwell intrusions that prioritize OT network reconnaissance over immediate disruption. The group leverages living-off-the-land binaries (LOLBins) to avoid detection, exploits internet-facing devices (SOHO routers, VPN appliances, Fortinet, Ivanti) for initial access, and pivots into OT environments to collect asset inventories, network diagrams, and GIS data. VOLTZITE demonstrates sophisticated operational security, using compromised infrastructure as proxy hops and avoiding deployment of custom malware where native tools suffice. The focus on geospatial and OT asset data is strongly indicative of pre-positioning for future contingency operations rather than near-term disruption.",
+      "iocs": [
+        "Compromised SOHO router infrastructure used as proxy/relay nodes",
+        "Exploitation of Fortinet FortiOS and Ivanti Connect Secure vulnerabilities for initial access",
+        "FRP (Fast Reverse Proxy) and other open-source proxy tools",
+        "Webshells on internet-facing appliances",
+        "WMIC, PowerShell, and Netsh living-off-the-land activity in OT-adjacent networks",
+        "Exfiltration of GIS shapefiles and network topology documents",
+        "KV-Botnet router compromise infrastructure"
+      ],
+      "source_note": "Dragos Year in Review 2023; Dragos VOLTZITE threat intelligence profile; CISA Advisory AA24-038A (Volt Typhoon); Microsoft MSTIC Volt Typhoon reporting (May 2023)"
+    },
+    {
+      "id": "chernovite",
+      "name": "CHERNOVITE",
+      "aliases": ["PIPEDREAM developers", "INCONTROLLER developers"],
+      "nation": "Unknown",
+      "nation_code": "XX",
+      "active": false,
+      "first_seen": "2021",
+      "risk_level": "critical",
+      "targeted_sectors": ["energy", "manufacturing", "nuclear"],
+      "targeted_regions": ["Global", "United States", "Western Europe"],
+      "description": "CHERNOVITE is a Dragos-designated threat group responsible for developing PIPEDREAM (also called INCONTROLLER by Mandiant and the US Government), the most sophisticated and capable ICS-specific malware framework ever publicly discovered. PIPEDREAM is a modular toolkit capable of targeting Schneider Electric PLCs, Omron PLCs, CODESYS-based controllers, OPC UA servers, and network infrastructure, representing a cross-industry attack capability without historical precedent. The group is assessed to be a nation-state actor, though definitive attribution has not been publicly established.",
+      "known_campaigns": [
+        {
+          "name": "PIPEDREAM/INCONTROLLER Development and Pre-deployment",
+          "year": "2022",
+          "description": "The PIPEDREAM framework was discovered in April 2022 prior to deployment against targets, preventing potential catastrophic impact. The toolkit included five main components: MOUSEHOLE (Modbus scanner), DUSTTUNNEL (custom C2 proxy), LAZY (Omron PLC module), COALMAN (CODESYS exploitation module), and EVILSCHOLAR (Schneider Electric PLC module). CISA, DOE, NSA, and FBI issued joint advisory warning of the capability.",
+          "impact": "No confirmed operational deployment detected; discovery and disclosure prevented use; demonstrated capability to cause physical damage to LNG facilities, electric utilities, and industrial processes"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0802", "T0803", "T0806", "T0814", "T0816",
+        "T0820", "T0821", "T0822", "T0827", "T0828", "T0831", "T0836",
+        "T0840", "T0843", "T0845", "T0855", "T0856", "T0857", "T0858",
+        "T0869", "T0878", "T0880", "T0881", "T0882"
+      ],
+      "ttp_summary": "CHERNOVITE's PIPEDREAM framework represents a generational leap in ICS attack capability, designed to interact directly with industrial control hardware using native protocols (Modbus, OPC UA, CODESYS, Schneider UMAS). The toolkit automates attack sequences including discovery of ICS assets, exploitation of device vulnerabilities, modification of PLC logic, disabling of safety systems, and denial of service against engineering workstations. Unlike prior ICS malware that targeted specific infrastructure configurations, PIPEDREAM's modular architecture provides broad applicability across sectors. The framework demonstrates deep vendor-specific knowledge of Schneider Electric Modicon and Omron NJ/NX series PLCs, including exploitation of undocumented protocol features.",
+      "iocs": [
+        "PIPEDREAM/INCONTROLLER malware framework (five component binaries)",
+        "MOUSEHOLE: Modbus/TCP scanner and interaction tool",
+        "DUSTTUNNEL: encrypted C2 proxy for covert communication",
+        "EVILSCHOLAR: Schneider Electric Modicon PLC exploitation module (UMAS protocol)",
+        "LAZY: Omron PLC reconnaissance and interaction module",
+        "COALMAN: CODESYS runtime exploitation module",
+        "Scanning activity on Modbus TCP port 502 and OPC UA port 4840",
+        "Exploitation of CVE-2022-45788 (Schneider Electric) and CVE-2022-45789"
+      ],
+      "source_note": "Dragos CHERNOVITE/PIPEDREAM advisory (April 2022); Mandiant INCONTROLLER report (April 2022); CISA/DOE/NSA/FBI Joint Advisory AA22-103A; Schneider Electric and Omron vendor advisories"
+    },
+    {
+      "id": "lazarus_group",
+      "name": "Lazarus Group",
+      "aliases": ["HIDDEN COBRA", "Guardians of Peace", "APT38", "Whois Team", "Dark Seoul", "Zinc", "Nickel Academy", "UNC614", "Labyrinth Chollima"],
+      "nation": "North Korea",
+      "nation_code": "KP",
+      "active": true,
+      "first_seen": "2009",
+      "risk_level": "high",
+      "targeted_sectors": ["energy", "finance", "defense", "manufacturing", "nuclear"],
+      "targeted_regions": ["South Korea", "United States", "Europe", "India", "Japan", "Southeast Asia"],
+      "description": "Lazarus Group is a prolific North Korean state-sponsored threat actor attributed to the Reconnaissance General Bureau (RGB) tasked with both intelligence collection and revenue generation through cybercrime to fund the DPRK regime. While primarily known for financially motivated attacks including the $81M Bangladesh Bank heist and $600M Ronin Network crypto theft, Lazarus has demonstrated sustained interest in energy sector and nuclear/defense targets for strategic intelligence purposes. The group's operational tempo, large size, and diverse mission set make it one of the most active state-sponsored actors globally.",
+      "known_campaigns": [
+        {
+          "name": "Korea Hydro and Nuclear Power (KHNP) Attack",
+          "year": "2014",
+          "description": "Spear-phishing campaign targeting South Korean nuclear power operator Korea Hydro and Nuclear Power. Attackers exfiltrated reactor design documents, employee personal data, and facility maps, and made public threats to cause reactor meltdowns.",
+          "impact": "Exfiltration of sensitive nuclear facility data; significant public alarm; no physical impact on reactor operations confirmed"
+        },
+        {
+          "name": "Operation Dream Job / Energy Sector Targeting",
+          "year": "2020",
+          "description": "Ongoing campaign using fake job offer lures targeting employees at defense contractors, energy companies, and government entities. Delivered custom malware via weaponized documents purportedly from major defense/energy firms.",
+          "impact": "Widespread credential and intellectual property theft from defense and energy sector organizations globally"
+        },
+        {
+          "name": "Crypto Exchange and DeFi Targeting for ICS-Adjacent Funding",
+          "year": "2022",
+          "description": "Lazarus APT38 subgroup stole approximately $620 million from Ronin Network (Axie Infinity) and conducted dozens of cryptocurrency exchange hacks, funding regime programs including weapons development and potentially cyber operations targeting critical infrastructure.",
+          "impact": "Over $3 billion in cryptocurrency stolen 2017-2023 per FBI estimates; funds assessed to support DPRK ballistic missile and nuclear programs"
+        },
+        {
+          "name": "Nuclear/Energy Sector Espionage 2023-2024",
+          "year": "2023",
+          "description": "Campaigns targeting nuclear energy and research organizations in Europe, South Korea, and India using updated malware including LightlessCan and BLINDINGCAN, focused on acquiring nuclear technology and energy sector operational intelligence.",
+          "impact": "Intellectual property theft from nuclear research institutions; scope of OT access not confirmed publicly"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0814", "T0817", "T0820", "T0827",
+        "T0840", "T0845", "T0846", "T0855", "T0858", "T0861", "T0866",
+        "T0869", "T0878", "T0883", "T0884", "T0885", "T0886", "T0888"
+      ],
+      "ttp_summary": "Lazarus Group uses highly targeted spear-phishing campaigns with job offer lures, weaponized documents, and watering holes for initial access. Custom malware families (BLINDINGCAN, LightlessCan, DTrack, HOPLIGHT) provide persistent access, with the group demonstrating capability for credential harvesting, lateral movement, and data exfiltration. In energy and nuclear sector targets, the group focuses on document exfiltration, credential theft, and long-term persistence rather than disruptive OT operations. Lazarus exhibits strong operational security tradecraft, uses wiper malware for anti-forensic cleanup, and routes operations through multi-hop proxy infrastructure including compromised servers in third countries.",
+      "iocs": [
+        "BLINDINGCAN, LightlessCan, DTrack, HOPLIGHT, ELECTRICFISH malware families",
+        "Fake LinkedIn/job portal profiles used as social engineering lures",
+        "Weaponized Office documents with macro or template injection",
+        "Tor and commercial VPN infrastructure for C2 obfuscation",
+        "Custom remote access tools communicating over HTTP/HTTPS to attacker-controlled domains",
+        "Cryptocurrency mixer services (Tornado Cash, ChipMixer) used for money laundering",
+        "Known Lazarus C2 IP ranges in Eastern Europe and Southeast Asia"
+      ],
+      "source_note": "US CISA/FBI/Treasury Advisory AA21-048A; ESET Lazarus research series; Mandiant APT38 report; US DoJ indictment of Park Jin Hyok (2018) and Jon Chang Hyok (2021); Recorded Future DPRK threat reporting"
+    },
+    {
+      "id": "apt33_magnallium",
+      "name": "APT33",
+      "aliases": ["Magnallium", "Elfin", "Refined Kitten", "Holmium", "Peach Sandstorm", "CHRYSENE"],
+      "nation": "Iran",
+      "nation_code": "IR",
+      "active": true,
+      "first_seen": "2013",
+      "risk_level": "high",
+      "targeted_sectors": ["energy", "manufacturing", "defense"],
+      "targeted_regions": ["Saudi Arabia", "United States", "South Korea", "Middle East", "Europe"],
+      "description": "APT33 is an Iranian state-sponsored threat group assessed to operate on behalf of the Islamic Revolutionary Guard Corps (IRGC) with a primary focus on the aviation and energy sectors, particularly Saudi Arabian petrochemical and oil companies. The group has demonstrated both espionage and pre-positioning behavior in industrial environments, with links to destructive wiper malware (SHAMOON 2) campaigns and access brokering for potentially disruptive operations. Dragos tracks significant overlap with this actor under the MAGNALLIUM designation.",
+      "known_campaigns": [
+        {
+          "name": "Saudi Petrochemical and Aviation Targeting",
+          "year": "2016",
+          "description": "Extensive spear-phishing campaign targeting Saudi Arabian aviation and petrochemical companies, including organizations connected to Saudi Aramco. Used DROPSHOT/SHAPESHIFT droppers delivering TURNEDUP backdoor, with recruitment lures for positions at aviation and defense companies.",
+          "impact": "Widespread intellectual property and credential theft from Saudi energy and aviation sectors; pre-positioning in networks of strategic significance"
+        },
+        {
+          "name": "US Electric Utility Password Spraying",
+          "year": "2019",
+          "description": "Large-scale password spraying campaign targeting US electric utilities, oil/gas companies, and defense contractors, attributed by Microsoft (Holmium) and Dragos (MAGNALLIUM). Campaign targeted industrial control system environments specifically.",
+          "impact": "Confirmed access to multiple US energy sector organizations; scope of OT network penetration not fully disclosed"
+        },
+        {
+          "name": "Peach Sandstorm Global Campaigns 2023",
+          "year": "2023",
+          "description": "Microsoft-reported campaign of password spraying and spear-phishing against defense, satellite, pharmaceutical, and critical infrastructure organizations across multiple continents, with use of AzureAD Golden SAML attacks for persistent access.",
+          "impact": "Confirmed breaches at defense and critical infrastructure organizations globally; demonstrated continued capability evolution"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0817", "T0820", "T0827", "T0840",
+        "T0845", "T0846", "T0855", "T0858", "T0861", "T0862", "T0869",
+        "T0878", "T0883", "T0884", "T0885", "T0886"
+      ],
+      "ttp_summary": "APT33/MAGNALLIUM primarily uses spear-phishing with aviation and energy industry recruitment lures and malicious macro-laden documents for initial access, supplemented by large-scale password spraying against Office 365 and internet-facing services. Custom backdoors (TURNEDUP, DROPSHOT, SHAPESHIFT) provide persistent access for credential harvesting, network reconnaissance, and data exfiltration. In energy sector targets, the group conducts OT network mapping and asset discovery, suggesting preparation for potential disruption. The group has demonstrated links to destructive capabilities through association with SHAMOON/DistTrack wiper campaigns targeting Saudi organizations.",
+      "iocs": [
+        "TURNEDUP backdoor and DROPSHOT/SHAPESHIFT dropper malware families",
+        "Spear-phishing domains mimicking aviation, defense, and energy recruitment portals",
+        "Password spraying against Office 365, OWA, and Azure Active Directory",
+        "RevengeRAT and njRAT commodity malware in lower-tier campaigns",
+        "C2 infrastructure using compromised legitimate websites and dynamic DNS",
+        "Malicious .hta files and PowerShell-based loaders",
+        "AzureAD token forgery (Golden SAML) for persistent cloud access"
+      ],
+      "source_note": "Mandiant APT33 report (2017); Microsoft MSTIC Holmium/Peach Sandstorm reporting; Dragos MAGNALLIUM threat group profile; CISA Advisory AA21-321A"
+    },
+    {
+      "id": "apt34_oilrig",
+      "name": "APT34",
+      "aliases": ["OilRig", "Helix Kitten", "Chrysene", "Cobalt Gypsy", "IRN2", "CRAMBUS", "Hazel Sandstorm"],
+      "nation": "Iran",
+      "nation_code": "IR",
+      "active": true,
+      "first_seen": "2014",
+      "risk_level": "high",
+      "targeted_sectors": ["energy", "telecom", "finance", "healthcare", "water"],
+      "targeted_regions": ["Middle East", "Saudi Arabia", "UAE", "Qatar", "Iraq", "Israel", "United States", "Europe"],
+      "description": "APT34 is an Iranian state-sponsored group assessed to work on behalf of the Iranian Ministry of Intelligence and Security (MOIS), with a broad targeting mandate across Middle Eastern critical infrastructure, financial institutions, and government entities. The group is a prolific cyber espionage actor with extensive custom tooling and a long operational history targeting energy companies and telecommunications providers across the Gulf region. APT34 demonstrates strong interest in OT-adjacent intelligence gathering and supply chain compromise to access otherwise isolated industrial environments.",
+      "known_campaigns": [
+        {
+          "name": "Operation Saffron Rose / Iranian Energy Espionage",
+          "year": "2014",
+          "description": "Long-running espionage campaign against energy companies and governments across the Middle East using HELMINTH, QUADAGENT, and POWBAT backdoors. Targeted Saudi Aramco and other Gulf state energy producers for strategic intelligence.",
+          "impact": "Widespread intellectual property and credential theft from Middle Eastern energy sector; sustained long-term access to strategic organizations"
+        },
+        {
+          "name": "DNS Hijacking Campaign (Sea Turtle overlap)",
+          "year": "2019",
+          "description": "APT34 conducted DNS hijacking operations targeting Middle Eastern government, oil/gas, and telecommunications organizations, redirecting traffic to attacker-controlled infrastructure to harvest credentials and intercept communications.",
+          "impact": "Credentials harvested from numerous Middle Eastern energy and government organizations; supply chain and third-party trust relationships compromised"
+        },
+        {
+          "name": "LOPSIDE/BONDUPDATER Campaigns",
+          "year": "2020",
+          "description": "Campaigns against energy and government targets using LOPSIDE backdoor and updated BONDUPDATER tooling, with DNS-based C2 channels for covert persistent access. Targeted Iraqi government and energy sector organizations.",
+          "impact": "Persistent access to Iraqi energy sector and government networks; intelligence collection for Iranian strategic interests"
+        },
+        {
+          "name": "SideTwist and AGENT RACOON Middle East Operations 2023",
+          "year": "2023",
+          "description": "Use of SideTwist backdoor and AGENT RACOON .NET framework against Middle Eastern government and energy targets, with LinkedIn-based social engineering using fake personnel profiles for initial lure delivery.",
+          "impact": "Confirmed access to multiple Middle Eastern government and critical infrastructure organizations"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0817", "T0820", "T0827", "T0840",
+        "T0845", "T0846", "T0855", "T0858", "T0861", "T0862", "T0869",
+        "T0878", "T0882", "T0883", "T0884", "T0885", "T0886", "T0888"
+      ],
+      "ttp_summary": "APT34 employs spear-phishing with highly targeted lures, LinkedIn impersonation of HR and executive personas, and supply chain compromise for initial access. The group maintains a large custom malware portfolio (HELMINTH, POWBAT, QUADAGENT, BONDUPDATER, TONEDEAF, LONGWATCH, LOPSIDE, SideTwist) and uses DNS tunneling as a covert C2 channel resistant to network monitoring. APT34 conducts extensive credential harvesting, lateral movement through internal networks, and maintains persistent, stealthy access for long-duration espionage. In energy sector targets, the group seeks operational data, engineering documents, and credentials that could facilitate future disruptive operations or intelligence advantage.",
+      "iocs": [
+        "HELMINTH, POWBAT, QUADAGENT, BONDUPDATER, TONEDEAF, LONGWATCH, LOPSIDE backdoor families",
+        "DNS tunneling C2 (TXT/A record exfiltration) to attacker-registered domains",
+        "LinkedIn impersonation profiles for social engineering lure delivery",
+        "Spear-phishing using .xlsx, .xlsm, and .docm macro documents",
+        "Password spraying against OWA, VPN portals, and web-based email",
+        "Credential harvesting via fake login portals mirroring target organizations",
+        "Use of legitimate tools: certutil, PowerShell, WMIC for LOLBin execution"
+      ],
+      "source_note": "Mandiant APT34 report (2017); UNIT42 OilRig reporting series; FireEye Helix Kitten research; leaked APT34 tooling (Lab Dookhtegan Telegram 2019); CrowdStrike Helix Kitten adversary profile"
+    },
+    {
+      "id": "triton_temp_veles",
+      "name": "TRITON/TEMP.Veles",
+      "aliases": ["XENOTIME (Dragos)", "TRITON", "TRISIS", "HatMan", "Temp.Veles"],
+      "nation": "Russia",
+      "nation_code": "RU",
+      "active": false,
+      "first_seen": "2017",
+      "risk_level": "critical",
+      "targeted_sectors": ["energy", "manufacturing", "nuclear"],
+      "targeted_regions": ["Saudi Arabia", "Middle East", "Australia", "United States", "Europe"],
+      "description": "TRITON/TEMP.Veles is the threat actor responsible for the 2017 attack on a Saudi Arabian petrochemical facility using the TRITON (also TRISIS/HatMan) malware framework, the first publicly known attack specifically targeting Safety Instrumented Systems (SIS). The attack aimed to disable Schneider Electric Triconex safety controllers, which are designed to prevent catastrophic industrial accidents, indicating an intent to cause physical destruction or mass casualties. The group has been attributed by multiple intelligence organizations to the Russian Central Scientific Research Institute of Chemistry and Mechanics (CNIIHM/TsNIIKhM) in Moscow.",
+      "known_campaigns": [
+        {
+          "name": "Saudi Petrochemical Facility TRITON Attack",
+          "year": "2017",
+          "description": "Attackers with two years of prior dwell time in the target network deployed TRITON malware against Schneider Electric Triconex SIS controllers at a Middle Eastern petrochemical facility. The malware attempted to reprogram safety controllers to fail-safe or inoperative states. The attack was inadvertently detected when a logic error caused SIS controllers to enter a safe state and shut down the plant.",
+          "impact": "Unintentional plant shutdown triggered by malware bug revealed the attack; if successful, could have caused catastrophic explosion or chemical release; first ICS attack with credible mass casualty intent"
+        },
+        {
+          "name": "XENOTIME Global SIS Reconnaissance 2018-2019",
+          "year": "2019",
+          "description": "Post-TRITON discovery, Dragos (tracking as XENOTIME) identified the group conducting reconnaissance against safety instrumented system vendors, electric utilities in the US and APAC, and oil/gas organizations globally. The group appeared to be developing capabilities for future SIS-targeting attacks.",
+          "impact": "Reconnaissance across multiple critical infrastructure verticals globally; no confirmed second destructive deployment identified; demonstrated capability persistence"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0802", "T0803", "T0806", "T0816", "T0820",
+        "T0821", "T0822", "T0827", "T0828", "T0831", "T0836", "T0840",
+        "T0843", "T0845", "T0856", "T0857", "T0858", "T0878", "T0880",
+        "T0881", "T0882", "T0883", "T0884"
+      ],
+      "ttp_summary": "TEMP.Veles conducted an extensive multi-year intrusion into the target network before deploying TRITON, demonstrating exceptional patience and operational security. Initial access was achieved via spear-phishing and exploitation of internet-facing services, followed by lateral movement using standard penetration testing tools (Mimikatz, Empire) and custom backdoors (CRYPTSP, POWERPOOL, TAFACALITE). The group carefully segregated IT and OT network operations, used a dedicated attack framework with hardware-backed key protection, and deployed TRITON via an engineering workstation with legitimate access to the Triconex SIS over TriStation protocol. The malware contained sophisticated knowledge of Triconex firmware internals, Triconex communication protocols, and safety system logic, indicating significant research investment by CNIIHM researchers.",
+      "iocs": [
+        "TRITON/TRISIS/HatMan malware framework targeting Triconex Tricon controllers",
+        "CRYPTSP, POWERPOOL, TAFACALITE custom backdoor malware families",
+        "Impacket, Mimikatz, and SECRETSDUMP for credential harvesting",
+        "NetExec/CrackMapExec for lateral movement",
+        "Custom Triconex TriStation protocol implementation library",
+        "Engineering workstation artifacts: trilog.exe and TS1131.exe",
+        "VPN access from CNIIHM-associated IP address blocks (Russia)",
+        "Attacker-controlled C2 infrastructure in European hosting providers"
+      ],
+      "source_note": "Dragos XENOTIME profile and TRISIS analysis; Mandiant TEMP.Veles report (2017, 2019 update); CISA Alert ICS-CERT; FBI/CISA attribution to Russia CNIIHM (2022); FireEye TRITON malware research"
+    },
+    {
+      "id": "hexane_lyceum",
+      "name": "HEXANE",
+      "aliases": ["Lyceum", "Spirlin", "Siamesekitten", "DEV-0343", "Cobalt Lyceum"],
+      "nation": "Iran",
+      "nation_code": "IR",
+      "active": true,
+      "first_seen": "2017",
+      "risk_level": "high",
+      "targeted_sectors": ["energy", "telecom", "manufacturing"],
+      "targeted_regions": ["Middle East", "Africa", "Kuwait", "Saudi Arabia", "UAE", "Tunisia", "Morocco", "Israel"],
+      "description": "HEXANE is an Iranian state-sponsored threat group with a primary focus on oil and gas companies and telecommunications providers in the Middle East and Africa. The group is assessed to work on behalf of Iranian intelligence services and is distinguished by its targeting of IT/OT convergence points within oil and gas operations, including DNS manipulation targeting telecom providers to enable downstream supply chain access to energy sector targets. HEXANE has been linked to the broader Iranian cyber espionage apparatus alongside APT33 and APT34.",
+      "known_campaigns": [
+        {
+          "name": "Kuwait and Saudi Oil/Gas Espionage",
+          "year": "2018",
+          "description": "Targeted intrusion campaign against Kuwaiti and Saudi Arabian oil and gas companies using spear-phishing with macro-embedded documents. Deployed custom backdoors including VIVIDGOPHER and GORAT for persistent access and intelligence collection from operational technology environments.",
+          "impact": "Intellectual property and operational data theft from Gulf state oil and gas sector; duration of access in OT-adjacent environments suggests systematic collection"
+        },
+        {
+          "name": "Telecom DNS Hijacking for Energy Sector Access",
+          "year": "2019",
+          "description": "Campaign targeting telecommunications providers in the Middle East and Africa with DNS hijacking and credential harvesting objectives, assessed to be preparatory for downstream attacks on oil and gas organizations reliant on telecom infrastructure.",
+          "impact": "Multiple telecom providers compromised; DNS infrastructure manipulated to intercept credentials; enables passive collection against energy sector communications"
+        },
+        {
+          "name": "LYCEUM DNSpionage-related Campaigns",
+          "year": "2020",
+          "description": "Cisco Talos and Dragos documented updated HEXANE/Lyceum tooling targeting oil/gas and telecom organizations in the Middle East. Used Excel macro-based droppers delivering updated GORAT and VIVIDGOPHER backdoors with DNS-tunneled C2.",
+          "impact": "Sustained access to Middle Eastern energy and telecom sectors; DNS-based C2 made detection difficult for organizations without full packet capture"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0817", "T0820", "T0827", "T0840",
+        "T0845", "T0846", "T0855", "T0858", "T0861", "T0869", "T0878",
+        "T0882", "T0883", "T0884", "T0885", "T0886"
+      ],
+      "ttp_summary": "HEXANE uses targeted spear-phishing with oil and gas industry lures and macro-laced Excel documents to deliver custom backdoors. The group employs DNS tunneling as a primary C2 mechanism, embedding data in DNS TXT and A record queries to evade network monitoring. HEXANE conducts credential harvesting via keyloggers and credential dumping tools, followed by lateral movement through OT-adjacent engineering networks. The group's telecom targeting strategy reflects a sophisticated approach to supply chain compromise, using telecom infrastructure access to intercept credentials and communications of downstream energy sector targets.",
+      "iocs": [
+        "VIVIDGOPHER, GORAT, and JULEFILETRACK custom backdoor families",
+        "DNS tunneling C2 using attacker-registered domains with TXT record exfiltration",
+        "Excel macro droppers (.xlsm) with oil/gas industry HR and project document lures",
+        "Keylogger components for credential collection",
+        "PowerShell-based loaders and in-memory execution techniques",
+        "Compromised telecom provider DNS infrastructure",
+        "C2 infrastructure in European and Middle Eastern hosting providers"
+      ],
+      "source_note": "Dragos HEXANE threat group profile; ClearSky Siamesekitten report; Cisco Talos Lyceum/DNSpionage research; SecureWorks Cobalt Lyceum analysis; Microsoft DEV-0343 advisory"
+    },
+    {
+      "id": "volt_typhoon",
+      "name": "Volt Typhoon",
+      "aliases": ["VANGUARD PANDA", "Bronze Silhouette", "Dev-0391", "UNC3236", "Voltzite (partial)", "Insidious Taurus"],
+      "nation": "China",
+      "nation_code": "CN",
+      "active": true,
+      "first_seen": "2021",
+      "risk_level": "critical",
+      "targeted_sectors": ["energy", "water", "transportation", "telecom", "defense", "manufacturing"],
+      "targeted_regions": ["United States", "Guam", "Pacific Islands", "Australia", "United Kingdom", "Canada", "New Zealand"],
+      "description": "Volt Typhoon is a Chinese state-sponsored threat actor attributed to the People's Liberation Army (PLA) that has conducted sustained pre-positioning operations within US critical infrastructure since at least 2021, with confirmed intrusions at organizations across energy, water, transportation, and communications sectors. The US Intelligence Community and Five Eyes governments have assessed that Volt Typhoon is pre-positioning for potential disruptive or destructive cyberattacks that could be activated during a conflict scenario, particularly around Taiwan. The group's distinctive use of living-off-the-land techniques and compromise of SOHO network devices as operational relay boxes makes detection exceptionally difficult.",
+      "known_campaigns": [
+        {
+          "name": "US Critical Infrastructure Pre-Positioning 2021-2024",
+          "year": "2021",
+          "description": "Sustained, multi-year campaign compromising US electric utilities, water systems, transportation infrastructure, and communications providers with the goal of achieving persistent access that could be leveraged for disruption during a geopolitical crisis. CISA confirmed compromises at multiple critical infrastructure organizations lasting up to five years.",
+          "impact": "Confirmed long-term access to US critical infrastructure across multiple sectors; intelligence community assessed intent to pre-position for potential disruption concurrent with military conflict over Taiwan"
+        },
+        {
+          "name": "Guam Telecom and Military Infrastructure",
+          "year": "2023",
+          "description": "Microsoft identified Volt Typhoon intrusions at organizations in Guam with particular focus on telecommunications infrastructure, assessed as strategically significant due to Guam's role as a critical US military hub in the Western Pacific. Used web shells on Fortinet FortiGuard devices for initial access.",
+          "impact": "Persistent access to Guam communications infrastructure; strategic significance due to proximity to potential Taiwan conflict theater"
+        },
+        {
+          "name": "KV-Botnet SOHO Router Compromise",
+          "year": "2023",
+          "description": "Volt Typhoon operated a botnet of hundreds of compromised SOHO routers, firewalls, and VPN appliances (Cisco RV320, DrayTek Vigor, Netgear ProSAFE, Axis IP cameras) in the US as proxy infrastructure to route operational traffic and obscure true origin of intrusions into critical infrastructure.",
+          "impact": "Hundreds of US-based devices compromised as relay infrastructure; FBI disrupted botnet in January 2024 but underlying intrusion activity continued"
+        },
+        {
+          "name": "Water Sector and OT Environment Targeting",
+          "year": "2024",
+          "description": "CISA confirmed Volt Typhoon activity targeting US water and wastewater systems, with evidence of OT network reconnaissance including observation of HMI screens and process control systems without confirmed destructive action.",
+          "impact": "OT reconnaissance at US water utilities; demonstrated expansion beyond energy sector to water critical infrastructure"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0840", "T0845", "T0846", "T0855",
+        "T0858", "T0861", "T0869", "T0878", "T0883", "T0884", "T0885",
+        "T0886", "T0888", "T0889", "T0891"
+      ],
+      "ttp_summary": "Volt Typhoon's defining characteristic is near-exclusive reliance on living-off-the-land techniques, using native Windows utilities (wmic, ntdsutil, netsh, PowerShell) to minimize malware deployment and avoid signature-based detection. Initial access is achieved through exploitation of internet-facing appliances (Fortinet, Ivanti, Citrix, Cisco) and VPN vulnerabilities. The group uses compromised SOHO routers as operational relay boxes to proxy C2 traffic through US domestic infrastructure, making geographic-based network filtering ineffective. In OT environments, Volt Typhoon conducts careful reconnaissance of ICS asset inventories, network topology, and operational procedures without triggering disruption, consistent with pre-positioning for use during a future contingency rather than immediate offensive action.",
+      "iocs": [
+        "Exploitation of Fortinet FortiOS (CVE-2022-40684, CVE-2023-27997), Ivanti, and Citrix appliances",
+        "Compromised SOHO routers (Cisco RV320/325, DrayTek Vigor, Netgear) as ORB proxy nodes",
+        "Living-off-the-land: wmic, ntdsutil, netsh, PowerShell, certutil, Mshta",
+        "Web shells on internet-facing appliances (WEBSIIC, various custom web shells)",
+        "Ntds.dit and SYSTEM hive dumping for offline credential extraction",
+        "Customized versions of open-source tools: FRP, Earthworm proxy",
+        "Exfiltration of Active Directory data, GIS files, and OT asset inventories",
+        "KV-Botnet: compromised US-based SOHO device relay network"
+      ],
+      "source_note": "Microsoft MSTIC Volt Typhoon advisory (May 2023); CISA Advisory AA24-038A (February 2024); Five Eyes Joint Advisory AA23-144A; FBI affidavit re KV-Botnet disruption (January 2024); Lumen Black Lotus Labs KV-Botnet research"
+    },
+    {
+      "id": "blackenergy_quedagh",
+      "name": "BlackEnergy/Quedagh",
+      "aliases": ["Sandworm (parent group)", "TeleBots", "ELECTRUM (Dragos)", "Quedagh", "BlackEnergy Group"],
+      "nation": "Russia",
+      "nation_code": "RU",
+      "active": false,
+      "first_seen": "2007",
+      "risk_level": "high",
+      "targeted_sectors": ["energy", "manufacturing", "transportation"],
+      "targeted_regions": ["Ukraine", "Russia", "Poland", "Georgia", "European Union"],
+      "description": "BlackEnergy refers to both a modular malware family and the associated threat actor (Quedagh/Sandworm subgroup) responsible for deploying it against Ukrainian industrial targets from approximately 2014 onward. The BlackEnergy 3 malware was adapted for ICS targeting with plugins designed to harvest credentials from SCADA HMI software (GE Cimplicity, Siemens WinCC, Advantech WebAccess), enabling the December 2015 Ukrainian power grid attacks. This actor profile represents the earlier operational phase of what became Sandworm's sustained campaign against Ukrainian critical infrastructure.",
+      "known_campaigns": [
+        {
+          "name": "Ukrainian ICS/HMI Targeting 2014-2015",
+          "year": "2014",
+          "description": "Deployment of BlackEnergy 3 with ICS-specific plugins against Ukrainian energy, mining, and rail companies. Plugins harvested credentials from SCADA HMI software and provided remote access capabilities enabling the 2015 power grid attacks.",
+          "impact": "Credential harvesting from Ukrainian SCADA environments; pre-positioning enabling 2015 power outage attacks"
+        },
+        {
+          "name": "Ukrainian Power Grid 2015",
+          "year": "2015",
+          "description": "See Sandworm entry. BlackEnergy malware was the primary intrusion vehicle for the December 2015 power outage attacks against three Ukrainian electricity distribution companies.",
+          "impact": "225,000 customers without power; first confirmed cyberattack causing a physical power outage"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0814", "T0817", "T0820", "T0821",
+        "T0822", "T0827", "T0836", "T0840", "T0845", "T0855", "T0856",
+        "T0858", "T0861", "T0878", "T0880"
+      ],
+      "ttp_summary": "The BlackEnergy/Quedagh operational phase was characterized by deployment of the modular BlackEnergy 3 botnet malware with ICS-specific plugins targeting SCADA HMI software credential stores. Initial access used spear-phishing with malicious Microsoft Word and Excel files exploiting macro execution. Once established, ICS-specific plugins harvested credentials from GE Cimplicity, Siemens WinCC, and Advantech WebAccess installations. The KillDisk plugin was deployed to destroy MBR and overwrite files during the final destructive phase of attacks, complementing manual attacker operations to open circuit breakers and disable UPS systems.",
+      "iocs": [
+        "BlackEnergy 3 malware family and associated ICS plugin modules",
+        "GE Cimplicity, Siemens WinCC, and Advantech WebAccess credential harvesting plugins",
+        "KillDisk destructive component (MBR overwrite and file deletion)",
+        "Spear-phishing documents with malicious Office macro execution",
+        "SSH backdoor (g0ne backdoor) for persistent remote access",
+        "VPN and RDP remote access using harvested legitimate credentials",
+        "Telephony denial-of-service tools targeting utility customer call centers"
+      ],
+      "source_note": "SANS ICS BlackEnergy analysis; iSight Partners BlackEnergy Quedagh report (2014); ESET BlackEnergy in Ukrainian ICS (2016); US-CERT ICS-CERT advisory (ICS-ALERT-14-281-01B)"
+    },
+    {
+      "id": "xenotime",
+      "name": "XENOTIME",
+      "aliases": ["TEMP.Veles", "TRITON Group", "Sandstorm (informal)"],
+      "nation": "Russia",
+      "nation_code": "RU",
+      "active": false,
+      "first_seen": "2014",
+      "risk_level": "critical",
+      "targeted_sectors": ["energy", "manufacturing", "nuclear"],
+      "targeted_regions": ["Saudi Arabia", "Middle East", "United States", "Australia", "Europe"],
+      "description": "XENOTIME is the Dragos designation for the threat group responsible for the TRITON/TRISIS safety instrumented system attack and is tracked separately from TEMP.Veles (Mandiant/FireEye designation) due to observed post-incident capability expansion. XENOTIME is unique among ICS threat actors in having demonstrated both the intent and the technical capability to attack safety systems designed to prevent industrial catastrophes, making it the most dangerous known ICS threat group. Post-TRITON, Dragos tracked XENOTIME conducting SIS reconnaissance against additional verticals including US electric utilities and oil/gas worldwide.",
+      "known_campaigns": [
+        {
+          "name": "TRITON SIS Attack",
+          "year": "2017",
+          "description": "See TRITON/TEMP.Veles entry. XENOTIME deployed TRITON malware against Schneider Electric Triconex SIS controllers at a Saudi Arabian petrochemical facility.",
+          "impact": "Unintended plant shutdown; credible mass casualty intent; first known attack on safety instrumented systems"
+        },
+        {
+          "name": "Global SIS and Electric Utility Reconnaissance",
+          "year": "2019",
+          "description": "Dragos identified XENOTIME conducting network reconnaissance against SIS vendors, electric utilities in North America and APAC, and additional oil/gas facilities globally following the public disclosure of TRITON. Activity included scanning for Triconex and other SIS vendor products.",
+          "impact": "Reconnaissance confirmed at multiple electric utility and oil/gas organizations; no confirmed second deployment"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0802", "T0803", "T0806", "T0816", "T0820",
+        "T0821", "T0822", "T0827", "T0828", "T0836", "T0840", "T0843",
+        "T0845", "T0855", "T0856", "T0857", "T0858", "T0878", "T0880",
+        "T0881", "T0882", "T0884"
+      ],
+      "ttp_summary": "XENOTIME's most significant capability is TRITON, a malware framework with deep knowledge of Triconex Tricon hardware, firmware, and the proprietary TriStation protocol. The group conducts multi-year intrusions before deploying ICS-targeting capabilities, using standard IT penetration testing tools for initial access and lateral movement while maintaining careful operational security to avoid early detection. The TRITON framework communicates directly with SIS controllers over TriStation, modifies safety logic, and can cause safety systems to fail to respond during an emergency — potentially enabling catastrophic industrial accidents. Post-TRITON reconnaissance activity demonstrates intent to develop additional SIS-targeting capabilities and expand targeting beyond petrochemicals.",
+      "iocs": [
+        "TRITON/TRISIS/HatMan malware framework binaries",
+        "trilog.exe and TS1131.exe engineering workstation artifacts",
+        "TriStation protocol implementation (impacket-based network library)",
+        "CRYPTSP, POWERPOOL custom backdoor families",
+        "Scanning for Triconex, Emerson DeltaV, ABB, Yokogawa SIS products",
+        "VPN access from Russia-associated IP ranges",
+        "SECRETSDUMP and Mimikatz credential harvesting tools"
+      ],
+      "source_note": "Dragos XENOTIME threat group profile and Year in Review reports; Mandiant TEMP.Veles TRITON analysis; CISA ICS Advisory (ICSA-18-107-03); Schneider Electric TRITON security advisory"
+    },
+    {
+      "id": "apt40",
+      "name": "APT40",
+      "aliases": ["BRONZE MOHAWK", "TEMP.Periscope", "Leviathan", "Mudcarp", "Kryptonite Panda", "Gingham Typhoon", "TA423"],
+      "nation": "China",
+      "nation_code": "CN",
+      "active": true,
+      "first_seen": "2013",
+      "risk_level": "high",
+      "targeted_sectors": ["defense", "manufacturing", "transportation", "energy", "telecom"],
+      "targeted_regions": ["United States", "Western Europe", "South Asia", "Southeast Asia", "Pacific Islands", "Australia"],
+      "description": "APT40 is a Chinese state-sponsored threat group attributed to the Hainan State Security Department, a regional arm of China's Ministry of State Security (MSS). The group has a primary focus on maritime engineering, defense, and research and development organizations, with documented targeting of naval architecture firms, shipyards, defense contractors, and research universities. APT40 also targets critical infrastructure organizations in the Indo-Pacific region as part of broader Chinese intelligence collection and pre-positioning objectives, with particular interest in transportation and maritime logistics infrastructure.",
+      "known_campaigns": [
+        {
+          "name": "Operation Celeste / Maritime and Naval Engineering Espionage",
+          "year": "2013",
+          "description": "Long-running campaign targeting maritime engineering firms, naval research institutions, and defense contractors with access to undersea systems, submarine technology, and naval architecture data. Targeted organizations working on US Navy programs.",
+          "impact": "Significant intellectual property theft from defense maritime programs; DoJ indictment of Hainan State Security Department officers in 2021"
+        },
+        {
+          "name": "COVID-19 Research Targeting 2020",
+          "year": "2020",
+          "description": "FBI/CISA flash advisory warned of APT40 targeting US research organizations, pharmaceutical companies, and healthcare systems conducting COVID-19 research and vaccine development.",
+          "impact": "Attempted theft of COVID-19 research data; confirmed intrusions at research organizations"
+        },
+        {
+          "name": "Australian Critical Infrastructure and Government Targeting",
+          "year": "2021",
+          "description": "Australian Cyber Security Centre (ACSC) attributed a pattern of intrusions against Australian critical infrastructure, government, and private sector organizations to APT40, including targeting of energy and manufacturing sectors.",
+          "impact": "Widespread intellectual property and government data theft from Australian organizations; confirmed by Australian government attribution statement"
+        },
+        {
+          "name": "Pacific Islands Infrastructure Targeting 2023",
+          "year": "2023",
+          "description": "CISA and Five Eyes partners identified APT40 conducting intrusions against Pacific Island critical infrastructure and government organizations, consistent with Chinese strategic interest in the region amid US-China competition.",
+          "impact": "Intelligence collection and potential pre-positioning in Pacific Island critical infrastructure"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0817", "T0820", "T0827", "T0840",
+        "T0845", "T0846", "T0855", "T0858", "T0861", "T0862", "T0869",
+        "T0878", "T0882", "T0883", "T0884", "T0885", "T0886", "T0888"
+      ],
+      "ttp_summary": "APT40 uses web application exploitation, spear-phishing with defense and maritime industry lures, and supply chain compromise for initial access. The group favors exploitation of public-facing applications (web servers, VPN appliances, Exchange servers) and uses a mix of custom and open-source tooling including AIRBREAK, FRESHAIR, LUNCHMONEY, and ScanBox reconnaissance framework. APT40 is adept at exploiting recently patched vulnerabilities within days of PoC release (rapid vulnerability exploitation). In OT-adjacent environments, the group collects engineering schematics, operational procedures, and network architecture documentation. The group demonstrates strong operational security with regular infrastructure rotation and use of compromised legitimate websites for C2.",
+      "iocs": [
+        "AIRBREAK JavaScript backdoor delivered via watering hole or phishing",
+        "FRESHAIR and LUNCHMONEY backdoor malware families",
+        "ScanBox reconnaissance framework deployed on compromised web servers",
+        "Exploitation of Exchange, Pulse Secure VPN, and Citrix vulnerabilities",
+        "Cobalt Strike beacon with custom malleable C2 profiles",
+        "Compromised Australian and regional web servers as C2 relay infrastructure",
+        "Password spraying against Office 365 and web-based email portals"
+      ],
+      "source_note": "US DoJ indictment of Hainan State Security Department officers (2021); CISA Advisory AA21-200A; ACSC APT40 advisory; Mandiant TEMP.Periscope report; Five Eyes Advisory AA23-144A"
+    },
+    {
+      "id": "muddywater",
+      "name": "MuddyWater",
+      "aliases": ["Static Kitten", "Seedworm", "TEMP.Zagros", "Mercury", "MANGO SANDSTORM", "TA450", "ITG17"],
+      "nation": "Iran",
+      "nation_code": "IR",
+      "active": true,
+      "first_seen": "2017",
+      "risk_level": "medium",
+      "targeted_sectors": ["telecom", "energy", "manufacturing", "healthcare"],
+      "targeted_regions": ["Middle East", "Turkey", "Azerbaijan", "Pakistan", "Afghanistan", "Europe", "United States"],
+      "description": "MuddyWater is an Iranian state-sponsored threat group attributed by the US Government to Iran's Ministry of Intelligence and Security (MOIS), with a primary focus on government, telecommunications, and defense organizations across the Middle East, Central Asia, and Europe. While primarily an espionage actor, MuddyWater has demonstrated interest in critical infrastructure targets including energy and telecommunications providers, and has been observed deploying ransomware against Israeli organizations as a disruptive/destructive operation. The group is prolific and technically active, regularly updating its toolset.",
+      "known_campaigns": [
+        {
+          "name": "Middle East Telecom and Government Espionage",
+          "year": "2017",
+          "description": "Broad espionage campaign targeting government ministries, telecommunications companies, and defense organizations across the Middle East using PowerShell-based malware (POWERSTATS/Muddy RAT) delivered via spear-phishing.",
+          "impact": "Widespread credential and data theft from Middle Eastern government and telecom sectors"
+        },
+        {
+          "name": "Israeli Critical Infrastructure Targeting with Ransomware",
+          "year": "2022",
+          "description": "Attributed Iranian operation deploying Moses Staff and AgriDDoS ransomware-like tools against Israeli organizations including critical infrastructure, assessed as politically motivated disruption rather than financial gain.",
+          "impact": "Disruptive impact on Israeli organizations including some critical infrastructure entities"
+        },
+        {
+          "name": "MANGO SANDSTORM / Global Telecom Targeting 2023",
+          "year": "2023",
+          "description": "Microsoft-documented campaigns targeting telecom, government, and defense organizations globally using RemoteUtilities, ScreenConnect, and custom tooling for persistent remote access and data collection.",
+          "impact": "Confirmed intrusions at telecom and government organizations across Middle East, Europe, and beyond"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0817", "T0820", "T0827", "T0840",
+        "T0845", "T0846", "T0855", "T0858", "T0861", "T0869", "T0878",
+        "T0882", "T0883", "T0884", "T0885", "T0886"
+      ],
+      "ttp_summary": "MuddyWater relies heavily on PowerShell-based malware (POWERSTATS, SHARPSTATS, PhonyC2) delivered via macro-enabled Office documents and spear-phishing. The group frequently uses legitimate remote management tools (RemoteUtilities, Atera, ScreenConnect, SimpleHelp) as C2 mechanisms to blend with normal IT operations. MuddyWater conducts credential harvesting, lateral movement via stolen credentials, and persistent data collection from victim environments. The group regularly updates and switches tooling in response to public disclosures. In ICS-adjacent targeting, MuddyWater focuses on IT network access to operational organizations rather than direct OT interaction.",
+      "iocs": [
+        "POWERSTATS (MuddyC3), SHARPSTATS, PhonyC2 backdoor frameworks",
+        "Abuse of legitimate RMM tools: RemoteUtilities, Atera Agent, ScreenConnect",
+        "Macro-enabled Office documents with PowerShell execution chains",
+        "Publicly available tools: Invoke-Obfuscation, PoshC2, SQLRAT",
+        "Spear-phishing using government and telecom sector document lures",
+        "C2 infrastructure using compromised websites and dedicated attacker-controlled VPS",
+        "Moses Staff ransomware/wiper (disruptive operations against Israel)"
+      ],
+      "source_note": "CISA/FBI/CYBERCOM Advisory AA22-055A (attribution to MOIS); Cisco Talos MuddyWater research series; Symantec Seedworm reporting; Microsoft MANGO SANDSTORM profile; Clearsky MuddyWater attribution"
+    },
+    {
+      "id": "kimsuky",
+      "name": "Kimsuky",
+      "aliases": ["Thallium", "Velvet Chollima", "Black Banshee", "STOLEN PENCIL", "APT43", "Springtail", "TA427", "Emerald Sleet"],
+      "nation": "North Korea",
+      "nation_code": "KP",
+      "active": true,
+      "first_seen": "2012",
+      "risk_level": "medium",
+      "targeted_sectors": ["energy", "defense", "nuclear"],
+      "targeted_regions": ["South Korea", "United States", "Japan", "Europe", "Russia", "United Nations"],
+      "description": "Kimsuky is a North Korean state-sponsored threat group attributed to the Reconnaissance General Bureau (RGB) with a primary focus on intelligence collection supporting North Korean foreign policy, nuclear and missile program development, and sanctions evasion objectives. The group targets think tanks, research institutions, government entities, energy companies, and nuclear sector organizations for strategic intelligence. Kimsuky employs sophisticated social engineering campaigns and has demonstrated interest in nuclear technology and energy sector intellectual property relevant to DPRK weapons development programs.",
+      "known_campaigns": [
+        {
+          "name": "Operation Kimsuky / Korean Government and Think Tank Targeting",
+          "year": "2012",
+          "description": "Initial documented Kimsuky campaigns targeting South Korean government, think tanks, and policy organizations for intelligence on Korean unification policy, North Korea sanctions, and US-ROK military planning.",
+          "impact": "Widespread intelligence theft from South Korean policy and government communities; long-term persistent access to strategic organizations"
+        },
+        {
+          "name": "Nuclear Energy and Weapons Research Espionage",
+          "year": "2019",
+          "description": "Targeted campaigns against nuclear energy researchers, IAEA-connected organizations, and nuclear weapons policy institutes in the US, Europe, and South Korea. Used BABYSHARK and APPLESEED malware families.",
+          "impact": "Intellectual property theft from nuclear research organizations; intelligence collection on international nuclear verification and disarmament discussions"
+        },
+        {
+          "name": "Operation GoldDragon / COVID and Sanctions Targeting",
+          "year": "2021",
+          "description": "Kimsuky targeting of COVID-19 response organizations, pharmaceutical companies, and sanctions enforcement bodies. Demonstrated adaptability in targeting based on current DPRK intelligence priorities.",
+          "impact": "Espionage data collected from COVID research and sanctions monitoring organizations"
+        },
+        {
+          "name": "Emerald Sleet Spear-Phishing Campaigns 2023-2024",
+          "year": "2023",
+          "description": "Microsoft-tracked sustained spear-phishing campaign targeting defense, energy, and government organizations. Used detailed reconnaissance to craft highly personalized lures, impersonating journalists, academics, and think tank experts. Deployed TRANSLATEXT Chrome extension for credential theft.",
+          "impact": "Ongoing credential and intellectual property theft from defense and energy sector globally"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0817", "T0820", "T0827", "T0840",
+        "T0845", "T0846", "T0855", "T0858", "T0861", "T0869", "T0878",
+        "T0883", "T0884", "T0885", "T0886"
+      ],
+      "ttp_summary": "Kimsuky is characterized by sophisticated, personalized social engineering including impersonation of journalists, academics, policy experts, and government officials to build trust before delivering malicious payloads. The group uses browser extension-based credential theft, custom backdoors (BABYSHARK, APPLESEED, PENCILDOWN, AppleSeed), and commodity RATs for persistent access. Kimsuky conducts detailed reconnaissance before contact, reviewing targets' public research, social media, and professional connections to craft believable lures. In energy sector targeting, Kimsuky focuses on nuclear technology, energy policy intelligence, and credentials that could enable access to nuclear research networks.",
+      "iocs": [
+        "BABYSHARK PowerShell-based reconnaissance and backdoor malware",
+        "APPLESEED backdoor (APT43 attribution) for persistent access",
+        "TRANSLATEXT malicious Chrome extension for credential/cookie theft",
+        "Spear-phishing from impersonated academic, journalist, and government email accounts",
+        "BabyShark maldoc templates with obfuscated PowerShell execution",
+        "C2 using attacker-registered domains mimicking legitimate news and policy organizations",
+        "Use of Hwp (Korean Hangul Word Processor) exploit documents",
+        "Credential phishing portals mimicking Google, Naver, and institutional email portals"
+      ],
+      "source_note": "CISA/FBI/NSA Advisory AA20-301A; Mandiant APT43 report (2023); Microsoft Emerald Sleet/Thallium research; KISA (Korean Internet and Security Agency) Kimsuky reporting; South Korean NIS attribution"
+    },
+    {
+      "id": "ghostwriter",
+      "name": "Ghostwriter",
+      "aliases": ["UNC1151", "BEACON BADGER", "Minsk-nexus", "UAC-0051"],
+      "nation": "Belarus",
+      "nation_code": "BY",
+      "active": true,
+      "first_seen": "2016",
+      "risk_level": "medium",
+      "targeted_sectors": ["energy", "defense", "transportation"],
+      "targeted_regions": ["Ukraine", "Poland", "Lithuania", "Latvia", "Germany", "Europe"],
+      "description": "Ghostwriter is a threat actor assessed by Mandiant to be associated with the Belarusian government (with possible Russian coordination) that primarily conducts influence operations using fabricated content attributed to NATO officials, targeting European audiences with anti-NATO and anti-US narratives. Beyond information operations, Ghostwriter has been linked to network intrusion activity targeting Ukrainian and Polish critical infrastructure, government websites, and military organizations, particularly in the context of the Russia-Ukraine conflict. The group's combination of influence operations and OT-adjacent network intrusions represents an emerging hybrid warfare pattern.",
+      "known_campaigns": [
+        {
+          "name": "NATO Narrative Influence Operations 2016-2020",
+          "year": "2016",
+          "description": "Long-running influence operation planting fabricated content on compromised news websites and social media, attributing anti-NATO statements to Polish, Lithuanian, and German officials. Aimed at undermining public support for NATO in Eastern Europe.",
+          "impact": "Degraded public trust in NATO in targeted regions; fabricated content picked up by some media outlets before debunking"
+        },
+        {
+          "name": "Ukrainian Government Website Defacements 2022",
+          "year": "2022",
+          "description": "In the lead-up to and during the Russian invasion of Ukraine, Ghostwriter/UNC1151 was linked to defacement of Ukrainian government websites with threatening messages, destruction of data, and deployment of destructive malware (WhisperGate) against Ukrainian government and critical infrastructure organizations.",
+          "impact": "Ukrainian government websites defaced; WhisperGate wiper deployed against Ukrainian IT and critical infrastructure in January 2022"
+        },
+        {
+          "name": "Polish and Baltic State Targeting 2022-2023",
+          "year": "2022",
+          "description": "Targeting of Polish government organizations, transportation infrastructure, and energy sector with spear-phishing campaigns as Poland increased support for Ukraine. Consistent with Belarusian/Russian interest in disrupting Western support for Ukraine.",
+          "impact": "Intrusion activity at Polish infrastructure and government organizations; broader influence operations continued in parallel"
+        },
+        {
+          "name": "Ukrainian Critical Infrastructure Cyber Operations 2023",
+          "year": "2023",
+          "description": "CERT-UA tracked UAC-0051 (Ghostwriter) conducting ongoing spear-phishing campaigns against Ukrainian military, energy sector, and government organizations, delivering PICASSO backdoor and other tooling for intelligence collection.",
+          "impact": "Persistent access to Ukrainian military and energy sector organizations during ongoing conflict"
+        }
+      ],
+      "mitre_techniques": [
+        "T0800", "T0801", "T0807", "T0817", "T0820", "T0827", "T0840",
+        "T0845", "T0846", "T0855", "T0858", "T0861", "T0878", "T0882",
+        "T0883", "T0884", "T0885", "T0886"
+      ],
+      "ttp_summary": "Ghostwriter combines conventional network intrusion operations with sophisticated influence campaigns. For network operations, the group uses spear-phishing with Ukrainian/Polish government lures, exploitation of web content management systems for website compromise, and deployment of Cobalt Strike and custom backdoors (PICASSO, DEWDROP) for persistent access. The group conducts credential harvesting and lateral movement within government and critical infrastructure networks, with a focus on collecting sensitive documents and communications for use in influence operations. For influence operations, Ghostwriter uses compromised news websites (OAN, website CMS compromise), fabricated documents attributed to officials, and social media amplification to spread disinformation targeting European audiences on NATO and Ukraine war narratives.",
+      "iocs": [
+        "PICASSO backdoor (RAT delivered via spear-phishing to Ukrainian targets)",
+        "DEWDROP in-memory backdoor loader",
+        "WhisperGate destructive wiper (co-deployed with Ghostwriter-adjacent activity)",
+        "Cobalt Strike beacon with default or minimally modified profiles",
+        "Exploitation of website CMS vulnerabilities for content injection",
+        "Spear-phishing domains mimicking Ukrainian government and EU organization portals",
+        "Fake social media accounts and compromised news website CMS for disinformation",
+        "Credential phishing portals targeting Ukrainian and Polish government users"
+      ],
+      "source_note": "Mandiant UNC1151/Ghostwriter report (2021, 2022); EU Council and NATO statements on Ghostwriter attribution to Belarus; CERT-UA UAC-0051 advisories; Meta and Twitter takedowns of Ghostwriter-linked accounts; US CISA Ukraine Shields Up advisory"
+    }
+  ]
+}

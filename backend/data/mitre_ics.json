@@ -1,0 +1,1044 @@
+{
+  "tactics": [
+    {
+      "id": "TA0108",
+      "name": "Initial Access",
+      "description": "The adversary is trying to get into your ICS environment. Initial Access consists of techniques that use various entry vectors to gain their initial foothold within an ICS network.",
+      "order": 1
+    },
+    {
+      "id": "TA0104",
+      "name": "Execution",
+      "description": "The adversary is trying to run code or manipulate system functions. Execution consists of techniques that result in adversary-controlled code running on a local or remote system.",
+      "order": 2
+    },
+    {
+      "id": "TA0110",
+      "name": "Persistence",
+      "description": "The adversary is trying to maintain their foothold. Persistence consists of techniques that adversaries use to keep access to systems across restarts, changed credentials, or other interruptions.",
+      "order": 3
+    },
+    {
+      "id": "TA0111",
+      "name": "Privilege Escalation",
+      "description": "The adversary is trying to gain higher-level permissions. Privilege Escalation consists of techniques that adversaries use to gain higher-level permissions on a system or network.",
+      "order": 4
+    },
+    {
+      "id": "TA0103",
+      "name": "Evasion",
+      "description": "The adversary is trying to avoid being detected. Evasion consists of techniques that adversaries use to avoid detection throughout their compromise.",
+      "order": 5
+    },
+    {
+      "id": "TA0102",
+      "name": "Discovery",
+      "description": "The adversary is trying to figure out your ICS environment. Discovery consists of techniques an adversary may use to gain knowledge about the ICS system and network.",
+      "order": 6
+    },
+    {
+      "id": "TA0109",
+      "name": "Lateral Movement",
+      "description": "The adversary is trying to move through your ICS environment. Lateral Movement consists of techniques that adversaries use to enter and control remote systems on a network.",
+      "order": 7
+    },
+    {
+      "id": "TA0100",
+      "name": "Collection",
+      "description": "The adversary is trying to gather data of interest to their goal. Collection consists of techniques adversaries may use to gather information relevant to following through on the adversary's objectives.",
+      "order": 8
+    },
+    {
+      "id": "TA0101",
+      "name": "Command and Control",
+      "description": "The adversary is trying to communicate with compromised systems to control them. Command and Control consists of techniques that adversaries may use to communicate with systems under their control within a victim network.",
+      "order": 9
+    },
+    {
+      "id": "TA0106",
+      "name": "Inhibit Response Function",
+      "description": "The adversary is trying to prevent your safety, protection, quality assurance, and operator intervention functions from responding to a failure, hazard, or unsafe state.",
+      "order": 10
+    },
+    {
+      "id": "TA0105",
+      "name": "Impair Process Control",
+      "description": "The adversary is trying to manipulate, disable, or damage physical control processes. Impair Process Control consists of techniques that adversaries use to disrupt control logic and cause determinantal effects.",
+      "order": 11
+    },
+    {
+      "id": "TA0107",
+      "name": "Impact",
+      "description": "The adversary is trying to manipulate, interrupt, or destroy your ICS systems and data as well as the underlying physics of the environment. Impact consists of techniques that adversaries use to disrupt, compromise, destroy, or manipulate the integrity and availability of control system operations.",
+      "order": 12
+    }
+  ],
+  "techniques": [
+    {
+      "id": "T0817",
+      "name": "Drive-by Compromise",
+      "tactic_id": "TA0108",
+      "description": "Adversaries may gain access to a system during a drive-by compromise, when a user visits a website as part of a regular browsing session. The adversary may target any ICS engineering workstation, historian, or HMI that browses the internet.",
+      "data_sources": [
+        "Network Traffic",
+        "Process",
+        "File"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0819",
+      "name": "Exploit Public-Facing Application",
+      "tactic_id": "TA0108",
+      "description": "Adversaries may attempt to take advantage of a weakness in an Internet-facing computer or program using software, data, or commands in order to cause unintended or unanticipated behavior. SCADA web interfaces, historian portals, and asset management systems are common targets.",
+      "data_sources": [
+        "Application Log",
+        "Network Traffic",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian",
+        "Data Historian"
+      ]
+    },
+    {
+      "id": "T0822",
+      "name": "External Remote Services",
+      "tactic_id": "TA0108",
+      "description": "Adversaries may leverage external-facing remote services to initially access and/or persist within a network. Remote services such as VPNs, Citrix, and other access mechanisms allow users to connect to internal enterprise network resources from external locations. Common targets include RDP, VNC, and OT-specific remote access tools.",
+      "data_sources": [
+        "Network Traffic",
+        "Logon Session",
+        "Application Log"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0883",
+      "name": "Internet Accessible Device",
+      "tactic_id": "TA0108",
+      "description": "Adversaries may gain access into industrial environments through devices exposed to the internet for remote management and other purposes. Internet accessible devices expose control system services and remote management capabilities that can be leveraged for initial access.",
+      "data_sources": [
+        "Network Traffic",
+        "Application Log"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Engineering Workstation",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0891",
+      "name": "Hardcoded Credentials",
+      "tactic_id": "TA0108",
+      "description": "Adversaries may leverage credentials that are hardcoded in software or firmware to gain an initial foothold in the environment. Hardcoded credentials may be found in device firmware, software configuration files, or databases. These are pervasive in ICS/SCADA environments.",
+      "data_sources": [
+        "File",
+        "Application Log",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Safety Instrumented System/Protection Relay"
+      ]
+    },
+    {
+      "id": "T0823",
+      "name": "Graphical User Interface",
+      "tactic_id": "TA0104",
+      "description": "Adversaries may attempt to gain access to a machine through use of the graphical user interface, which may be through locally or remotely connected sessions. HMI graphical interfaces are a common execution vector in ICS environments.",
+      "data_sources": [
+        "Process",
+        "Application Log",
+        "Command"
+      ],
+      "platforms": [
+        "Human-Machine Interface",
+        "Engineering Workstation"
+      ]
+    },
+    {
+      "id": "T0807",
+      "name": "Command-Line Interface",
+      "tactic_id": "TA0104",
+      "description": "Adversaries may utilize command-line interfaces to interact with systems and execute commands. Command-line interfaces can interact directly with hardware and software on engineering workstations and servers in ICS environments.",
+      "data_sources": [
+        "Command",
+        "Process",
+        "Application Log"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0871",
+      "name": "Execution through API",
+      "tactic_id": "TA0104",
+      "description": "Adversaries may document and target activity in control system environments through the use of application programming interfaces. APIs in ICS environments include OPC, DCOM, and proprietary vendor APIs used to interact with historians and SCADA systems.",
+      "data_sources": [
+        "Application Log",
+        "Process",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface",
+        "Data Historian"
+      ]
+    },
+    {
+      "id": "T0873",
+      "name": "Project File Infection",
+      "tactic_id": "TA0110",
+      "description": "Adversaries may attempt to infect project files with malicious code. These project files may consist of objects, program organization units, variables, and logic. Infected project files can persist malicious logic in ICS engineering environments.",
+      "data_sources": [
+        "File",
+        "Application Log",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0857",
+      "name": "System Firmware",
+      "tactic_id": "TA0110",
+      "description": "Adversaries may install malicious or vulnerable firmware onto a field device. Malicious firmware can provide adversaries with root-level access to a device and/or persistent access at a level below the operating system.",
+      "data_sources": [
+        "Firmware",
+        "Application Log",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay",
+        "Engineering Workstation"
+      ]
+    },
+    {
+      "id": "T0845",
+      "name": "Program Upload",
+      "tactic_id": "TA0110",
+      "description": "Adversaries may attempt to upload a program from a PLC to gather information. Uploaded programs may allow adversaries to gather information about the operations of the target environment. This technique is also used as a precursor to modification.",
+      "data_sources": [
+        "Network Traffic",
+        "Application Log"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Engineering Workstation"
+      ]
+    },
+    {
+      "id": "T0890",
+      "name": "Exploitation for Privilege Escalation",
+      "tactic_id": "TA0111",
+      "description": "Adversaries may exploit software vulnerabilities in an attempt to elevate privileges. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program or operating system to execute adversary-controlled code.",
+      "data_sources": [
+        "Application Log",
+        "Process",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0874",
+      "name": "Hooking",
+      "tactic_id": "TA0111",
+      "description": "Adversaries may hook into application programming interfaces and function calls to collect information or manipulate program behavior. Hooking can be used to collect information, modify application behavior, or achieve privilege escalation in ICS environments.",
+      "data_sources": [
+        "Process",
+        "Application Log",
+        "File"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0872",
+      "name": "Indicator Removal on Host",
+      "tactic_id": "TA0103",
+      "description": "Adversaries may delete or alter generated artifacts on a host system, including logs and captured files. Deleting these artifacts can impact the integrity of a security investigation and prevent an analyst from determining what actions were taken by the adversary.",
+      "data_sources": [
+        "File",
+        "Process",
+        "Application Log",
+        "Command"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0849",
+      "name": "Masquerading",
+      "tactic_id": "TA0103",
+      "description": "Adversaries may attempt to manipulate features of their artifacts to make them appear legitimate or benign to users and/or security tools. Masquerading may focus on the process name, binary file names, or network traffic patterns to blend in with normal ICS operations.",
+      "data_sources": [
+        "File",
+        "Process",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0820",
+      "name": "Exploitation of Remote Services",
+      "tactic_id": "TA0109",
+      "description": "Adversaries may exploit remote services to move laterally through the network. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program to execute adversary-controlled code. This is especially critical when moving from IT to OT networks.",
+      "data_sources": [
+        "Application Log",
+        "Network Traffic",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0812",
+      "name": "Default Credentials",
+      "tactic_id": "TA0108",
+      "description": "Adversaries may leverage default credentials to gain initial access to victim systems. Default credentials are often found in ICS/OT devices shipped from the factory that have not been changed by the operator.",
+      "data_sources": [
+        "Logon Session",
+        "Application Log",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0842",
+      "name": "Network Sniffing",
+      "tactic_id": "TA0102",
+      "description": "Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network.",
+      "data_sources": [
+        "Network Traffic",
+        "Command",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0888",
+      "name": "Remote System Information Discovery",
+      "tactic_id": "TA0102",
+      "description": "An adversary may attempt to get information about remote systems and their peripherals, such as make/model, role, and configuration. Remote system discovery helps an adversary understand the ICS network topology and identify target systems.",
+      "data_sources": [
+        "Network Traffic",
+        "Command",
+        "Application Log",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0887",
+      "name": "Wireless Sniffing",
+      "tactic_id": "TA0102",
+      "description": "Adversaries may seek to capture radio frequency (RF) communication used for remote control and reporting in distributed ICS environments. This includes monitoring wireless protocols used by field devices and portable operator interfaces.",
+      "data_sources": [
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Engineering Workstation"
+      ]
+    },
+    {
+      "id": "T0830",
+      "name": "Network Sniffing",
+      "tactic_id": "TA0100",
+      "description": "Network sniffing at the collection phase involves actively capturing and recording protocol traffic such as Modbus, DNP3, IEC 60870-5, and EtherNet/IP to collect operational data from ICS networks for analysis and replay attacks.",
+      "data_sources": [
+        "Network Traffic",
+        "Process"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0882",
+      "name": "Theft of Operational Information",
+      "tactic_id": "TA0100",
+      "description": "Adversaries may steal operational information on a production environment as a direct mission outcome for personal gain or to inform future operations. This information may include operational parameters, setpoints, and process configurations.",
+      "data_sources": [
+        "File",
+        "Application Log",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface",
+        "Data Historian"
+      ]
+    },
+    {
+      "id": "T0811",
+      "name": "Data from Information Repositories",
+      "tactic_id": "TA0100",
+      "description": "Adversaries may leverage information repositories to mine valuable information. Information repositories are tools that allow for storage of information, typically to facilitate collaboration or information sharing between users. In ICS environments, this includes historians and process databases.",
+      "data_sources": [
+        "Application Log",
+        "File",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Historian",
+        "Engineering Workstation",
+        "Data Historian"
+      ]
+    },
+    {
+      "id": "T0869",
+      "name": "Standard Application Layer Protocol",
+      "tactic_id": "TA0101",
+      "description": "Adversaries may communicate using a common, standardized application layer protocol such as HTTP, HTTPS, SMTP, or DNS to avoid detection by blending in with existing traffic. In ICS environments, adversaries also abuse legitimate OT protocols like Modbus, DNP3, and ICCP for C2 communications.",
+      "data_sources": [
+        "Network Traffic",
+        "Application Log"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0885",
+      "name": "Commonly Used Port",
+      "tactic_id": "TA0101",
+      "description": "Adversaries may communicate over a commonly used port to bypass firewalls or network detection systems and to blend with normal network activity to avoid more detailed inspection. Common OT ports include 502 (Modbus), 20000 (DNP3), and 44818 (EtherNet/IP).",
+      "data_sources": [
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0814",
+      "name": "Denial of Service",
+      "tactic_id": "TA0106",
+      "description": "Adversaries may perform Denial-of-Service (DoS) attacks to disrupt expected device functionality. Examples of DoS attacks include overwhelming SCADA networks with traffic, flooding PLCs with commands, or targeting historian servers. A system/device receiving too many requests may slow down or crash.",
+      "data_sources": [
+        "Network Traffic",
+        "Operational Databases",
+        "Application Log"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED",
+        "Human-Machine Interface",
+        "Safety Instrumented System/Protection Relay"
+      ]
+    },
+    {
+      "id": "T0816",
+      "name": "Device Restart/Shutdown",
+      "tactic_id": "TA0106",
+      "description": "Adversaries may forcibly restart or shutdown a device in an industrial control system. A reboot of a device may enable malicious code to take effect upon restart. Device shutdowns can cause physical process disruptions in ICS environments.",
+      "data_sources": [
+        "Operational Databases",
+        "Application Log",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Human-Machine Interface",
+        "Engineering Workstation",
+        "Safety Instrumented System/Protection Relay"
+      ]
+    },
+    {
+      "id": "T0835",
+      "name": "Manipulate I/O Image",
+      "tactic_id": "TA0105",
+      "description": "Adversaries may manipulate the I/O image of PLCs through various means to prevent expected response functions from working properly. By manipulating the I/O image, an adversary can hide malicious changes to input/output points.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0836",
+      "name": "Modify Parameter",
+      "tactic_id": "TA0105",
+      "description": "Adversaries may modify parameters used to instruct industrial control system devices. These parameters may control critical functions of the physical process such as temperature setpoints, pressure limits, and motor speed. Parameter modification can cause physical damage or unsafe conditions.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic",
+        "Application Log"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay",
+        "Engineering Workstation"
+      ]
+    },
+    {
+      "id": "T0831",
+      "name": "Manipulation of Control",
+      "tactic_id": "TA0105",
+      "description": "Adversaries may manipulate physical process control within the target environment. Methods of manipulation may include changes to the implementation of physical devices in control systems, or changes to the program logic in engineering workstations that control the physical environment.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic",
+        "Application Log"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Engineering Workstation",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0855",
+      "name": "Unauthorized Command Message",
+      "tactic_id": "TA0105",
+      "description": "Adversaries may send unauthorized command messages to instruct control system assets to perform actions outside of their intended functionality, or without the logical safety or authorization checks that an operator would use. This includes spoofed Modbus write commands, DNP3 direct operate commands, and OPC writes.",
+      "data_sources": [
+        "Network Traffic",
+        "Operational Databases",
+        "Application Log"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0856",
+      "name": "Spoof Reporting Message",
+      "tactic_id": "TA0105",
+      "description": "Adversaries may spoof reporting messages in ICS environments to present false information to operators. By spoofing process data, adversaries can prevent operators from accurately understanding the current state of the physical process, masking malicious activity or unsafe conditions.",
+      "data_sources": [
+        "Network Traffic",
+        "Operational Databases"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Engineering Workstation",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0806",
+      "name": "Brute Force I/O",
+      "tactic_id": "TA0105",
+      "description": "Adversaries may repetitively or successively change I/O point values to perform brute force attacks against industrial systems. Adversaries may attempt to brute force I/O values in order to manipulate physical processes including pumps, valves, and actuators.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay"
+      ]
+    },
+    {
+      "id": "T0879",
+      "name": "Damage to Property",
+      "tactic_id": "TA0107",
+      "description": "Adversaries may cause damage and destruction of property to infrastructure, equipment, and the surrounding environment when attacking control systems. Control system attacks may seek to achieve physical destruction of equipment or damage to facilities.",
+      "data_sources": [
+        "Operational Databases",
+        "Application Log",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay",
+        "Engineering Workstation"
+      ]
+    },
+    {
+      "id": "T0813",
+      "name": "Denial of Control",
+      "tactic_id": "TA0107",
+      "description": "Adversaries may cause a denial of control to temporarily prevent operators and engineers from interacting with process controls. An adversary may accomplish denial of control by disabling a critical communication mechanism between the operator interface and control systems.",
+      "data_sources": [
+        "Network Traffic",
+        "Application Log",
+        "Operational Databases"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0827",
+      "name": "Loss of Control",
+      "tactic_id": "TA0107",
+      "description": "Adversaries may seek to achieve a sustained loss of control over the ICS environment. This may involve rendering operator interfaces inoperable, disabling communications, or corrupting control logic so that the physical process cannot be safely managed.",
+      "data_sources": [
+        "Network Traffic",
+        "Application Log",
+        "Operational Databases"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0826",
+      "name": "Loss of Availability",
+      "tactic_id": "TA0107",
+      "description": "Adversaries may attempt to disrupt essential components or systems to prevent owner and operator from delivering products or services. Loss of availability in ICS environments can disrupt critical infrastructure operations with physical consequences.",
+      "data_sources": [
+        "Network Traffic",
+        "Application Log",
+        "Operational Databases"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0840",
+      "name": "Network Connection Enumeration",
+      "tactic_id": "TA0102",
+      "description": "Adversaries may perform network connection enumeration to discover information about device communication patterns and the  existing communications between devices. Enumerating network connections may reveal information about the ICS topology and identify potential pivot points.",
+      "data_sources": [
+        "Network Traffic",
+        "Command",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0800",
+      "name": "Activate Firmware Update Mode",
+      "tactic_id": "TA0106",
+      "description": "Adversaries may activate firmware update mode on devices to enable loading of malicious firmware. Firmware update mode may allow actors to bypass normal operating restrictions and write to firmware storage.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay"
+      ]
+    },
+    {
+      "id": "T0801",
+      "name": "Monitor Process State",
+      "tactic_id": "TA0100",
+      "description": "Adversaries may gather information about the physical process state through monitoring of control system interfaces. Collection of this information allows adversaries to understand normal operations and plan targeted attacks.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Human-Machine Interface",
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0802",
+      "name": "Automated Collection",
+      "tactic_id": "TA0100",
+      "description": "Adversaries may use automated techniques for collecting internal data from a compromised ICS environment. Methods include the use of native data collection tools and scripts.",
+      "data_sources": [
+        "Script",
+        "Process",
+        "File",
+        "Command"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0803",
+      "name": "Block Command Message",
+      "tactic_id": "TA0106",
+      "description": "Adversaries may block a command message from reaching its intended target to prevent an operator from adjusting a process or issuing a response to an emergency.",
+      "data_sources": [
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay"
+      ]
+    },
+    {
+      "id": "T0809",
+      "name": "Data Destruction",
+      "tactic_id": "TA0107",
+      "description": "Adversaries may perform data destruction over the course of an operation. The adversary may drop or create malware, tools, or other non-native files on a target system to destroy data and/or disrupt operations.",
+      "data_sources": [
+        "File",
+        "Process",
+        "Script",
+        "Command"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0821",
+      "name": "Modify Controller Tasking",
+      "tactic_id": "TA0105",
+      "description": "Adversaries may modify the tasking of a controller to allow for additional attack techniques to be executed. This can include changing the task schedule, adding tasks, or modifying existing tasks.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0828",
+      "name": "Loss of Productivity and Revenue",
+      "tactic_id": "TA0107",
+      "description": "Adversaries may cause loss of productivity and revenue through disruption and damage to the availability and integrity of control system operations, devices, and related processes.",
+      "data_sources": [
+        "Operational Databases",
+        "Application Log"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0843",
+      "name": "Program Download",
+      "tactic_id": "TA0109",
+      "description": "Adversaries may transfer malicious programs to an ICS environment to stage for attacks. The program download technique allows adversaries to stage malicious tools or code onto systems for later use.",
+      "data_sources": [
+        "Network Traffic",
+        "Application Log"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0846",
+      "name": "Remote System Discovery",
+      "tactic_id": "TA0102",
+      "description": "Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network to use in lateral movement or targeting.",
+      "data_sources": [
+        "Network Traffic",
+        "Command",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0858",
+      "name": "Lateral Tool Transfer",
+      "tactic_id": "TA0109",
+      "description": "Adversaries may transfer tools or other files between systems in a compromised environment. Transferring files enables attackers to spread capabilities between systems.",
+      "data_sources": [
+        "Network Traffic",
+        "Process",
+        "File",
+        "Command"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0859",
+      "name": "Valid Accounts",
+      "tactic_id": "TA0108",
+      "description": "Adversaries may steal the credentials of a specific user or service account using credential access techniques or capture credentials earlier in their reconnaissance process.",
+      "data_sources": [
+        "Authentication Logs",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0861",
+      "name": "Point & Tag Identification",
+      "tactic_id": "TA0100",
+      "description": "Adversaries may collect point and tag values to gain a better understanding of the process environment. Tags typically identify device addresses and parameters including asset names, register addresses, and data types.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Human-Machine Interface",
+        "Engineering Workstation"
+      ]
+    },
+    {
+      "id": "T0862",
+      "name": "Supply Chain Compromise",
+      "tactic_id": "TA0108",
+      "description": "Adversaries may manipulate products or product delivery mechanisms prior to receipt by a final consumer for the purpose of data or system compromise.",
+      "data_sources": [
+        "Sensor Health",
+        "Application Log"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay"
+      ]
+    },
+    {
+      "id": "T0866",
+      "name": "Exploitation of Remote Services",
+      "tactic_id": "TA0109",
+      "description": "Adversaries may exploit software vulnerabilities in remote services to obtain unauthorized access to internal systems once inside a network.",
+      "data_sources": [
+        "Network Traffic",
+        "Application Log"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Historian",
+        "Human-Machine Interface"
+      ]
+    },
+    {
+      "id": "T0878",
+      "name": "Alarm Suppression",
+      "tactic_id": "TA0106",
+      "description": "Adversaries may attempt to impair the operators' ability to receive alarms or notifications within a control environment. Alarm suppression can hide the adversary's activity from operators.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic",
+        "Application Log"
+      ],
+      "platforms": [
+        "Human-Machine Interface",
+        "Engineering Workstation",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0880",
+      "name": "Loss of Safety",
+      "tactic_id": "TA0107",
+      "description": "Adversaries may compromise safety controls, safety instrumented systems, or processes to cause physical injury or death, property damage, or a hazardous situation.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Safety Instrumented System/Protection Relay",
+        "Field Controller/RTU/PLC/IED"
+      ]
+    },
+    {
+      "id": "T0881",
+      "name": "Service Stop",
+      "tactic_id": "TA0107",
+      "description": "Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services or processes can inhibit or stop response to an incident.",
+      "data_sources": [
+        "Process",
+        "Command",
+        "Windows Registry"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0884",
+      "name": "Connection Proxy",
+      "tactic_id": "TA0101",
+      "description": "Adversaries may use a connection proxy to direct network traffic between systems or act as an intermediary for network communications to a command and control server.",
+      "data_sources": [
+        "Network Traffic",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0886",
+      "name": "Remote Services",
+      "tactic_id": "TA0109",
+      "description": "Adversaries may use legitimate remote services to move laterally within an ICS environment. Examples include remote desktop protocol, VNC, and SSH.",
+      "data_sources": [
+        "Network Traffic",
+        "Authentication Logs",
+        "Process"
+      ],
+      "platforms": [
+        "Engineering Workstation",
+        "Human-Machine Interface",
+        "Historian"
+      ]
+    },
+    {
+      "id": "T0889",
+      "name": "Modify Program",
+      "tactic_id": "TA0105",
+      "description": "Adversaries may modify programs on ICS devices to alter behavior of control system operations. Reprogramming a controller may allow adversaries to hide malicious code or compromise normal operations.",
+      "data_sources": [
+        "Operational Databases",
+        "Network Traffic"
+      ],
+      "platforms": [
+        "Field Controller/RTU/PLC/IED",
+        "Safety Instrumented System/Protection Relay"
+      ]
+    }
+  ],
+  "threat_mappings": {
+    "ddos": [
+      "T0814",
+      "T0816",
+      "T0826",
+      "T0813",
+      "T0885"
+    ],
+    "xss": [
+      "T0819",
+      "T0817",
+      "T0823",
+      "T0871",
+      "T0873"
+    ],
+    "arp_spoofing": [
+      "T0830",
+      "T0856",
+      "T0842",
+      "T0849",
+      "T0885"
+    ],
+    "ransomware": [
+      "T0882",
+      "T0826",
+      "T0813",
+      "T0872",
+      "T0845"
+    ],
+    "ics_anomaly": [
+      "T0831",
+      "T0836",
+      "T0855",
+      "T0856",
+      "T0806",
+      "T0835"
+    ],
+    "mitm": [
+      "T0830",
+      "T0869",
+      "T0856",
+      "T0855",
+      "T0885"
+    ],
+    "bruteforce": [
+      "T0806",
+      "T0891",
+      "T0812",
+      "T0822",
+      "T0883"
+    ],
+    "sql_injection": [
+      "T0819",
+      "T0882",
+      "T0811",
+      "T0820",
+      "T0890"
+    ]
+  }
+}

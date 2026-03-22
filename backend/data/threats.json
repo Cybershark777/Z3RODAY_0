@@ -1,0 +1,271 @@
+{
+  "threat_categories": [
+    {
+      "id": "ddos",
+      "name": "DDoS",
+      "full_name": "Distributed Denial of Service",
+      "layer": "IT",
+      "severity": "high",
+      "count": 18423,
+      "description": "Volumetric flood attacks targeting data center network infrastructure, overwhelming bandwidth and service availability.",
+      "mitre_ids": ["T0814", "T0816"],
+      "affected_systems": ["Load Balancers", "Switches", "DNS Servers"],
+      "dataset_source": "EDGE-IIoTset",
+      "tactic_chain": [
+        {"tactic_id": "TA0106", "tactic_name": "Inhibit Response Function", "technique_id": "T0814", "technique_name": "Denial of Service"},
+        {"tactic_id": "TA0106", "tactic_name": "Inhibit Response Function", "technique_id": "T0816", "technique_name": "Device Restart/Shutdown"},
+        {"tactic_id": "TA0107", "tactic_name": "Impact", "technique_id": "T0826", "technique_name": "Loss of Availability"},
+        {"tactic_id": "TA0107", "tactic_name": "Impact", "technique_id": "T0813", "technique_name": "Denial of Control"},
+        {"tactic_id": "TA0101", "tactic_name": "Command and Control", "technique_id": "T0885", "technique_name": "Commonly Used Port"}
+      ],
+      "cve_keywords": ["denial of service", "DDoS", "amplification", "flood", "network exhaustion", "UDP flood"],
+      "purdue_levels": [3, 4],
+      "ioc_examples": [
+        "High-volume UDP/ICMP traffic from geographically diverse sources exceeding 10 Gbps",
+        "DNS amplification packets with spoofed source addresses targeting infrastructure IPs",
+        "SYN flood packets at >1M packets/second targeting TCP services",
+        "HTTP request flood from botnet ASNs at >50,000 requests/second to web-facing services"
+      ]
+    },
+    {
+      "id": "xss",
+      "name": "XSS",
+      "full_name": "Cross-Site Scripting",
+      "layer": "IT",
+      "severity": "medium",
+      "count": 15915,
+      "description": "Injection attacks targeting web management consoles and SCADA HMI interfaces exposed in the IT/OT convergence zone.",
+      "mitre_ids": ["T1190"],
+      "affected_systems": ["HMI Web Portals", "SCADA Dashboards", "Asset Management UI"],
+      "dataset_source": "EDGE-IIoTset",
+      "tactic_chain": [
+        {"tactic_id": "TA0108", "tactic_name": "Initial Access", "technique_id": "T0819", "technique_name": "Exploit Public-Facing Application"},
+        {"tactic_id": "TA0108", "tactic_name": "Initial Access", "technique_id": "T0817", "technique_name": "Drive-by Compromise"},
+        {"tactic_id": "TA0104", "tactic_name": "Execution", "technique_id": "T0823", "technique_name": "Graphical User Interface"},
+        {"tactic_id": "TA0104", "tactic_name": "Execution", "technique_id": "T0871", "technique_name": "Execution through API"},
+        {"tactic_id": "TA0110", "tactic_name": "Persistence", "technique_id": "T0873", "technique_name": "Project File Infection"}
+      ],
+      "cve_keywords": ["cross-site scripting", "XSS", "HMI web", "SCADA web interface", "stored XSS", "reflected XSS"],
+      "purdue_levels": [2, 3, 4],
+      "ioc_examples": [
+        "HTTP POST requests containing <script> tags or JavaScript event handlers in form fields",
+        "Encoded payloads: %3Cscript%3E, &#60;script&#62; in URL parameters or cookies",
+        "Outbound HTTP requests from HMI server to unknown external domains after user interaction",
+        "Web application log entries showing alert() or document.cookie access patterns in user inputs"
+      ]
+    },
+    {
+      "id": "arp_spoofing",
+      "name": "ARP Spoofing",
+      "full_name": "ARP Cache Poisoning",
+      "layer": "OT",
+      "severity": "high",
+      "count": 9841,
+      "description": "Link-layer interception attacks enabling man-in-the-middle positioning between OT devices and controllers on flat IT/OT networks.",
+      "mitre_ids": ["T0830", "T0856"],
+      "affected_systems": ["PLCs", "RTUs", "OT Switches", "SCADA Servers"],
+      "dataset_source": "EDGE-IIoTset",
+      "tactic_chain": [
+        {"tactic_id": "TA0102", "tactic_name": "Discovery", "technique_id": "T0842", "technique_name": "Network Sniffing"},
+        {"tactic_id": "TA0103", "tactic_name": "Evasion", "technique_id": "T0849", "technique_name": "Masquerading"},
+        {"tactic_id": "TA0100", "tactic_name": "Collection", "technique_id": "T0830", "technique_name": "Network Sniffing"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0856", "technique_name": "Spoof Reporting Message"},
+        {"tactic_id": "TA0101", "tactic_name": "Command and Control", "technique_id": "T0885", "technique_name": "Commonly Used Port"}
+      ],
+      "cve_keywords": ["ARP spoofing", "ARP poisoning", "man-in-the-middle", "layer 2 attack", "gratuitous ARP"],
+      "purdue_levels": [1, 2],
+      "ioc_examples": [
+        "Gratuitous ARP replies from unexpected MAC addresses claiming ownership of known PLC/RTU IP addresses",
+        "Duplicate IP entries with different MAC addresses in switch MAC address tables",
+        "ARP request/reply ratio anomaly: >100 gratuitous ARPs/minute from a single host",
+        "SCADA server ARP cache entries showing MAC addresses inconsistent with documented network topology"
+      ]
+    },
+    {
+      "id": "ransomware",
+      "name": "Ransomware",
+      "full_name": "Ransomware / Data Encryption",
+      "layer": "IT",
+      "severity": "critical",
+      "count": 4102,
+      "description": "File-encrypting malware targeting data center hosts, with lateral movement risk into OT historian and SCADA systems.",
+      "mitre_ids": ["T1486", "T0882"],
+      "affected_systems": ["Windows Servers", "OT Historians", "Backup Systems"],
+      "dataset_source": "EDGE-IIoTset",
+      "tactic_chain": [
+        {"tactic_id": "TA0100", "tactic_name": "Collection", "technique_id": "T0882", "technique_name": "Theft of Operational Information"},
+        {"tactic_id": "TA0107", "tactic_name": "Impact", "technique_id": "T0826", "technique_name": "Loss of Availability"},
+        {"tactic_id": "TA0107", "tactic_name": "Impact", "technique_id": "T0813", "technique_name": "Denial of Control"},
+        {"tactic_id": "TA0103", "tactic_name": "Evasion", "technique_id": "T0872", "technique_name": "Indicator Removal on Host"},
+        {"tactic_id": "TA0110", "tactic_name": "Persistence", "technique_id": "T0845", "technique_name": "Program Upload"}
+      ],
+      "cve_keywords": ["ransomware", "file encryption", "data encryption", "RDP exploit", "SMB exploit", "EternalBlue"],
+      "purdue_levels": [3, 4],
+      "ioc_examples": [
+        "Mass file rename events with unknown extensions (.locked, .encrypted, .crypt) at >1000 files/minute",
+        "Creation of ransom notes (README.txt, DECRYPT_INSTRUCTIONS.html) in multiple directory paths",
+        "Volume shadow copy deletion commands: vssadmin delete shadows /all /quiet",
+        "Outbound HTTPS connections to Tor exit nodes or dark web onion address resolution attempts"
+      ]
+    },
+    {
+      "id": "ics_anomaly",
+      "name": "ICS Anomaly",
+      "full_name": "ICS Sensor Anomaly / Process Attack",
+      "layer": "OT",
+      "severity": "critical",
+      "count": 12804,
+      "description": "Deviations from normal process behavior in industrial control systems — boiler pressure, turbine speed, valve actuation — indicative of sensor spoofing or logic manipulation.",
+      "mitre_ids": ["T0831", "T0836", "T0855"],
+      "affected_systems": ["Steam Turbines", "Boiler Controllers", "Water Treatment PLCs"],
+      "dataset_source": "HAI Security Dataset",
+      "tactic_chain": [
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0831", "technique_name": "Manipulation of Control"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0836", "technique_name": "Modify Parameter"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0855", "technique_name": "Unauthorized Command Message"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0856", "technique_name": "Spoof Reporting Message"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0806", "technique_name": "Brute Force I/O"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0835", "technique_name": "Manipulate I/O Image"}
+      ],
+      "cve_keywords": ["ICS", "SCADA", "PLC", "Modbus", "DNP3", "industrial control", "process control", "firmware vulnerability"],
+      "purdue_levels": [0, 1, 2],
+      "ioc_examples": [
+        "Process variable readings (pressure, temperature, flow) outside normal operating band (>3 sigma from historical baseline)",
+        "Modbus write function codes (FC06, FC16) to holding registers from unauthorized source IPs",
+        "DNP3 direct operate commands issued outside maintenance windows or from unexpected master station addresses",
+        "PLC scan time anomalies: cycle time variance >20% from baseline indicating injected code execution"
+      ]
+    },
+    {
+      "id": "mitm",
+      "name": "MitM",
+      "full_name": "Man-in-the-Middle",
+      "layer": "OT",
+      "severity": "high",
+      "count": 6317,
+      "description": "Interception of Modbus/DNP3/IEC 61850 protocol traffic between field devices and control systems.",
+      "mitre_ids": ["T0830", "T0869"],
+      "affected_systems": ["Field Devices", "RTUs", "Protocol Gateways"],
+      "dataset_source": "EDGE-IIoTset",
+      "tactic_chain": [
+        {"tactic_id": "TA0100", "tactic_name": "Collection", "technique_id": "T0830", "technique_name": "Network Sniffing"},
+        {"tactic_id": "TA0101", "tactic_name": "Command and Control", "technique_id": "T0869", "technique_name": "Standard Application Layer Protocol"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0856", "technique_name": "Spoof Reporting Message"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0855", "technique_name": "Unauthorized Command Message"},
+        {"tactic_id": "TA0101", "tactic_name": "Command and Control", "technique_id": "T0885", "technique_name": "Commonly Used Port"}
+      ],
+      "cve_keywords": ["man-in-the-middle", "Modbus TCP", "DNP3 spoofing", "protocol replay", "SSL stripping", "certificate spoofing"],
+      "purdue_levels": [0, 1, 2],
+      "ioc_examples": [
+        "Network latency increase of >5ms on SCADA-to-PLC communication paths without infrastructure changes",
+        "Modbus/DNP3 response messages from MAC addresses not matching expected device hardware",
+        "Duplicate TCP session packets on OT network segments indicating traffic relay/replay",
+        "TLS certificate mismatch warnings on encrypted OT communications or unexpected certificate authorities"
+      ]
+    },
+    {
+      "id": "bruteforce",
+      "name": "Brute Force",
+      "full_name": "Credential Brute Force",
+      "layer": "IT",
+      "severity": "medium",
+      "count": 7654,
+      "description": "Automated credential stuffing against SSH, RDP, and OT management interfaces exposed at the IT/OT boundary.",
+      "mitre_ids": ["T1110", "T0806"],
+      "affected_systems": ["SSH Servers", "RDP Endpoints", "Engineering Workstations"],
+      "dataset_source": "EDGE-IIoTset",
+      "tactic_chain": [
+        {"tactic_id": "TA0108", "tactic_name": "Initial Access", "technique_id": "T0891", "technique_name": "Hardcoded Credentials"},
+        {"tactic_id": "TA0108", "tactic_name": "Initial Access", "technique_id": "T0812", "technique_name": "Default Credentials"},
+        {"tactic_id": "TA0108", "tactic_name": "Initial Access", "technique_id": "T0822", "technique_name": "External Remote Services"},
+        {"tactic_id": "TA0108", "tactic_name": "Initial Access", "technique_id": "T0883", "technique_name": "Internet Accessible Device"},
+        {"tactic_id": "TA0105", "tactic_name": "Impair Process Control", "technique_id": "T0806", "technique_name": "Brute Force I/O"}
+      ],
+      "cve_keywords": ["brute force", "credential stuffing", "SSH vulnerability", "RDP exploit", "authentication bypass", "weak credentials"],
+      "purdue_levels": [3, 4],
+      "ioc_examples": [
+        "SSH authentication failures: >100 failed attempts per minute from single external IP to engineering workstations",
+        "RDP login attempts using common username lists (admin, administrator, operator, engineer) from external addresses",
+        "Successful authentication following extended failed login sequence (credential stuffing success indicator)",
+        "VPN/Citrix gateway logs showing authentication attempts using credentials from known breach databases"
+      ]
+    },
+    {
+      "id": "sql_injection",
+      "name": "SQL Injection",
+      "full_name": "SQL Injection",
+      "layer": "IT",
+      "severity": "medium",
+      "count": 5234,
+      "description": "Database injection attacks targeting historian and asset management databases containing OT telemetry.",
+      "mitre_ids": ["T1190"],
+      "affected_systems": ["OT Historians", "CMDB Systems", "Asset Databases"],
+      "dataset_source": "EDGE-IIoTset",
+      "tactic_chain": [
+        {"tactic_id": "TA0108", "tactic_name": "Initial Access", "technique_id": "T0819", "technique_name": "Exploit Public-Facing Application"},
+        {"tactic_id": "TA0100", "tactic_name": "Collection", "technique_id": "T0882", "technique_name": "Theft of Operational Information"},
+        {"tactic_id": "TA0100", "tactic_name": "Collection", "technique_id": "T0811", "technique_name": "Data from Information Repositories"},
+        {"tactic_id": "TA0109", "tactic_name": "Lateral Movement", "technique_id": "T0820", "technique_name": "Exploitation of Remote Services"},
+        {"tactic_id": "TA0111", "tactic_name": "Privilege Escalation", "technique_id": "T0890", "technique_name": "Exploitation for Privilege Escalation"}
+      ],
+      "cve_keywords": ["SQL injection", "SQLi", "database exploit", "web application vulnerability", "UNION injection", "blind SQL injection"],
+      "purdue_levels": [3, 4],
+      "ioc_examples": [
+        "Web application firewall alerts on SQL keywords in HTTP parameters: UNION, SELECT, DROP, INSERT, UPDATE, OR 1=1",
+        "Database error messages returned in HTTP responses indicating unsanitized query execution",
+        "Unusual query execution times (>10x baseline) indicating complex injected queries like time-based blind SQLi",
+        "Database audit logs showing queries returning excessive row counts or accessing credential tables from web app user context"
+      ]
+    }
+  ],
+  "soc_metrics": {
+    "baseline": {
+      "mttd_minutes": 142,
+      "mttr_minutes": 387,
+      "false_positive_rate": 0.38,
+      "detection_accuracy": 0.71
+    },
+    "ml_soar": {
+      "mttd_minutes": 94,
+      "mttr_minutes": 251,
+      "false_positive_rate": 0.19,
+      "detection_accuracy": 0.89
+    }
+  },
+  "dataset_summary": [
+    {
+      "name": "EDGE-IIoTset",
+      "records": 72000000,
+      "years": "2021-2022",
+      "layers": ["IT", "OT", "IoT"],
+      "attack_types": 14
+    },
+    {
+      "name": "HAI Security Dataset",
+      "records": 947000,
+      "years": "2019-2020",
+      "layers": ["OT", "ICS"],
+      "attack_types": 5
+    },
+    {
+      "name": "CIC-IDS2017",
+      "records": 2830743,
+      "years": "2017",
+      "layers": ["IT", "Network"],
+      "attack_types": 8,
+      "description": "UNB benchmark dataset with 5 days of realistic network traffic and 8 attack categories across 80+ flow features",
+      "url": "https://www.unb.ca/cic/datasets/ids-2017.html",
+      "size_gb": 51.1
+    },
+    {
+      "name": "ICS Smart Grid Dataset",
+      "records": 45000,
+      "years": "2022",
+      "layers": ["OT", "ICS"],
+      "attack_types": 6,
+      "description": "IEC 60870-104 and IEC 61850 MMS protocol traffic from smart grid testbed with scanning, injection, and DoS attacks",
+      "url": "https://ieee-dataport.org/documents/ics-dataset-smart-grid-anomaly-detection",
+      "size_gb": 0.11
+    }
+  ]
+}

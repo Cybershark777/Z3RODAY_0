@@ -1,0 +1,425 @@
+{
+  "categories": [
+    {
+      "id": "ml_detection",
+      "name": "ML-Based Threat Detection",
+      "color": "#388bfd"
+    },
+    {
+      "id": "soar_frameworks",
+      "name": "SOAR Frameworks",
+      "color": "#3fb950"
+    },
+    {
+      "id": "ics_security",
+      "name": "ICS / OT Security Standards",
+      "color": "#bc8cff"
+    },
+    {
+      "id": "datasets",
+      "name": "Datasets & Benchmarks",
+      "color": "#e3b341"
+    },
+    {
+      "id": "industry",
+      "name": "Industry & Commercial",
+      "color": "#da3633"
+    },
+    {
+      "id": "patents",
+      "name": "Patents",
+      "color": "#8b949e"
+    }
+  ],
+  "references": [
+    {
+      "id": "mubarak2021",
+      "category_id": "ml_detection",
+      "type": "journal",
+      "citation": "Mubarak, S., Habib, M. A., & Zuhairi, M. F. (2021). Anomaly Detection in ICS Datasets with Machine Learning Algorithms. Computer Systems Science & Engineering, 37(1). https://doi.org/10.32604/csse.2021.014384",
+      "title": "Anomaly Detection in ICS Datasets with Machine Learning Algorithms",
+      "authors": "Mubarak, S., Habib, M. A., & Zuhairi, M. F.",
+      "year": 2021,
+      "url": "https://doi.org/10.32604/csse.2021.014384",
+      "doi": "10.32604/csse.2021.014384",
+      "abstract": "Evaluates ML algorithms for anomaly detection on ICS datasets, finding logistic regression achieves ~99.99% accuracy while noting dataset bias as a key limitation for real-world deployment.",
+      "key_findings": [
+        "Logistic regression achieved ~99.99% accuracy on ICS dataset",
+        "Supervised ML outperforms rule-based detection",
+        "Flow-based features effective for ICS anomaly classification",
+        "Dataset bias noted as limitation requiring real-world validation"
+      ],
+      "relevance": "Directly validates the ML detection approach used in the prototype and provides baseline accuracy benchmarks for ICS anomaly classification. The dataset bias limitation informs multi-dataset evaluation strategy.",
+      "accessible": false
+    },
+    {
+      "id": "segal2021",
+      "category_id": "soar_frameworks",
+      "type": "conference",
+      "citation": "Segal, M., Avin, C., & Scalosub, G. (2021). SOAR: Minimizing network utilization with bounded in-network computing. In Proceedings of the 20th ACM Workshop on Hot Topics in Networks (HotNets '21). https://doi.org/10.1145/3485983.3494853",
+      "title": "SOAR: Minimizing network utilization with bounded in-network computing",
+      "authors": "Segal, M., Avin, C., & Scalosub, G.",
+      "year": 2021,
+      "url": "https://doi.org/10.1145/3485983.3494853",
+      "doi": "10.1145/3485983.3494853",
+      "abstract": "Presents the SOAR framework for minimizing network utilization through bounded in-network aggregation, with peer-reviewed empirical evaluation of throughput improvements in distributed environments.",
+      "key_findings": [
+        "SOAR framework reduces network utilization through in-network aggregation",
+        "Bounded aggregation improves throughput measurably",
+        "Peer-reviewed empirical evaluation",
+        "Applicable to distributed security operations"
+      ],
+      "relevance": "Provides the foundational SOAR architecture concept that underpins the ML-SOAR prototype, offering a validated model for efficient distributed processing relevant to SOC automation workflows.",
+      "accessible": false
+    },
+    {
+      "id": "cisa2025",
+      "category_id": "ics_security",
+      "type": "standard",
+      "citation": "Cybersecurity and Infrastructure Security Agency. (2025). Foundations for OT cybersecurity: Asset inventory guidance. U.S. Department of Homeland Security. https://www.cisa.gov/sites/default/files/2025-08/joint-guide-foundations-for-OT-cybersecurity-asset-inventory-guidance_508c.pdf",
+      "title": "Foundations for OT Cybersecurity: Asset Inventory Guidance",
+      "authors": "Cybersecurity and Infrastructure Security Agency (CISA)",
+      "year": 2025,
+      "url": "https://www.cisa.gov/sites/default/files/2025-08/joint-guide-foundations-for-OT-cybersecurity-asset-inventory-guidance_508c.pdf",
+      "doi": null,
+      "abstract": "CISA/NSA joint publication establishing standardized OT asset inventory methodology with cross-sector taxonomy and lifecycle management frameworks for ICS/OT devices.",
+      "key_findings": [
+        "Standardized OT asset inventory methodology",
+        "Cross-sector taxonomy for ICS/OT assets",
+        "Lifecycle management framework for OT devices",
+        "CISA/NSA joint publication with federal authority"
+      ],
+      "relevance": "Provides authoritative federal guidance for OT asset classification and inventory practices that directly inform the threat categorization and system mapping within the prototype's dataset structure.",
+      "accessible": true
+    },
+    {
+      "id": "nist2022sp80082",
+      "category_id": "ics_security",
+      "type": "standard",
+      "citation": "National Institute of Standards and Technology. (2022). Guide to Industrial Control Systems (ICS) Security (NIST Special Publication 800-82 Rev. 3). https://doi.org/10.6028/NIST.SP.800-82r3",
+      "title": "Guide to Industrial Control Systems (ICS) Security (SP 800-82 Rev. 3)",
+      "authors": "National Institute of Standards and Technology (NIST)",
+      "year": 2022,
+      "url": "https://doi.org/10.6028/NIST.SP.800-82r3",
+      "doi": "10.6028/NIST.SP.800-82r3",
+      "abstract": "Globally recognized federal baseline for ICS/OT security covering layered defense architecture, IT/OT network segmentation, and incident response procedures for cyber-physical systems.",
+      "key_findings": [
+        "Layered defense architecture for ICS environments",
+        "Network segmentation requirements for IT/OT boundary",
+        "Incident response procedures for cyber-physical systems",
+        "Globally recognized federal baseline standard"
+      ],
+      "relevance": "Establishes the IT/OT security framework and Purdue model segmentation principles that structure the threat taxonomy and layer classifications throughout the prototype dashboard and datasets.",
+      "accessible": true
+    },
+    {
+      "id": "merlano2024",
+      "category_id": "ml_detection",
+      "type": "journal",
+      "citation": "Merlano, J. C. (2024). Enhancing Cyber Security through AI and ML: A Literature Review. Journal of Cyber Security, 6(1). https://www.techscience.com/JCS/v6n1/58880/html",
+      "title": "Enhancing Cyber Security through AI and ML: A Literature Review",
+      "authors": "Merlano, J. C.",
+      "year": 2024,
+      "url": "https://www.techscience.com/JCS/v6n1/58880/html",
+      "doi": null,
+      "abstract": "Systematic review of 90 studies across 5 databases (2015-2024) analyzing ML applications in cybersecurity, finding threat detection/prevention as the dominant research category at 27.2% of publications.",
+      "key_findings": [
+        "90 studies analyzed across 5 databases (2015-2024)",
+        "Threat detection/prevention = 27.2% of publications \u2014 largest research category",
+        "Primary ML applications: anomaly detection, IDS, malware classification, phishing detection",
+        "LIME/SHAP enable explainable AI for cybersecurity models",
+        "Data quality and black-box interpretability are primary barriers"
+      ],
+      "relevance": "Situates the prototype's ML-SOAR approach within the broader cybersecurity literature landscape and validates explainability (LIME/SHAP) as a research priority for production-ready ML detection systems.",
+      "accessible": true
+    },
+    {
+      "id": "atc2022patent",
+      "category_id": "patents",
+      "type": "patent",
+      "citation": "Architecture Technology Corporation. (2022). AI Modeling for Cyber-Attack Simulation (U.S. Patent No. 11429713B1). U.S. Patent and Trademark Office. https://patents.google.com/patent/US11429713B1/en",
+      "title": "AI Modeling for Cyber-Attack Simulation (U.S. Patent No. 11429713B1)",
+      "authors": "Architecture Technology Corporation",
+      "year": 2022,
+      "url": "https://patents.google.com/patent/US11429713B1/en",
+      "doi": null,
+      "abstract": "Patented system for adaptive AI-driven cyber-attack simulation using dual neural network and expert decision tree evaluation, operating autonomously after initial exercise condition setup.",
+      "key_findings": [
+        "Adaptive AI-driven cyber-attack simulation without pre-scripted scenarios",
+        "Dual evaluation using neural networks + expert decision trees",
+        "System functions autonomously after initial exercise conditions set",
+        "Real-time monitoring of both active and passive data during exercises"
+      ],
+      "relevance": "Demonstrates patented prior art for AI-driven threat simulation relevant to validating the prototype's ML-based attack scenario modeling and automated response decision logic.",
+      "accessible": true
+    },
+    {
+      "id": "nozomi2024",
+      "category_id": "industry",
+      "type": "industry",
+      "citation": "Nozomi Networks. (2024). How Is AI Used in OT/ICS Cybersecurity? Nozomi Networks. https://www.nozominetworks.com/cybersecurity-faqs/how-is-ai-used-in-ot-ics-cybersecurity",
+      "title": "How Is AI Used in OT/ICS Cybersecurity?",
+      "authors": "Nozomi Networks",
+      "year": 2024,
+      "url": "https://www.nozominetworks.com/cybersecurity-faqs/how-is-ai-used-in-ot-ics-cybersecurity",
+      "doi": null,
+      "abstract": "Industry practitioner analysis of AI/ML deployment in OT/ICS environments, documenting 50-70% accuracy improvements in asset intelligence and SOC efficiency gains from behavioral baselining.",
+      "key_findings": [
+        "Behavioral baselining detects zero-day exploits beyond signature methods",
+        "Asset intelligence 50-70% more accurate with ML vs. manual classification",
+        "SOC efficiency: week-long tasks reduced to daily single-analyst work",
+        "Adaptive learning filters benign deviations while flagging true anomalies"
+      ],
+      "relevance": "Provides commercial validation of the prototype's core value proposition \u2014 ML-driven SOC efficiency gains in OT/ICS environments \u2014 with quantified operational metrics from production deployments.",
+      "accessible": true
+    },
+    {
+      "id": "matousek2022",
+      "category_id": "datasets",
+      "type": "dataset",
+      "citation": "Matou\u0161ek, P., Ry\u0161av\u00fd, O., & Gr\u00e9gr, M. (2022). ICS Dataset for Smart Grid Anomaly Detection [Dataset]. IEEE DataPort. https://doi.org/10.21227/1trw-n685",
+      "title": "ICS Dataset for Smart Grid Anomaly Detection",
+      "authors": "Matou\u0161ek, P., Ry\u0161av\u00fd, O., & Gr\u00e9gr, M.",
+      "year": 2022,
+      "url": "https://ieee-dataport.org/documents/ics-dataset-smart-grid-anomaly-detection",
+      "doi": "10.21227/1trw-n685",
+      "abstract": "IEEE DataPort dataset containing IEC 60870-104 and IEC 61850 MMS smart grid protocol traffic with attack scenarios including scanning, injection, and DoS; 113.2 MB CC-BY-4.0 licensed.",
+      "key_findings": [
+        "IEC 60870-104 and IEC 61850 MMS protocol traffic in CSV format",
+        "Attack scenarios: scanning, switching commands, injection, DoS, rogue devices",
+        "113.2 MB dataset with PCAP source files",
+        "CC-BY-4.0 licensed"
+      ],
+      "relevance": "Provides OT-layer smart grid protocol traffic with labeled attack scenarios, extending the prototype's dataset coverage to ICS-specific protocols beyond the IT-focused EDGE-IIoTset and CIC-IDS2017 datasets.",
+      "accessible": true
+    },
+    {
+      "id": "sharafaldin2018",
+      "category_id": "datasets",
+      "type": "dataset",
+      "citation": "Sharafaldin, I., Lashkari, A. H., & Ghorbani, A. A. (2018). Toward Generating a New Intrusion Detection Dataset and Intrusion Traffic Characterization. In Proceedings of ICISSP 2018. University of New Brunswick Canadian Institute for Cybersecurity. https://www.unb.ca/cic/datasets/ids-2017.html",
+      "title": "Intrusion Detection Evaluation Dataset (CIC-IDS2017)",
+      "authors": "Sharafaldin, I., Lashkari, A. H., & Ghorbani, A. A.",
+      "year": 2018,
+      "url": "https://www.unb.ca/cic/datasets/ids-2017.html",
+      "doi": null,
+      "abstract": "UNB benchmark IDS dataset with 5 days of realistic traffic from 25-user behavioral profiles, covering 8 attack types and 80+ network flow features across 51.1 GB, addressing 11 benchmark gaps in prior datasets.",
+      "key_findings": [
+        "5 days of realistic traffic (July 3-7 2017) with 25-user behavioral profiles",
+        "8 attack types: brute force, DoS, Heartbleed, web attacks, infiltration, botnet, DDoS",
+        "51.1 GB with 80+ network flow features in CSV",
+        "Addresses 11 benchmark criteria missing from prior datasets"
+      ],
+      "relevance": "One of the most widely cited IDS benchmark datasets; included in the prototype to enable cross-dataset generalizability testing of the ML-SOAR detection pipeline against a ground-truth labeled IT traffic benchmark.",
+      "accessible": true
+    },
+    {
+      "id": "clareus_ml_cps",
+      "category_id": "ml_detection",
+      "type": "journal",
+      "citation": "AI in Cybersecurity: Detecting and Preventing Cyber Threats using Machine Learning. Clareus. https://clareus.org/pdf/csse/CSSE-02-051.pdf",
+      "title": "AI in Cybersecurity: Detecting and Preventing Cyber Threats using Machine Learning",
+      "authors": "Clareus Research",
+      "year": 2023,
+      "url": "https://clareus.org/pdf/csse/CSSE-02-051.pdf",
+      "doi": null,
+      "abstract": "Comparative study demonstrating ML algorithm superiority over signature-based detection, with ensemble methods reducing false positives in IDS deployments and deep learning achieving real-time classification accuracy.",
+      "key_findings": [
+        "ML algorithms significantly outperform traditional signature-based detection",
+        "Deep learning models achieve high accuracy in real-time threat classification",
+        "Ensemble methods reduce false positive rates in IDS deployments",
+        "Supervised and unsupervised methods complement each other for comprehensive coverage"
+      ],
+      "relevance": "Supports the prototype's dual-layer detection strategy combining supervised classification with unsupervised anomaly detection to minimize false positives in OT environments where alert fatigue is critical.",
+      "accessible": false
+    },
+    {
+      "id": "researchgate_aiml_threat",
+      "category_id": "ml_detection",
+      "type": "journal",
+      "citation": "AI and Machine Learning in Cyber Threat Detection. ResearchGate. https://www.researchgate.net/publication/383693454_AI_AND_MACHINE_LEARNING_IN_CYBER_THREAT_DETECTION",
+      "title": "AI and Machine Learning in Cyber Threat Detection",
+      "authors": "Various Authors",
+      "year": 2024,
+      "url": "https://www.researchgate.net/publication/383693454_AI_AND_MACHINE_LEARNING_IN_CYBER_THREAT_DETECTION",
+      "doi": null,
+      "abstract": "Survey of ML approaches to cyber threat detection covering feature engineering, transfer learning, and real-time inference optimization for production detection pipelines.",
+      "key_findings": [
+        "Survey of current ML approaches to cyber threat detection",
+        "Feature engineering critical for effective threat classification",
+        "Transfer learning reduces training data requirements",
+        "Real-time detection requires optimized model inference pipelines"
+      ],
+      "relevance": "Feature engineering and transfer learning findings directly inform the prototype's approach to limited labeled OT dataset availability, enabling effective detection with smaller domain-specific training sets.",
+      "accessible": false
+    },
+    {
+      "id": "softrams_neumann",
+      "category_id": "ml_detection",
+      "type": "whitepaper",
+      "citation": "Neumann, P. (n.d.). Cyber Threat Analysis using AI and Machine Learning [White paper]. Softrams. https://p-neumann.github.io/trustworthyai/doc/wp_Softrams_p1_predictive_analysis_ML.pdf",
+      "title": "Cyber Threat Analysis using AI and Machine Learning",
+      "authors": "Neumann, P. (Softrams)",
+      "year": 2022,
+      "url": "https://p-neumann.github.io/trustworthyai/doc/wp_Softrams_p1_predictive_analysis_ML.pdf",
+      "doi": null,
+      "abstract": "Industry whitepaper on predictive ML threat analysis, covering behavioral analytics, NLP-driven threat intelligence correlation, and automated response workflows for SOC efficiency.",
+      "key_findings": [
+        "Predictive analysis using ML enables proactive threat identification",
+        "Behavioral analytics reduce mean time to detection",
+        "NLP applied to threat intelligence feeds improves alert correlation",
+        "Automated response workflows reduce analyst fatigue"
+      ],
+      "relevance": "NLP-driven threat intelligence correlation and automated response workflows align directly with the SOAR automation layer of the prototype, supporting the MTTD/MTTR reduction hypothesis.",
+      "accessible": false
+    },
+    {
+      "id": "ieee_ingr2022",
+      "category_id": "ml_detection",
+      "type": "standard",
+      "citation": "IEEE International Network Generations Roadmap. (2022). AI/ML Chapter (2022 Edition). IEEE Future Networks. https://futurenetworks.ieee.org/images/files/pdf/INGR-2022-Edition/IEEE_INGR_AIML_Chapter_2022-Edition-FINAL.pdf",
+      "title": "IEEE INGR AI/ML Chapter (2022 Edition)",
+      "authors": "IEEE International Network Generations Roadmap",
+      "year": 2022,
+      "url": "https://futurenetworks.ieee.org/images/files/pdf/INGR-2022-Edition/IEEE_INGR_AIML_Chapter_2022-Edition-FINAL.pdf",
+      "doi": null,
+      "abstract": "IEEE framework for AI/ML integration in network security with standardized evaluation metrics, federated learning approaches for privacy-preserving detection, and edge AI latency reduction guidance.",
+      "key_findings": [
+        "IEEE framework for AI/ML integration in network security",
+        "Standardized evaluation metrics for ML-based detection systems",
+        "Federated learning approaches for privacy-preserving threat detection",
+        "Edge AI reduces latency for real-time OT threat response"
+      ],
+      "relevance": "IEEE standardized evaluation metrics provide the benchmarking framework for comparing prototype detection performance across datasets, ensuring results are reproducible and comparable to peer research.",
+      "accessible": false
+    },
+    {
+      "id": "ijirt187408",
+      "category_id": "ml_detection",
+      "type": "journal",
+      "citation": "International Journal of Innovative Research and Technology. ML-Based Network Intrusion Detection: Comparative Analysis. IJIRT. https://ijirt.org/publishedpaper/IJIRT187408_PAPER.pdf",
+      "title": "ML-Based Network Intrusion Detection: Comparative Analysis",
+      "authors": "IJIRT Research Group",
+      "year": 2023,
+      "url": "https://ijirt.org/publishedpaper/IJIRT187408_PAPER.pdf",
+      "doi": null,
+      "abstract": "Comparative analysis of ML algorithms for network intrusion detection, validating random forest and gradient boosting performance with feature selection to reduce computational overhead.",
+      "key_findings": [
+        "Comparative analysis of ML algorithms for network intrusion detection",
+        "Random forest and gradient boosting show strong IDS performance",
+        "Feature selection reduces computational overhead without accuracy loss",
+        "Real-world dataset validation confirms lab results"
+      ],
+      "relevance": "Algorithm comparison methodology and feature selection findings guide the prototype's model selection process, particularly for edge-deployable lightweight detection in resource-constrained OT environments.",
+      "accessible": false
+    },
+    {
+      "id": "wjarr2024",
+      "category_id": "ml_detection",
+      "type": "journal",
+      "citation": "World Journal of Advanced Research and Reviews. (2024). Recent Advances in AI-Driven Cybersecurity. WJARR, 21(1). https://doi.org/10.30574/wjarr.2024.21.1.0287",
+      "title": "Recent Advances in AI-Driven Cybersecurity",
+      "authors": "World Journal of Advanced Research and Reviews",
+      "year": 2024,
+      "url": "https://wjarr.com/sites/default/files/WJARR-2024-0287.pdf",
+      "doi": "10.30574/wjarr.2024.21.1.0287",
+      "abstract": "Review of recent advances in AI-driven cybersecurity, finding hybrid ML approaches outperform single-algorithm detection and highlighting SIEM/SOAR integration challenges.",
+      "key_findings": [
+        "Recent advances in AI-driven cybersecurity reviewed",
+        "Hybrid ML approaches outperform single-algorithm detection",
+        "Explainability requirements shape model selection in security contexts",
+        "Integration challenges between ML systems and legacy SIEM/SOAR platforms"
+      ],
+      "relevance": "SIEM/SOAR integration challenges identified here directly inform the prototype's architecture design decisions, particularly the API-first approach for compatibility with existing SOC toolchains.",
+      "accessible": false
+    },
+    {
+      "id": "ieee9868845",
+      "category_id": "ml_detection",
+      "type": "journal",
+      "citation": "Security of ML-Based Anomaly Detection in Cyber-Physical Systems. (2022). IEEE Xplore. https://ieeexplore.ieee.org/document/9868845",
+      "title": "Security of ML-Based Anomaly Detection in Cyber-Physical Systems",
+      "authors": "IEEE Authors",
+      "year": 2022,
+      "url": "https://ieeexplore.ieee.org/document/9868845",
+      "doi": null,
+      "abstract": "Analysis of adversarial attack impacts on ML anomaly detection in CPS environments, demonstrating up to 40% accuracy degradation and proposing defense strategies including adversarial training and model ensembling.",
+      "key_findings": [
+        "Adversarial attacks can degrade ML anomaly detection accuracy by up to 40%",
+        "Defense strategies include adversarial training and model ensembling",
+        "CPS-specific threats require domain-aware ML model design",
+        "Physical process constraints can be encoded as detection features"
+      ],
+      "relevance": "Adversarial robustness findings are critical for the prototype's threat model, informing the need for ensemble-based detection and physical process constraint encoding in the OT-layer anomaly detection module.",
+      "accessible": false
+    },
+    {
+      "id": "springer2025",
+      "category_id": "ml_detection",
+      "type": "journal",
+      "citation": "Springer. (2025). AI and machine learning in cybersecurity: State-of-the-art techniques. Knowledge and Information Systems. https://doi.org/10.1007/s10115-025-02429-y",
+      "title": "AI and Machine Learning in Cybersecurity: State-of-the-Art Techniques",
+      "authors": "Springer Research Authors",
+      "year": 2025,
+      "url": "https://link.springer.com/article/10.1007/s10115-025-02429-y",
+      "doi": "10.1007/s10115-025-02429-y",
+      "abstract": "Comprehensive 2025 survey of deep learning for cybersecurity covering transformer models for log analysis, reinforcement learning for automated incident response, and quantum-resistant detection approaches.",
+      "key_findings": [
+        "Comprehensive survey of deep learning for cybersecurity through 2025",
+        "Transformer models emerging as strong performers for log analysis",
+        "Reinforcement learning applied to automated incident response",
+        "Quantum-resistant approaches under active research"
+      ],
+      "relevance": "Transformer and reinforcement learning findings establish the forward-looking research direction for the prototype, positioning the ML-SOAR approach within the current state of the art and identifying next-phase improvements.",
+      "accessible": false
+    },
+    {
+      "id": "cisa-ot-asset-inventory-2025",
+      "category_id": "ics_security",
+      "title": "Foundations for OT Cybersecurity: Asset Inventory Guidance for Owners and Operators",
+      "authors": "CISA, EPA, NSA, FBI, and International Partners",
+      "year": 2025,
+      "citation": "CISA et al. (2025). Foundations for OT Cybersecurity: Asset Inventory Guidance. Joint Guidance Document.",
+      "key_findings": "Joint guidance establishing asset inventory as a foundational OT security control. Recommends passive discovery methods to avoid disrupting ICS/OT processes. Emphasizes knowing what devices exist on the network before applying detection or response measures. Directly supports ML-SOAR asset-aware detection pipelines.",
+      "relevance": "Provides authoritative baseline for asset enumeration that feeds ML anomaly detection \u2014 you cannot detect deviations without knowing the baseline asset inventory. Supports the data collection phase of the ML-SOAR pipeline.",
+      "accessible": true,
+      "url": "https://www.cisa.gov/sites/default/files/2025-08/joint-guide-foundations-for-OT-cybersecurity-asset-inventory-guidance_508c.pdf"
+    },
+    {
+      "id": "doj-iot-botnet-disruption-2026",
+      "category_id": "industry",
+      "title": "Authorities Disrupt World's Largest IoT DDoS Botnets (AISURU, Kimwolf, JackSkid, Mossad)",
+      "authors": "U.S. Department of Justice, USAO-AK, Canadian and German Law Enforcement",
+      "year": 2026,
+      "citation": "DOJ (2026). Authorities Disrupt World's Largest IoT DDoS Botnets Responsible for Record-Breaking Attacks. DOJ Press Release, March 20, 2026.",
+      "key_findings": "Four IoT botnets (AISURU, Kimwolf, JackSkid, Mossad) infected 3M+ devices globally. Record 31.4 Tbps DDoS attack in November 2025. Kimwolf issued 1.7 billion commands in 4 days. DoD networks targeted. C2 infrastructure comprised ~1,000 servers; Lumen null-routed them in coordination with 15 tech firms.",
+      "relevance": "Demonstrates real-world scale of IoT-based DDoS threats that intersect with CPS environments. Botnet techniques (ADB exploitation, EtherHiding, DNS-over-TLS evasion) are directly relevant to OT network anomaly detection research and ML-SOAR detection pipeline design.",
+      "accessible": true,
+      "url": "https://www.justice.gov/usao-ak/pr/authorities-disrupt-worlds-largest-iot-ddos-botnets-responsible-record-breaking-attacks"
+    },
+    {
+      "id": "softrams-predictive-ml-2024",
+      "category_id": "ml_detection",
+      "title": "Predictive Analysis Using Machine Learning for Cybersecurity",
+      "authors": "Softrams / P. Neumann (ed.)",
+      "year": 2024,
+      "citation": "Softrams. (2024). Predictive Analysis Using Machine Learning for Cybersecurity. Trustworthy AI Working Paper Series.",
+      "key_findings": "Examines ML-based predictive models for proactive cybersecurity threat detection. Covers supervised and unsupervised approaches for anomaly detection in networked systems. Addresses challenges of model explainability in security operations contexts.",
+      "relevance": "Directly supports the predictive detection component of the ML-SOAR framework. Provides methodological grounding for applying ML classification models to cyber threat prediction in IT/OT environments.",
+      "accessible": true,
+      "url": "https://p-neumann.github.io/trustworthyai/doc/wp_Softrams_p1_predictive_analysis_ML.pdf"
+    },
+    {
+      "id": "csse-ics-security-2024",
+      "category_id": "ics_security",
+      "title": "Cybersecurity in Industrial Control Systems: Challenges and Solutions",
+      "authors": "Computer Science and Software Engineering (CSSE) Journal",
+      "year": 2024,
+      "citation": "CSSE. (2024). Cybersecurity in Industrial Control Systems: Challenges and Solutions. CSSE-02-051.",
+      "key_findings": "Surveys security vulnerabilities specific to ICS/SCADA systems including protocol weaknesses (Modbus, DNP3). Proposes defense-in-depth strategies aligned with Purdue Reference Model. Discusses detection limitations of signature-based approaches in OT environments.",
+      "relevance": "Provides academic grounding for ICS-specific security challenges addressed by the ML-SOAR prototype. The protocol weakness analysis informs feature engineering for the ML detection pipeline.",
+      "accessible": true,
+      "url": "https://clareus.org/pdf/csse/CSSE-02-051.pdf"
+    }
+  ]
+}
