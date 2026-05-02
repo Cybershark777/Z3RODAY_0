@@ -147,3 +147,4 @@ export type TabId =
   | 'cvemap'
   | 'datasets'
   | 'references'
+  | 'threatintel'

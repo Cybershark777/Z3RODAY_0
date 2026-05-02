@@ -74,10 +74,24 @@ func NewRouter(dataDir string) *gin.Engine {
 	r.GET("/api/live/otx", GetOTX)
 	r.GET("/api/live/news", GetNews)
 	r.GET("/api/live/briefing", GetBriefing)
+	r.GET("/api/live/briefing/stream", GetBriefingStream)
 	r.GET("/api/threat-feed", GetThreatFeed)
 
 	// ── References ──────────────────────────────────────────────────────────
 	r.GET("/api/references", GetReferences(dataDir))
+
+	// ── Threat Intelligence Platforms ───────────────────────────────────────
+	r.GET("/api/intel/summary", GetThreatIntelSummary)
+	r.GET("/api/intel/threatfox", GetThreatFoxIOCs)
+	r.GET("/api/intel/threatfox/search", GetThreatFoxSearch)
+	r.GET("/api/intel/feodo", GetFeodoBlocklist)
+	r.GET("/api/intel/urlhaus", GetURLhausRecent)
+	r.GET("/api/intel/malwarebazaar", GetMalwareBazaarRecent)
+	r.GET("/api/intel/cisa-advisories", GetCISAAdvisories)
+	r.GET("/api/intel/greynoise", GetGreyNoiseICS)
+	r.GET("/api/intel/greynoise/:ip", GetGreyNoiseIP)
+	r.GET("/api/intel/shodan", GetShodanICS)
+	r.GET("/api/intel/ioc-search", GetIOCSearch)
 
 	// ── WebSocket ───────────────────────────────────────────────────────────
 	r.GET("/ws/threatfeed", WSHandler)

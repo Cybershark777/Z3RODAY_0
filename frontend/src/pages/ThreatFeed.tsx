@@ -77,7 +77,7 @@ export default function ThreatFeed() {
                 <div className="event-desc">{event.description ?? event.title}</div>
                 {event.score !== undefined && (
                   <div style={{ marginTop: 4, fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                    Anomaly score: <span style={{ color: event.score > 0.7 ? '#ff6b6b' : '#3fb950' }}>
+                    Anomaly score: <span style={{ color: event.score > 0.7 ? '#ff6b6b' : '#00e676' }}>
                       {(event.score * 100).toFixed(1)}%
                     </span>
                   </div>

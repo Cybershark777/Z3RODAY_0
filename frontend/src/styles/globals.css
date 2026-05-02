@@ -1,30 +1,30 @@
 /* ── CSS Variables ────────────────────────────────────────────────────────── */
 :root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --surface2: #1c2128;
-  --surface3: #21262d;
-  --border: #30363d;
-  --accent: #1f6feb;
-  --accent2: #388bfd;
-  --text: #e6edf3;
-  --text-muted: #8b949e;
-  --critical: #da3633;
+  --bg: #080808;
+  --surface: #0e0e0e;
+  --surface2: #141414;
+  --surface3: #1a1a1a;
+  --border: #222222;
+  --accent: #00c853;
+  --accent2: #00e676;
+  --text: #e8e8e8;
+  --text-muted: #6b7280;
+  --critical: #ff3333;
   --high: #e3b341;
-  --medium: #3fb950;
-  --it: #388bfd;
-  --ot: #bc8cff;
+  --medium: #00e676;
+  --it: #00e676;
+  --ot: #00bcd4;
   --radius: 6px;
 }
 
 [data-theme="light"] {
-  --bg: #f4f6f8;
+  --bg: #f5f7fa;
   --surface: #ffffff;
-  --surface2: #f0f2f4;
-  --surface3: #e8eaed;
-  --border: #d0d7de;
-  --text: #1f2328;
-  --text-muted: #57606a;
+  --surface2: #edf2f7;
+  --surface3: #e2e8f0;
+  --border: #cbd5e0;
+  --text: #1a202c;
+  --text-muted: #718096;
 }
 
 /* ── Reset ────────────────────────────────────────────────────────────────── */
@@ -36,6 +36,11 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  /* Cyberpunk grid overlay */
+  background-image:
+    linear-gradient(rgba(0,200,83,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,200,83,0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
 a { color: var(--accent2); text-decoration: none; }
@@ -75,9 +80,24 @@ a:hover { text-decoration: underline; }
 .app-header h1 { font-size: 1.35rem; font-weight: 600; }
 .app-header p { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
 .header-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); }
-.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.dot-green { background: #3fb950; box-shadow: 0 0 6px #3fb950; }
-.dot-red { background: #da3633; box-shadow: 0 0 6px #da3633; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; position: relative; }
+.dot-green { background: #00e676; box-shadow: 0 0 8px #00e676; }
+.dot-red { background: #ff3333; box-shadow: 0 0 8px #ff3333; }
+
+/* Ripple ring on live dot */
+.dot-ripple::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid #00e676;
+  animation: ripple-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes ripple-ring {
+  0%   { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
 .theme-toggle-btn {
   background: transparent; border: 1px solid var(--border);
   color: var(--text); border-radius: 4px; padding: 4px 8px;
@@ -148,7 +168,19 @@ a:hover { text-decoration: underline; }
 
 /* ── Charts Row ───────────────────────────────────────────────────────────── */
 .charts-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-.chart-card { flex: 2; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; min-width: 280px; }
+.chart-card {
+  flex: 2;
+  background: rgba(8,8,8,0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,200,83,0.12);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  min-width: 280px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7), inset 0 1px 0 rgba(0,200,83,0.025);
+  transition: border-color 0.2s;
+}
+.chart-card:hover { border-color: rgba(0,200,83,0.3); }
 .chart-card-sm { flex: 1; min-width: 220px; }
 .chart-card h2 { font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-muted); }
 
@@ -181,10 +213,20 @@ code { font-family: monospace; font-size: 0.82em; color: var(--accent2); }
   font-size: 0.7rem; font-weight: 600; padding: 2px 6px;
   border-radius: 3px; letter-spacing: 0.04em; text-transform: uppercase;
 }
-.sev-critical { background: rgba(218,54,51,0.2); color: #ff6b6b; border: 1px solid #da3633; }
-.sev-high { background: rgba(227,179,65,0.2); color: #e3b341; border: 1px solid #e3b341; }
-.sev-medium { background: rgba(63,185,80,0.2); color: #3fb950; border: 1px solid #3fb950; }
-.sev-low { background: rgba(56,139,253,0.2); color: #388bfd; border: 1px solid #388bfd; }
+.sev-critical {
+  background: rgba(218,54,51,0.2);
+  color: #ff6b6b;
+  border: 1px solid #da3633;
+  animation: pulse-glow-red 2.2s ease-in-out infinite;
+}
+.sev-high    { background: rgba(227,179,65,0.2); color: #e3b341; border: 1px solid #e3b341; }
+.sev-medium  { background: rgba(0,200,83,0.1);  color: #00e676; border: 1px solid #00c853; }
+.sev-low     { background: rgba(0,188,212,0.15); color: #00bcd4; border: 1px solid #008fa0; }
+
+@keyframes pulse-glow-red {
+  0%, 100% { box-shadow: 0 0 3px rgba(218,54,51,0.4); }
+  50%       { box-shadow: 0 0 10px rgba(218,54,51,0.9), 0 0 20px rgba(218,54,51,0.35); }
+}
 
 /* ── Intel Section ────────────────────────────────────────────────────────── */
 .intel-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
@@ -333,6 +375,120 @@ code { font-family: monospace; font-size: 0.82em; color: var(--accent2); }
 
 /* ── OTX Notice ──────────────────────────────────────────────────────────── */
 .otx-notice { padding: 0.6rem 1rem; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+/* ── Ticker ───────────────────────────────────────────────────────────────── */
+.ticker-wrapper {
+  display: flex; align-items: center; gap: 0; overflow: hidden;
+  border-top: 1px solid var(--border); height: 28px; background: rgba(13,17,23,0.7);
+}
+.ticker-label {
+  flex-shrink: 0; padding: 0 0.75rem;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+  color: #00e676; border-right: 1px solid var(--border); height: 100%;
+  display: flex; align-items: center; background: rgba(0,200,83,0.07);
+  text-shadow: 0 0 8px #00e676;
+}
+.ticker-track { flex: 1; overflow: hidden; position: relative; height: 100%; }
+.ticker-inner {
+  display: flex; align-items: center;
+  white-space: nowrap; width: max-content;
+  animation: ticker-scroll linear infinite;
+}
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-item { display: inline-flex; align-items: center; font-size: 0.72rem; color: var(--text-muted); padding: 0 0.5rem; }
+.ticker-sev { font-weight: 700; margin-right: 4px; }
+.ticker-sep { margin: 0 0.75rem; opacity: 0.3; font-size: 0.6rem; }
+
+/* ── Critical Alert Toast ─────────────────────────────────────────────────── */
+.critical-toast {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(218,54,51,0.92); backdrop-filter: blur(8px);
+  padding: 0.75rem 1.5rem; cursor: pointer;
+  animation: toast-slide-in 0.35s cubic-bezier(0.16,1,0.3,1);
+  border-bottom: 1px solid #da3633;
+  box-shadow: 0 4px 32px rgba(218,54,51,0.5);
+}
+@keyframes toast-slide-in {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+.critical-toast-icon { font-size: 1.4rem; flex-shrink: 0; animation: pulse-glow-red 1s infinite; }
+.critical-toast-body { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.critical-toast-body strong { font-size: 0.72rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.7); }
+.critical-toast-body span { font-size: 0.88rem; color: #fff; font-weight: 500; }
+.critical-toast-close { background: transparent; border: none; color: rgba(255,255,255,0.6); font-size: 1rem; cursor: pointer; }
+
+/* ── Metric count-up flash ────────────────────────────────────────────────── */
+.metric-animated { transition: color 0.1s; }
+
+/* ── Attack Timeline ─────────────────────────────────────────────────────── */
+.timeline-wrapper {
+  overflow-x: auto; padding: 1rem 0 0.5rem;
+}
+.timeline-track {
+  display: flex; align-items: flex-start; gap: 0;
+  min-width: max-content; padding: 0 0.5rem;
+}
+.timeline-node {
+  display: flex; flex-direction: column; align-items: center; width: 110px;
+  animation: fade-up 0.4s ease both;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.timeline-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; z-index: 1;
+  transition: transform 0.2s;
+}
+.timeline-node:hover .timeline-dot { transform: scale(1.4); }
+.timeline-line {
+  width: 100%; height: 2px; background: var(--border);
+  margin-top: -6px; z-index: 0;
+}
+.timeline-node:last-child .timeline-line { background: transparent; }
+.timeline-card {
+  margin-top: 0.5rem; padding: 0.4rem; text-align: center;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.timeline-sev  { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.timeline-name { font-size: 0.72rem; color: var(--text); line-height: 1.3; }
+.timeline-count { font-size: 0.65rem; color: var(--text-muted); }
+
+/* ── Export Button ────────────────────────────────────────────────────────── */
+.export-btn {
+  padding: 0.3rem 0.8rem; background: transparent;
+  border: 1px solid var(--border); color: var(--text-muted);
+  border-radius: 4px; font-size: 0.8rem; cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.export-btn:hover { border-color: var(--accent2); color: var(--text); }
+
+/* ── Streaming cursor + indicator ────────────────────────────────────────── */
+.stream-cursor {
+  display: inline-block; color: var(--accent2);
+  animation: blink 0.8s step-start infinite; margin-left: 2px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.streaming-indicator {
+  display: flex; align-items: center; gap: 0.5rem; color: var(--accent2) !important;
+}
+.stream-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent2);
+  animation: pulse-stream 1s ease-in-out infinite;
+}
+@keyframes pulse-stream {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ── App header ticker spacing ────────────────────────────────────────────── */
+.app-header { padding-bottom: 0; }
+.header-inner { padding: 1.25rem 2rem; }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {

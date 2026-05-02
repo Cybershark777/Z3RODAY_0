@@ -9,13 +9,13 @@ import LoadingSpinner from '../components/LoadingSpinner'
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, BarElement, ArcElement, Title, Tooltip, Legend, Filler)
 
-const SENSOR_COLORS = ['#388bfd', '#bc8cff', '#3fb950', '#e3b341', '#ff8c42', '#ff6b6b']
+const SENSOR_COLORS = ['#00e676', '#00bcd4', '#00e676', '#e3b341', '#ff8c42', '#ff6b6b']
 const DARK_OPTS = {
   scales: {
-    x: { ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
-    y: { ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
+    x: { ticks: { color: '#4a5568' }, grid: { color: '#1c1c1c' } },
+    y: { ticks: { color: '#4a5568' }, grid: { color: '#1c1c1c' } },
   },
-  plugins: { legend: { labels: { color: '#8b949e' } } },
+  plugins: { legend: { labels: { color: '#4a5568' } } },
 }
 
 export default function MLSoar() {
@@ -80,7 +80,7 @@ export default function MLSoar() {
     datasets: [{
       label: 'ROC Curve',
       data: data.roc_points.map((p: any) => ({ x: p.fpr, y: p.tpr })),
-      borderColor: '#bc8cff',
+      borderColor: '#00bcd4',
       backgroundColor: 'rgba(188,140,255,0.3)',
       showLine: true,
       pointRadius: 4,
@@ -113,7 +113,7 @@ export default function MLSoar() {
         {data.comparisons.map((c: any) => (
           <div key={c.window} className="metric-card">
             <div className="metric-label">Attack {c.window} Improvement</div>
-            <div className="metric-value" style={{ color: '#3fb950' }}>{c.improvement}%</div>
+            <div className="metric-value" style={{ color: '#00e676' }}>{c.improvement}%</div>
             <div className="metric-sub">MTTD reduction</div>
           </div>
         ))}
@@ -139,7 +139,7 @@ export default function MLSoar() {
               maintainAspectRatio: false,
               scales: {
                 ...DARK_OPTS.scales,
-                y: { ...DARK_OPTS.scales.y, min: 0, max: 3, title: { display: true, text: 'Score', color: '#8b949e' } },
+                y: { ...DARK_OPTS.scales.y, min: 0, max: 3, title: { display: true, text: 'Score', color: '#4a5568' } },
               },
             }}
           />
@@ -166,10 +166,10 @@ export default function MLSoar() {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                  x: { min: 0, max: 1, title: { display: true, text: 'FPR', color: '#8b949e' }, ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
-                  y: { min: 0, max: 1, title: { display: true, text: 'TPR', color: '#8b949e' }, ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
+                  x: { min: 0, max: 1, title: { display: true, text: 'FPR', color: '#4a5568' }, ticks: { color: '#4a5568' }, grid: { color: '#1c1c1c' } },
+                  y: { min: 0, max: 1, title: { display: true, text: 'TPR', color: '#4a5568' }, ticks: { color: '#4a5568' }, grid: { color: '#1c1c1c' } },
                 },
-                plugins: { legend: { labels: { color: '#8b949e' } } },
+                plugins: { legend: { labels: { color: '#4a5568' } } },
               }}
             />
           </div>

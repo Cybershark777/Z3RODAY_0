@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bufio"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -221,6 +222,96 @@ Format with ## headings, bullet points, and a --- separator before recommendatio
 	result := gin.H{"briefing": briefing, "cached": false, "generated_at": time.Now().UTC().Format(time.RFC3339)}
 	cache.Default.Set(cacheKey, result, 30*time.Minute)
 	c.JSON(http.StatusOK, result)
+}
+
+// GetBriefingStream streams an AI-generated threat briefing via SSE (token by token).
+func GetBriefingStream(c *gin.Context) {
+	apiKey := os.Getenv("ANTHROPIC_API_KEY")
+	if apiKey == "" {
+		c.Header("Content-Type", "text/event-stream")
+		fmt.Fprintf(c.Writer, "event: error\ndata: ANTHROPIC_API_KEY not configured\n\n")
+		c.Writer.Flush()
+		return
+	}
+
+	var actors []models.ThreatActor
+	db.DB.Limit(5).Find(&actors)
+	actorNames := make([]string, 0)
+	for _, a := range actors {
+		actorNames = append(actorNames, a.Name)
+	}
+
+	prompt := fmt.Sprintf(`You are a senior ICS/OT security analyst. Write a concise tactical threat briefing (400–500 words) for a CPS data center security operations team. Include:
+1. Current threat landscape for ICS/OT environments
+2. Key threat actors active against critical infrastructure: %s
+3. Top 3 attack vectors targeting Purdue Model Levels 0-2
+4. Recommended defensive actions for SOC teams
+5. Relevant MITRE ATT&CK for ICS techniques to monitor
+
+Format with ## headings, bullet points, and a --- separator before recommendations.`,
+		strings.Join(actorNames, ", "))
+
+	body := map[string]any{
+		"model":      "claude-haiku-4-5-20251001",
+		"max_tokens": 1024,
+		"stream":     true,
+		"messages":   []map[string]any{{"role": "user", "content": prompt}},
+	}
+	bodyBytes, _ := json.Marshal(body)
+
+	req, _ := newRequest("POST", "https://api.anthropic.com/v1/messages", bodyBytes)
+	req.Header.Set("x-api-key", apiKey)
+	req.Header.Set("anthropic-version", "2023-06-01")
+	req.Header.Set("content-type", "application/json")
+
+	client := &http.Client{Timeout: 60 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		c.Header("Content-Type", "text/event-stream")
+		fmt.Fprintf(c.Writer, "event: error\ndata: %s\n\n", err.Error())
+		c.Writer.Flush()
+		return
+	}
+	defer resp.Body.Close()
+
+	c.Header("Content-Type", "text/event-stream")
+	c.Header("Cache-Control", "no-cache")
+	c.Header("X-Accel-Buffering", "no")
+	c.Writer.WriteHeader(http.StatusOK)
+
+	scanner := bufio.NewScanner(resp.Body)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if !strings.HasPrefix(line, "data: ") {
+			continue
+		}
+		data := strings.TrimPrefix(line, "data: ")
+		if data == "[DONE]" {
+			fmt.Fprintf(c.Writer, "event: done\ndata: \n\n")
+			c.Writer.Flush()
+			return
+		}
+		var event map[string]any
+		if json.Unmarshal([]byte(data), &event) != nil {
+			continue
+		}
+		if event["type"] == "content_block_delta" {
+			if delta, ok := event["delta"].(map[string]any); ok {
+				if text, ok := delta["text"].(string); ok && text != "" {
+					// Escape newlines for SSE data field
+					escaped := strings.ReplaceAll(text, "\n", "\\n")
+					fmt.Fprintf(c.Writer, "event: delta\ndata: %s\n\n", escaped)
+					c.Writer.Flush()
+				}
+			}
+		}
+		// message_stop signals end of stream
+		if event["type"] == "message_stop" {
+			fmt.Fprintf(c.Writer, "event: done\ndata: \n\n")
+			c.Writer.Flush()
+			return
+		}
+	}
 }
 
 // GetThreatFeed returns recent threat events from SQLite incidents.

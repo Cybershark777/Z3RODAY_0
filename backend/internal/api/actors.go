@@ -40,7 +40,74 @@ func enrichActor(a models.ThreatActor) map[string]any {
 		full = make(map[string]any)
 	}
 
-	// Inject technique tactic mapping for per-actor ATT&CK heatmap
+	// ── Normalize field names ────────────────────────────────────────────────
+	// The JSON uses different field names than the frontend expects.
+	// Normalize so either old or new key names work.
+
+	// nation → nation_state
+	if _, ok := full["nation_state"]; !ok {
+		if n, ok := full["nation"].(string); ok {
+			full["nation_state"] = n
+		}
+	}
+
+	// first_seen → active_since
+	if _, ok := full["active_since"]; !ok {
+		if n, ok := full["first_seen"].(string); ok {
+			full["active_since"] = n
+		}
+	}
+
+	// targeted_sectors → target_sectors
+	if _, ok := full["target_sectors"]; !ok {
+		if ts, ok := full["targeted_sectors"]; ok {
+			full["target_sectors"] = ts
+		}
+	}
+
+	// targeted_regions → regions (expose as-is)
+	if _, ok := full["regions"]; !ok {
+		if tr, ok := full["targeted_regions"]; ok {
+			full["regions"] = tr
+		}
+	}
+
+	// mitre_techniques → techniques (for tactic breakdown lookup)
+	if _, ok := full["techniques"]; !ok {
+		if mt, ok := full["mitre_techniques"]; ok {
+			full["techniques"] = mt
+		}
+	}
+
+	// Derive category from nation if not set
+	if _, ok := full["category"]; !ok {
+		nation, _ := full["nation_state"].(string)
+		switch nation {
+		case "Russia", "China", "Iran", "North Korea", "Belarus":
+			full["category"] = "nation-state"
+		default:
+			full["category"] = "criminal"
+		}
+	}
+
+	// Derive motivation if not set
+	if _, ok := full["motivation"]; !ok {
+		nation, _ := full["nation_state"].(string)
+		switch nation {
+		case "Russia":
+			full["motivation"] = "Disruption / Geopolitical"
+		case "China":
+			full["motivation"] = "Espionage / Pre-positioning"
+		case "Iran":
+			full["motivation"] = "Espionage / Sabotage"
+		case "North Korea":
+			full["motivation"] = "Revenue Generation / Espionage"
+		default:
+			full["motivation"] = "Intelligence Collection"
+		}
+	}
+
+	// ── Tactic breakdown ─────────────────────────────────────────────────────
 	techniqueIDs := []string{}
 	if ids, ok := full["techniques"].([]any); ok {
 		for _, id := range ids {
@@ -50,7 +117,6 @@ func enrichActor(a models.ThreatActor) map[string]any {
 		}
 	}
 
-	// Build tactic → technique count for this actor
 	var techniques []models.MitreTechnique
 	if len(techniqueIDs) > 0 {
 		db.DB.Where("id IN ?", techniqueIDs).Find(&techniques)
@@ -58,11 +124,6 @@ func enrichActor(a models.ThreatActor) map[string]any {
 
 	var tactics []models.MitreTactic
 	db.DB.Order("`order` asc").Find(&tactics)
-
-	tacticNames := make(map[string]string)
-	for _, t := range tactics {
-		tacticNames[t.ID] = t.Name
-	}
 
 	tacticCounts := make(map[string]int)
 	for _, tech := range techniques {

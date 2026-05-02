@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../services/api'
 import LoadingSpinner from '../components/LoadingSpinner'
@@ -38,11 +39,46 @@ function mdToHtml(text: string): string {
 }
 
 export default function AIBriefing() {
+  const [streamText, setStreamText] = useState<string | null>(null)
+  const [streaming, setStreaming] = useState(false)
+  const [streamError, setStreamError] = useState<string | null>(null)
+  const esRef = useRef<EventSource | null>(null)
+
+  // Cached briefing fallback
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['briefing'],
     queryFn: api.briefing,
     staleTime: 30 * 60 * 1000,
+    enabled: streamText === null,
   })
+
+  const startStream = () => {
+    if (esRef.current) esRef.current.close()
+    setStreamText('')
+    setStreaming(true)
+    setStreamError(null)
+
+    const es = new EventSource('/api/live/briefing/stream')
+    esRef.current = es
+
+    es.addEventListener('delta', (e) => {
+      setStreamText((prev) => (prev ?? '') + e.data)
+    })
+
+    es.addEventListener('done', () => {
+      es.close()
+      setStreaming(false)
+    })
+
+    es.onerror = () => {
+      es.close()
+      setStreaming(false)
+      if (!streamText) setStreamError('Streaming failed — check ANTHROPIC_API_KEY')
+    }
+  }
+
+  const displayText = streamText ?? data?.briefing ?? null
+  const isGenerating = isLoading || streaming
 
   return (
     <div className="tab-page">
@@ -52,24 +88,42 @@ export default function AIBriefing() {
           AI-generated tactical briefing synthesizing current ICS/OT threat landscape.
           Powered by Claude (Anthropic).
         </p>
-        <button className="primary-btn" onClick={() => refetch()} disabled={isLoading}>
-          {isLoading ? 'Generating...' : '↺ Regenerate'}
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}>
+          <button className="primary-btn" onClick={startStream} disabled={streaming}>
+            {streaming ? '⟳ Streaming...' : '▶ Stream Live'}
+          </button>
+          <button
+            className="primary-btn"
+            style={{ background: 'var(--surface2)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
+            onClick={() => { setStreamText(null); refetch() }}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Loading...' : '↺ Load Cached'}
+          </button>
+        </div>
       </div>
 
-      {isLoading && <LoadingSpinner message="Generating AI threat briefing..." />}
-      {error && (
-        <div className="error-state">Failed to generate briefing — check ANTHROPIC_API_KEY</div>
+      {isLoading && !streaming && <LoadingSpinner message="Generating AI threat briefing..." />}
+      {(error || streamError) && (
+        <div className="error-state">{streamError ?? 'Failed to generate briefing — check ANTHROPIC_API_KEY'}</div>
       )}
-      {data?.briefing && (
+
+      {displayText && (
         <div className="briefing-container">
-          {data.generated_at && (
+          {data?.generated_at && !streamText && (
             <div className="briefing-meta">Generated: {new Date(data.generated_at).toLocaleString()}</div>
+          )}
+          {streaming && (
+            <div className="briefing-meta streaming-indicator">
+              <span className="stream-dot" />
+              Streaming response from Claude...
+            </div>
           )}
           <div
             className="briefing-text"
-            dangerouslySetInnerHTML={{ __html: mdToHtml(data.briefing) }}
+            dangerouslySetInnerHTML={{ __html: mdToHtml(displayText) }}
           />
+          {streaming && <span className="stream-cursor">▋</span>}
         </div>
       )}
     </div>

@@ -102,7 +102,9 @@ export default function KillChainBuilder() {
                   <div className="step-body" style={{ flex: 1 }}>
                     <div className="step-phase">{step.tactic.name}</div>
                     <div className="step-action">
-                      <span className="technique-id">{step.technique.id}</span> {step.technique.name}
+                      <a href={`https://attack.mitre.org/techniques/${step.technique.id}/`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <span className="technique-id" style={{ color: 'var(--accent)' }}>{step.technique.id} ↗</span>
+                      </a>{' '}{step.technique.name}
                     </div>
                     {step.technique.description && (
                       <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 4 }}>
@@ -124,6 +126,36 @@ export default function KillChainBuilder() {
               <strong>Tactics covered:</strong>{' '}
               {[...new Set(chain.map((s) => s.tactic.name))].join(' → ')}
             </div>
+          )}
+
+          {chain.length > 0 && (
+            <button
+              className="export-btn"
+              style={{ marginTop: '0.75rem' }}
+              onClick={() => {
+                const layer = {
+                  name: 'CyberShark Kill Chain Export',
+                  versions: { attack: '10', navigator: '4.8.2', layer: '4.4' },
+                  domain: 'ics-attack',
+                  techniques: chain.map((s) => ({
+                    techniqueID: s.technique.id,
+                    tactic: s.tactic.name?.toLowerCase().replace(/ /g, '-'),
+                    color: '#00e676',
+                    comment: s.technique.name,
+                    enabled: true,
+                  })),
+                }
+                const blob = new Blob([JSON.stringify(layer, null, 2)], { type: 'application/json' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = 'kill-chain-navigator-layer.json'
+                a.click()
+                URL.revokeObjectURL(url)
+              }}
+            >
+              ↓ Export MITRE Navigator Layer
+            </button>
           )}
         </div>
       </div>

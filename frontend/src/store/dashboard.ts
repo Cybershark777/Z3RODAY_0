@@ -12,6 +12,9 @@ interface DashboardState {
   liveEvents: Incident[]
   wsConnected: boolean
 
+  // Critical alert toast
+  criticalAlert: (Incident & { _alertId: string }) | null
+
   // Selected entities (for cross-tab navigation)
   selectedThreatId: string | null
   selectedActorId: string | null
@@ -22,6 +25,8 @@ interface DashboardState {
   toggleTheme: () => void
   addLiveEvent: (event: Incident) => void
   setWsConnected: (connected: boolean) => void
+  setCriticalAlert: (event: Incident) => void
+  dismissCriticalAlert: () => void
   setSelectedThreat: (id: string | null) => void
   setSelectedActor: (id: string | null) => void
 }
@@ -34,6 +39,7 @@ export const useDashboard = create<DashboardState>()(
       theme: 'dark',
       liveEvents: [],
       wsConnected: false,
+      criticalAlert: null,
       selectedThreatId: null,
       selectedActorId: null,
 
@@ -47,6 +53,9 @@ export const useDashboard = create<DashboardState>()(
         })),
 
       setWsConnected: (connected) => set({ wsConnected: connected }),
+      setCriticalAlert: (event) =>
+        set({ criticalAlert: { ...event, _alertId: `${Date.now()}` } }),
+      dismissCriticalAlert: () => set({ criticalAlert: null }),
       setSelectedThreat: (id) => set({ selectedThreatId: id }),
       setSelectedActor: (id) => set({ selectedActorId: id }),
     }),

@@ -1,28 +1,27 @@
-# Go
-*.exe
-*.test
-*.out
-cps_dashboard.db
-cps-dashboard
-/backend/cps_dashboard.db
-/backend/*.db
+# Dependencies
+frontend/node_modules/
+frontend/dist/
 
-# Environment
+# Database
+backend/*.db
+*.db
+
+# Environment variables
+backend/.env
 .env
-*.env.local
-*.env.production
 
-# Node / React
-node_modules/
-dist/
-.vite/
-*.local
+# Go build artifacts
+backend/server
+backend/cmd/server/server
 
 # OS
 .DS_Store
 Thumbs.db
 
 # IDE
-.idea/
 .vscode/
-*.swp
+.idea/
+
+# Logs
+*.log
+# wal/shm files

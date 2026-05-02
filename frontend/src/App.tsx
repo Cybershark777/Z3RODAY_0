@@ -3,6 +3,7 @@ import { useDashboard } from './store/dashboard'
 import { createThreatFeedSocket } from './services/api'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
+import CriticalAlert from './components/CriticalAlert'
 import { TabId } from './types'
 
 // Pages (lazy loaded would be ideal but keeping simple for now)
@@ -24,6 +25,7 @@ import KillChainBuilder from './pages/KillChainBuilder'
 import CVEAssetMap from './pages/CVEAssetMap'
 import Datasets from './pages/Datasets'
 import References from './pages/References'
+import ThreatIntelPlatforms from './pages/ThreatIntelPlatforms'
 
 const PAGE_MAP: Record<TabId, JSX.Element> = {
   overview: <Overview />,
@@ -44,10 +46,11 @@ const PAGE_MAP: Record<TabId, JSX.Element> = {
   cvemap: <CVEAssetMap />,
   datasets: <Datasets />,
   references: <References />,
+  threatintel: <ThreatIntelPlatforms />,
 }
 
 export default function App() {
-  const { activeTab, theme, addLiveEvent, setWsConnected } = useDashboard()
+  const { activeTab, theme, addLiveEvent, setWsConnected, setCriticalAlert } = useDashboard()
 
   // Apply theme to document
   useEffect(() => {
@@ -64,6 +67,7 @@ export default function App() {
         (msg) => {
           const event = msg.event ?? msg
           addLiveEvent(event)
+          if (event.severity === 'critical') setCriticalAlert(event)
         },
         () => {
           setWsConnected(false)
@@ -83,6 +87,7 @@ export default function App() {
   return (
     <div className="app-root">
       <Header />
+      <CriticalAlert />
       <div className="app-layout">
         <Sidebar />
         <main className="app-main">

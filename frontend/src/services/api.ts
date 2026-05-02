@@ -53,6 +53,19 @@ export const api = {
 
   // References
   references: () => get<any>('/references'),
+
+  // Threat Intelligence Platforms
+  intelSummary: () => get<any>('/intel/summary'),
+  threatFoxIOCs: () => get<any>('/intel/threatfox'),
+  threatFoxSearch: (ioc: string) => get<any>(`/intel/threatfox/search?ioc=${encodeURIComponent(ioc)}`),
+  feodoBlocklist: () => get<any>('/intel/feodo'),
+  urlhausRecent: () => get<any>('/intel/urlhaus'),
+  malwareBazaar: () => get<any>('/intel/malwarebazaar'),
+  cisaAdvisories: () => get<any>('/intel/cisa-advisories'),
+  greyNoiseICS: () => get<any>('/intel/greynoise'),
+  greyNoiseIP: (ip: string) => get<any>(`/intel/greynoise/${ip}`),
+  shodanICS: (protocol?: string) => get<any>(`/intel/shodan${protocol ? `?protocol=${protocol}` : ''}`),
+  iocSearch: (q: string) => get<any>(`/intel/ioc-search?q=${encodeURIComponent(q)}`),
 }
 
 // WebSocket helper

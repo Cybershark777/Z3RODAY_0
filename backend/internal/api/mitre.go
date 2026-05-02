@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"sort"
 
@@ -36,11 +37,34 @@ func GetMitreTechniques(c *gin.Context) {
 		tacticNames[t.ID] = t.Name
 	}
 
+	// Count actor attributions per technique
+	var actors []models.ThreatActor
+	db.DB.Find(&actors)
+	actorCount := make(map[string]int)   // technique_id → count
+	actorNames := make(map[string][]string) // technique_id → actor names
+	for _, actor := range actors {
+		var raw map[string]any
+		if json.Unmarshal([]byte(actor.DataJSON), &raw) != nil {
+			continue
+		}
+		ids, _ := raw["mitre_techniques"].([]any)
+		if len(ids) == 0 {
+			ids, _ = raw["techniques"].([]any)
+		}
+		for _, id := range ids {
+			tid := fmt.Sprint(id)
+			actorCount[tid]++
+			actorNames[tid] = append(actorNames[tid], actor.Name)
+		}
+	}
+
 	results := make([]any, 0, len(techniques))
 	for _, tech := range techniques {
 		var full map[string]any
 		if err := json.Unmarshal([]byte(tech.DataJSON), &full); err == nil {
 			full["tactic_name"] = tacticNames[tech.TacticID]
+			full["actor_count"] = actorCount[tech.ID]
+			full["actor_names"] = actorNames[tech.ID]
 			results = append(results, full)
 		}
 	}
@@ -87,6 +111,9 @@ func GetMitreHeatmap(c *gin.Context) {
 			continue
 		}
 		actorTechniques, _ := raw["techniques"].([]any)
+		if len(actorTechniques) == 0 {
+			actorTechniques, _ = raw["mitre_techniques"].([]any)
+		}
 		counts := make(map[string]int)
 		for _, tid := range actorTechniques {
 			tidStr, _ := tid.(string)

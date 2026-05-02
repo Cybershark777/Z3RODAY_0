@@ -17,21 +17,23 @@ const CVE_KEYWORDS = [
 export default function LiveIntel() {
   const [cveKeyword, setCveKeyword] = useState('')
   const [cveEnabled, setCveEnabled] = useState(false)
+  const [iocInput, setIocInput] = useState('')
+  const [iocQuery, setIocQuery] = useState('')
 
   const { data: kevData, isLoading: kevLoading, error: kevError } = useQuery({
     queryKey: ['kev'],
     queryFn: api.kev,
   })
-
-  const { data: otxData } = useQuery({
-    queryKey: ['otx'],
-    queryFn: api.otx,
-  })
-
+  const { data: otxData } = useQuery({ queryKey: ['otx'], queryFn: api.otx })
   const { data: cveData, isLoading: cveLoading, error: cveError } = useQuery({
     queryKey: ['cve', cveKeyword],
     queryFn: () => api.cve(cveKeyword),
     enabled: cveEnabled && !!cveKeyword,
+  })
+  const { data: iocData, isLoading: iocLoading } = useQuery({
+    queryKey: ['ioc-search', iocQuery],
+    queryFn: () => api.iocSearch(iocQuery),
+    enabled: !!iocQuery,
   })
 
   const vulns: any[] = kevData?.vulnerabilities ?? []
@@ -41,23 +43,84 @@ export default function LiveIntel() {
       <div className="section-header">
         <h2>Live Threat Intelligence</h2>
         <p className="section-desc">
-          Real-time data from CISA KEV catalog, NIST NVD, and AlienVault OTX.
+          Real-time data from CISA KEV, NIST NVD, AlienVault OTX, and multi-source IOC search.
         </p>
       </div>
 
-      {/* OTX Status */}
       {otxData && (
-        <div className={`otx-notice${otxData.active ? '' : ''}`}>
+        <div className="otx-notice">
           {otxData.active
             ? `✔ AlienVault OTX: ${otxData.count} active pulses`
             : `ℹ AlienVault OTX: ${otxData.notice ?? 'Not configured'}`}
         </div>
       )}
 
-      {/* CISA KEV */}
+      {/* ── Global IOC Search ───────────────────────────────────────────── */}
       <div className="intel-section">
         <div className="intel-section-header">
-          <h3>CISA KEV — ICS/OT Relevant Entries</h3>
+          <h3>Global IOC Search</h3>
+          <span className="intel-badge">ThreatFox · GreyNoise · Feodo · MalwareBazaar · KEV</span>
+        </div>
+        <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+          Enter an IP address, file hash (MD5/SHA256), domain, or CVE ID to search across all threat intelligence feeds simultaneously.
+        </p>
+        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem' }}>
+          <input
+            className="intel-select"
+            style={{ flex: 1 }}
+            placeholder="IP, hash, domain, or CVE-XXXX-XXXXX..."
+            value={iocInput}
+            onChange={(e) => setIocInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && iocInput && setIocQuery(iocInput)}
+          />
+          <button
+            className="primary-btn"
+            disabled={!iocInput}
+            onClick={() => setIocQuery(iocInput)}
+          >
+            Search All Feeds
+          </button>
+          {iocQuery && (
+            <button className="filter-btn" onClick={() => { setIocQuery(''); setIocInput('') }}>Clear</button>
+          )}
+        </div>
+
+        {iocLoading && <LoadingSpinner message={`Querying feeds for ${iocQuery}...`} />}
+
+        {iocData && !iocLoading && (
+          <div>
+            <div style={{ marginBottom: '0.75rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+              Results for: <strong style={{ color: 'var(--accent)' }}>{iocData.query}</strong>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {(iocData.results ?? []).map((r: any, i: number) => (
+                <div key={i} style={{ padding: '0.75rem 1rem', background: 'var(--surface2)', borderRadius: 6, borderLeft: '3px solid var(--border)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                    <strong style={{ color: 'var(--accent)', fontSize: '0.85rem' }}>{r.source}</strong>
+                    {r.error && <span className="severity-badge sev-low">Error</span>}
+                  </div>
+                  {r.error ? (
+                    <div style={{ fontSize: '0.78rem', color: '#ff6b6b' }}>{r.error}</div>
+                  ) : (
+                    <pre style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0, overflow: 'auto', maxHeight: 200, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+                      {JSON.stringify(r.data, null, 2)}
+                    </pre>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── CISA KEV ────────────────────────────────────────────────────── */}
+      <div className="intel-section">
+        <div className="intel-section-header">
+          <h3>
+            <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+              CISA KEV — ICS/OT Relevant Entries ↗
+            </a>
+          </h3>
           <span className="intel-badge">{kevLoading ? 'Loading...' : `${vulns.length} entries`}</span>
         </div>
         {kevLoading && <LoadingSpinner message="Loading CISA KEV catalog..." />}
@@ -65,23 +128,20 @@ export default function LiveIntel() {
         {!kevLoading && !kevError && (
           <table className="intel-table">
             <thead>
-              <tr>
-                <th>CVE ID</th>
-                <th>Vendor</th>
-                <th>Product</th>
-                <th>Date Added</th>
-                <th>Due Date</th>
-                <th>Action Required</th>
-              </tr>
+              <tr><th>CVE ID</th><th>Vendor</th><th>Product</th><th>Date Added</th><th>Due Date</th><th>Action Required</th></tr>
             </thead>
             <tbody>
               {vulns.slice(0, 50).map((v: any, i: number) => (
                 <tr key={i}>
-                  <td><code>{v.cveID}</code></td>
+                  <td>
+                    <a href={`https://nvd.nist.gov/vuln/detail/${v.cveID}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                      <code style={{ color: 'var(--accent)' }}>{v.cveID} ↗</code>
+                    </a>
+                  </td>
                   <td>{v.vendorProject}</td>
                   <td>{v.product}</td>
                   <td>{v.dateAdded}</td>
-                  <td>{v.dueDate}</td>
+                  <td style={{ color: '#e3b341' }}>{v.dueDate}</td>
                   <td className="action-text">{v.requiredAction}</td>
                 </tr>
               ))}
@@ -90,7 +150,7 @@ export default function LiveIntel() {
         )}
       </div>
 
-      {/* NVD CVE Lookup */}
+      {/* ── NVD CVE Lookup ──────────────────────────────────────────────── */}
       <div className="intel-section">
         <div className="intel-section-header">
           <h3>NVD CVE Lookup</h3>
@@ -108,11 +168,7 @@ export default function LiveIntel() {
               <option key={k.value} value={k.value}>{k.label}</option>
             ))}
           </select>
-          <button
-            className="primary-btn"
-            disabled={!cveKeyword}
-            onClick={() => setCveEnabled(true)}
-          >
+          <button className="primary-btn" disabled={!cveKeyword} onClick={() => setCveEnabled(true)}>
             Search CVEs
           </button>
         </div>
@@ -129,7 +185,11 @@ export default function LiveIntel() {
                 const metrics = cve?.metrics?.cvssMetricV31?.[0]?.cvssData
                 return (
                   <tr key={i}>
-                    <td><code>{cve?.id}</code></td>
+                    <td>
+                      <a href={`https://nvd.nist.gov/vuln/detail/${cve?.id}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <code style={{ color: 'var(--accent)' }}>{cve?.id} ↗</code>
+                      </a>
+                    </td>
                     <td>
                       {metrics ? (
                         <span className={`cvss-badge cvss-${metrics.baseSeverity?.toLowerCase()}`}>

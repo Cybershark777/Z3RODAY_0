@@ -8,7 +8,7 @@ const NODE_COLORS: Record<string, string> = {
   actor: '#ff6b6b',
   threat: '#ff8c42',
   sector: '#ffd43b',
-  purdue_level: '#bc8cff',
+  purdue_level: '#00bcd4',
   technique: '#74c0fc',
   vulnerability: '#69db7c',
 }

@@ -28,6 +28,7 @@ const NAV: NavSection[] = [
     items: [
       { id: 'liveintel', label: 'Live Intel', icon: '●' },
       { id: 'threatfeed', label: 'Threat Feed', icon: '⚡' },
+      { id: 'threatintel', label: 'Threat Intel Feeds', icon: '⬡' },
       { id: 'actors', label: 'Threat Actors', icon: '◆' },
       { id: 'news', label: 'Security News', icon: '✎' },
       { id: 'briefing', label: 'AI Briefing', icon: '◆' },
