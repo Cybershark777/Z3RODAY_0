@@ -9,15 +9,17 @@ RUN npm run build
 # ── Stage 2: Build Go backend ────────────────────────────────────────────────
 FROM golang:1.22-alpine AS backend
 WORKDIR /app
+# gcc + musl-dev required for CGO (go-sqlite3)
+RUN apk add --no-cache gcc musl-dev
 COPY backend/go.mod backend/go.sum ./
 RUN go mod download
 COPY backend/ ./
-RUN go build -o server .
+RUN CGO_ENABLED=1 GOOS=linux go build -o server .
 
 # ── Stage 3: Final image ─────────────────────────────────────────────────────
 FROM alpine:3.19
 WORKDIR /app
-RUN apk add --no-cache ca-certificates tzdata
+RUN apk add --no-cache ca-certificates tzdata libgcc
 
 COPY --from=backend /app/server ./server
 COPY --from=backend /app/data ./data

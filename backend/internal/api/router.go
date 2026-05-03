@@ -25,13 +25,13 @@ func NewRouter(dataDir string) *gin.Engine {
 		AllowCredentials: false,
 	}))
 
-	// Basic auth — active when DASHBOARD_PASSWORD is set
-	r.Use(BasicAuth())
-
-	// Health
+	// Health — must be before BasicAuth so Railway's healthcheck passes unauthenticated
 	r.GET("/api/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "ok", "service": "cps-threat-dashboard"})
 	})
+
+	// Basic auth — active when DASHBOARD_PASSWORD is set (all routes below require login)
+	r.Use(BasicAuth())
 
 	// ── Core data endpoints ─────────────────────────────────────────────────
 	r.GET("/api/threats", GetThreats)
