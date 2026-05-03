@@ -40,6 +40,8 @@ export const api = {
 
   // Analytics
   mlDetection: () => get<any>('/ml-detection'),
+  mlCompare: () => get<any>('/ml-compare'),
+  stixActor: (id: string) => get<any>(`/stix/actor/${id}`),
   cveAssetMap: () => get<any>('/cve-asset-map'),
   killChain: () => get<any>('/kill-chain-techniques'),
 
@@ -82,6 +84,21 @@ export function createThreatFeedSocket(
     } catch {
       // ignore malformed
     }
+  }
+  if (onClose) ws.onclose = onClose
+  return ws
+}
+
+// Sensor stream WebSocket
+export function createSensorStreamSocket(
+  onMessage: (data: any) => void,
+  onClose?: () => void,
+): WebSocket {
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+  const host = window.location.host
+  const ws = new WebSocket(`${protocol}//${host}/ws/sensor-stream`)
+  ws.onmessage = (e) => {
+    try { onMessage(JSON.parse(e.data)) } catch { /* ignore */ }
   }
   if (onClose) ws.onclose = onClose
   return ws

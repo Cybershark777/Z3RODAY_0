@@ -428,6 +428,33 @@ export default function ThreatActors() {
                   <strong style={{ color: 'var(--text-muted)' }}>Sources: </strong>{selected.source_note}
                 </div>
               )}
+
+              {/* STIX 2.1 Export */}
+              <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+                  Export this actor as a <strong>STIX 2.1 Bundle</strong> (Intrusion Set + Attack Patterns + Relationships) for use with MISP, OpenCTI, or Splunk SIEM.
+                </div>
+                <button
+                  className="export-btn"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch(`/api/stix/actor/${selected.id}`)
+                      const bundle = await res.json()
+                      const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' })
+                      const url = URL.createObjectURL(blob)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = `stix-${selected.id}.json`
+                      a.click()
+                      URL.revokeObjectURL(url)
+                    } catch (e) {
+                      console.error('STIX export failed', e)
+                    }
+                  }}
+                >
+                  ↓ Export STIX 2.1 Bundle
+                </button>
+              </div>
             </div>
           )}
         </div>

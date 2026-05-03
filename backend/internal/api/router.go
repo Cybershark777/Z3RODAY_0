@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -61,6 +62,7 @@ func NewRouter(dataDir string) *gin.Engine {
 
 	// ── ML Detection ────────────────────────────────────────────────────────
 	r.GET("/api/ml-detection", GetMLDetection)
+	r.GET("/api/ml-compare", GetMLCompare)
 
 	// ── CVE Asset Map ───────────────────────────────────────────────────────
 	r.GET("/api/cve-asset-map", GetCVEAssetMap)
@@ -93,8 +95,27 @@ func NewRouter(dataDir string) *gin.Engine {
 	r.GET("/api/intel/shodan", GetShodanICS)
 	r.GET("/api/intel/ioc-search", GetIOCSearch)
 
+	// ── STIX 2.1 Export ─────────────────────────────────────────────────────
+	r.GET("/api/stix/actor/:id", GetSTIXActor)
+
 	// ── WebSocket ───────────────────────────────────────────────────────────
 	r.GET("/ws/threatfeed", WSHandler)
+	r.GET("/ws/sensor-stream", WSSensorStream)
+
+	// ── Static frontend (production build) ──────────────────────────────────
+	// Serve React build from STATIC_DIR env var (default: ../frontend/dist)
+	staticDir := os.Getenv("STATIC_DIR")
+	if staticDir == "" {
+		staticDir = "../frontend/dist"
+	}
+	if _, err := os.Stat(staticDir); err == nil {
+		r.Static("/assets", staticDir+"/assets")
+		r.StaticFile("/favicon.ico", staticDir+"/favicon.ico")
+		// SPA fallback — all non-API routes serve index.html
+		r.NoRoute(func(c *gin.Context) {
+			c.File(staticDir + "/index.html")
+		})
+	}
 
 	return r
 }
