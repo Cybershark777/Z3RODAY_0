@@ -12,14 +12,21 @@ import (
 func NewRouter(dataDir string) *gin.Engine {
 	r := gin.Default()
 
-	// CORS — allow all origins for the dev React frontend
+	// CORS
+	allowOrigin := os.Getenv("ALLOWED_ORIGIN")
+	if allowOrigin == "" {
+		allowOrigin = "*"
+	}
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{allowOrigin},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"*"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: false,
 	}))
+
+	// Basic auth — active when DASHBOARD_PASSWORD is set
+	r.Use(BasicAuth())
 
 	// Health
 	r.GET("/api/health", func(c *gin.Context) {
@@ -75,8 +82,8 @@ func NewRouter(dataDir string) *gin.Engine {
 	r.GET("/api/live/cve", GetCVE)
 	r.GET("/api/live/otx", GetOTX)
 	r.GET("/api/live/news", GetNews)
-	r.GET("/api/live/briefing", GetBriefing)
-	r.GET("/api/live/briefing/stream", GetBriefingStream)
+	r.GET("/api/live/briefing", GuardAIEndpoints(), GetBriefing)
+	r.GET("/api/live/briefing/stream", GuardAIEndpoints(), GetBriefingStream)
 	r.GET("/api/threat-feed", GetThreatFeed)
 
 	// ── References ──────────────────────────────────────────────────────────
